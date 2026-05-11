@@ -1,0 +1,32 @@
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# IDE & Editor
+.idea/
+.vscode/
+*.iml
+*.swp
+*.swo
+*~
+
+# Backend (Java/Maven)
+target/
+.env
+*.jar
+.m2/
+.mvn/wrapper/*.jar
+
+# Frontend (Node)
+node_modules/
+dist/
+dist-ssr/
+*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS lock files
+.DS_Store
