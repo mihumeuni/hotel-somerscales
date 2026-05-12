@@ -22,16 +22,23 @@ public class HuespedModel {
     private Long id;
 
     @NotNull
+    @Column(nullable = false, length = 20)
     private String tipoDocumento; // DNI, RUT, PASAPORTE
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, length = 64)
     private String numeroDocumento;
 
     @NotNull
+    @Column(nullable = false, length = 200)
     private String nombreCompleto;
 
     @Email
+    @Column(length = 200)
     private String email;
+
+    @Column(length = 40)
     private String telefono;
+
+    @Column(columnDefinition = "TEXT")
     private String datoExtra;
 }

@@ -17,7 +17,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
 public class ReservaModel {
 
     @Id
@@ -27,14 +26,14 @@ public class ReservaModel {
     private LocalDateTime fechaEntrada;
     private LocalDateTime fechaSalida;
 
+    @Column(length = 20)
     private String origenReserva; // WEB, EXCEL, MANUAL
 
-    @ManyToOne
-     @JoinTable(
+    @ManyToMany
+    @JoinTable(
         name = "reserva_huespedes",
         joinColumns = @JoinColumn(name = "reserva_id"),
         inverseJoinColumns = @JoinColumn(name = "huesped_id")
     )
     private List<HuespedModel> huespedes;
-    
 }

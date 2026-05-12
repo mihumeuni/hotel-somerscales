@@ -9,7 +9,7 @@ import lombok.Builder;
 
 @Entity
 @Table(name = "usuarios")
-@Getter 
+@Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,12 +20,13 @@ public class UsuarioModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, length = 120)
     private String username;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 255)
     private String password;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
     private RolModel rolmodel;
 }
