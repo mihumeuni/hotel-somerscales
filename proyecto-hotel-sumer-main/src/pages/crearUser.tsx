@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './crearUser.css';
+import type { TipoDocumento } from '../types/huesped';
 
 const CrearUser: React.FC = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     nombreCompleto: '',
-    rutOPasaporte: '',
+    tipoDocumento: 'DNI' as TipoDocumento,
+    numeroDocumento: '',
     email: '',
     telefono: '',
     otros: ''
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -22,14 +26,13 @@ const CrearUser: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Aquí puedes manejar el envío del formulario, por ejemplo, enviar a una API
+    // TODO: wire to backend POST /api/guests via apiClient (post-MVP task)
     console.log('Datos del formulario:', formData);
-    // Resetear el formulario o mostrar un mensaje de éxito
   };
 
   return (
     <div className="form-container">
-      <h2>Crear Usuario</h2>
+      <h2>Crear Huésped</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="nombreCompleto">Nombre Completo:</label>
@@ -44,12 +47,27 @@ const CrearUser: React.FC = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="rutOPasaporte">RUT o Pasaporte:</label>
+          <label htmlFor="tipoDocumento">Tipo de Documento:</label>
+          <select
+            id="tipoDocumento"
+            name="tipoDocumento"
+            value={formData.tipoDocumento}
+            onChange={handleChange}
+            required
+            className="form-input"
+          >
+            <option value="DNI">DNI</option>
+            <option value="RUT">RUT</option>
+            <option value="PASAPORTE">Pasaporte</option>
+          </select>
+        </div>
+        <div className="form-group">
+          <label htmlFor="numeroDocumento">Número de Documento:</label>
           <input
             type="text"
-            id="rutOPasaporte"
-            name="rutOPasaporte"
-            value={formData.rutOPasaporte}
+            id="numeroDocumento"
+            name="numeroDocumento"
+            value={formData.numeroDocumento}
             onChange={handleChange}
             required
             className="form-input"
@@ -90,29 +108,26 @@ const CrearUser: React.FC = () => {
             className="form-input"
           />
         </div>
-        <button type="submit" style={{
-          width: '100%',
-          padding: '10px',
-          backgroundColor: '#007bff',
-          color: '#fff',
-          border: 'none',
-          borderRadius: '4px',
-          cursor: 'pointer'
-        }}>
-          Crear Usuario
-        </button>\r\n      </form>\r\n      <button className="back-button" onClick={() => navigate('/dashboard')}>Volver</button>\r\n    </div>
+        <button
+          type="submit"
+          style={{
+            width: '100%',
+            padding: '10px',
+            backgroundColor: '#007bff',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer'
+          }}
+        >
+          Crear Huésped
+        </button>
+      </form>
+      <button className="back-button" onClick={() => navigate('/dashboard')}>
+        Volver
+      </button>
+    </div>
   );
 };
 
 export default CrearUser;
-
-
-
-
-
-
-
-
-
-
-

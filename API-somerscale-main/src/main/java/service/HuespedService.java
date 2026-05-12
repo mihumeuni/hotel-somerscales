@@ -17,6 +17,11 @@ public class HuespedService {
         return huespedRepository.findAll();
     }
 
+    public HuespedModel getHuespedById(Long id) {
+        return huespedRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Huésped no encontrado"));
+    }
+
     public HuespedModel createHuesped(HuespedModel huesped) {
 
         huespedRepository.findByNumeroDocumento(huesped.getNumeroDocumento())

@@ -30,6 +30,7 @@ public class AuthService {
 
         return AuthResponse.builder()
                 .token(token)
+                .role(user.getRolmodel())
                 .build();
     }
 }

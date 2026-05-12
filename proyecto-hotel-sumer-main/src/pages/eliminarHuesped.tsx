@@ -1,26 +1,25 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './eliminarHuesped.css';
+import type { TipoDocumento } from '../types/huesped';
 
 const EliminarHuesped: React.FC = () => {
-  const [codigo, setCodigo] = useState('');
+  const [numeroDocumento, setNumeroDocumento] = useState('');
+  const [tipoDocumento, setTipoDocumento] = useState<TipoDocumento>('DNI');
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (/^[a-zA-Z0-9]*$/.test(value) && value.length <= 12) {
-      setCodigo(value);
-    }
+    setNumeroDocumento(e.target.value);
   };
 
   const handleEliminar = () => {
-    if (codigo.length === 12) {
-      console.log('Eliminar huésped con código:', codigo);
-      // Lógica para eliminar
-      alert('Huésped eliminado (simulado)');
-    } else {
-      alert('Por favor, ingrese un código válido de 12 caracteres.');
+    if (!numeroDocumento) {
+      alert('Por favor, ingrese un número de documento.');
+      return;
     }
+    // TODO: wire to backend DELETE /api/guests/{id} (post-MVP task — endpoint not yet exposed)
+    console.log('Eliminar huésped:', { tipoDocumento, numeroDocumento });
+    alert('Huésped eliminado (simulado)');
   };
 
   const handleVolver = () => {
@@ -31,14 +30,25 @@ const EliminarHuesped: React.FC = () => {
     <div className="eliminar-container">
       <h2>Eliminar Huésped</h2>
       <div className="input-group">
-        <label htmlFor="codigo">Código (12 caracteres, letras y números):</label>
+        <label htmlFor="tipoDocumentoBuscar">Tipo de Documento:</label>
+        <select
+          id="tipoDocumentoBuscar"
+          value={tipoDocumento}
+          onChange={(e) => setTipoDocumento(e.target.value as TipoDocumento)}
+          className="form-input"
+        >
+          <option value="DNI">DNI</option>
+          <option value="RUT">RUT</option>
+          <option value="PASAPORTE">Pasaporte</option>
+        </select>
+
+        <label htmlFor="numeroDocumento">Número de Documento:</label>
         <input
           type="text"
-          id="codigo"
-          value={codigo}
+          id="numeroDocumento"
+          value={numeroDocumento}
           onChange={handleChange}
-          maxLength={12}
-          placeholder="Ingrese el código"
+          placeholder="Ingrese el número de documento"
           className="codigo-input"
         />
       </div>

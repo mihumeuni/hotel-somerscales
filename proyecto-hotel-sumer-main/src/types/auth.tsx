@@ -1,30 +1,30 @@
+import { apiFetch } from "../lib/apiClient";
+
+export type Rol = "ADMIN" | "RECEPCIONISTA" | "ASISTENTE";
+
 export interface LoginRequest {
-  email: string;
+  username: string;
   password: string;
 }
 
 export interface LoginResponse {
   token: string;
-  role: "ADMIN" | "USER";
+  role: Rol;
 }
 
 export const loginUser = async (
   email: string,
   password: string
 ): Promise<LoginResponse> => {
-  const response = await fetch("http://localhost:8080/auth/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, password }),
-  });
-
-  if (!response.ok) {
+  try {
+    return await apiFetch<LoginResponse>("/api/auth/login", {
+      method: "POST",
+      body: { username: email, password },
+      auth: false,
+    });
+  } catch {
     throw new Error("Credenciales incorrectas");
   }
-
-  return response.json();
 };
 
 export const logout = () => {

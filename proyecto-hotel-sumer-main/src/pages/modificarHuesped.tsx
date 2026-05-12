@@ -1,23 +1,21 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './modificarHuesped.css';
+import type { TipoDocumento } from '../types/huesped';
 
 const ModificarHuesped: React.FC = () => {
-  const [codigo, setCodigo] = useState('');
+  const [numeroDocumento, setNumeroDocumento] = useState('');
+  const [tipoDocumento, setTipoDocumento] = useState<TipoDocumento>('DNI');
   const [formData, setFormData] = useState({
     nombreCompleto: '',
-    rutOPasaporte: '',
     email: '',
     telefono: '',
     otros: ''
   });
   const navigate = useNavigate();
 
-  const handleCodigoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (/^[a-zA-Z0-9]*$/.test(value) && value.length <= 12) {
-      setCodigo(value);
-    }
+  const handleNumeroDocumentoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNumeroDocumento(e.target.value);
   };
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -29,15 +27,14 @@ const ModificarHuesped: React.FC = () => {
   };
 
   const handleBuscar = () => {
-    // Lógica para buscar el huésped por código
-    console.log('Buscar huésped con código:', codigo);
-    // Aquí podrías cargar los datos del huésped en formData
+    // TODO: wire to backend GET /api/guests by numeroDocumento (post-MVP task)
+    console.log('Buscar huésped con numeroDocumento:', numeroDocumento);
   };
 
   const handleModificar = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Modificar huésped:', { codigo, ...formData });
-    // Lógica para modificar
+    // TODO: wire to backend PUT /api/guests/{id} (post-MVP task)
+    console.log('Modificar huésped:', { tipoDocumento, numeroDocumento, ...formData });
   };
 
   const handleVolver = () => {
@@ -47,19 +44,32 @@ const ModificarHuesped: React.FC = () => {
   return (
     <div className="modificar-container">
       <h2>Modificar Huésped</h2>
+
       <div className="buscar-section">
-        <label htmlFor="codigo">Código (12 caracteres):</label>
+        <label htmlFor="tipoDocumentoBuscar">Tipo de Documento:</label>
+        <select
+          id="tipoDocumentoBuscar"
+          value={tipoDocumento}
+          onChange={(e) => setTipoDocumento(e.target.value as TipoDocumento)}
+          className="form-input"
+        >
+          <option value="DNI">DNI</option>
+          <option value="RUT">RUT</option>
+          <option value="PASAPORTE">Pasaporte</option>
+        </select>
+
+        <label htmlFor="numeroDocumento">Número de Documento:</label>
         <input
           type="text"
-          id="codigo"
-          value={codigo}
-          onChange={handleCodigoChange}
-          maxLength={12}
-          placeholder="Ingrese el código"
+          id="numeroDocumento"
+          value={numeroDocumento}
+          onChange={handleNumeroDocumentoChange}
+          placeholder="Ingrese el número de documento"
           className="codigo-input"
         />
         <button onClick={handleBuscar} className="buscar-btn">Buscar</button>
       </div>
+
       <form onSubmit={handleModificar} className="form-section">
         <div className="form-group">
           <label htmlFor="nombreCompleto">Nombre Completo:</label>
@@ -68,18 +78,6 @@ const ModificarHuesped: React.FC = () => {
             id="nombreCompleto"
             name="nombreCompleto"
             value={formData.nombreCompleto}
-            onChange={handleFormChange}
-            required
-            className="form-input"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="rutOPasaporte">RUT o Pasaporte:</label>
-          <input
-            type="text"
-            id="rutOPasaporte"
-            name="rutOPasaporte"
-            value={formData.rutOPasaporte}
             onChange={handleFormChange}
             required
             className="form-input"
@@ -122,6 +120,7 @@ const ModificarHuesped: React.FC = () => {
         </div>
         <button type="submit" className="modificar-btn">Modificar Huésped</button>
       </form>
+
       <button onClick={handleVolver} className="volver-btn">Volver al Dashboard</button>
     </div>
   );

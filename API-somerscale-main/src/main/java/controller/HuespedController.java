@@ -19,6 +19,11 @@ public class HuespedController {
         return huespedService.getAllHuespedes();
     }
 
+    @GetMapping("/{id}")
+    public HuespedModel getHuespedById(@PathVariable Long id) {
+        return huespedService.getHuespedById(id);
+    }
+
     @PostMapping
     public HuespedModel createHuesped(@RequestBody HuespedModel huesped) {
         return huespedService.createHuesped(huesped);
