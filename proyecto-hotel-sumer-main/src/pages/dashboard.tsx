@@ -71,15 +71,25 @@ const Dashboard = () => {
             <button
               className="sidebar-button"
               type="button"
-              onClick={() => navigate("/crear-user")}
+              onClick={() => navigate("/crear-huesped")}
             >
               Crear huesped
             </button>
           )}
-          
+
+          {user?.role === "ADMIN" && (
+            <button
+              className="sidebar-button"
+              type="button"
+              onClick={() => navigate("/crear-user")}
+            >
+              Invitar usuario
+            </button>
+          )}
+
           <button onClick={() => navigate("/consulta-huesped")}>
             Consultar huesped
-          </button>  
+          </button>
 
           {user?.role === "ADMIN" && (
             <button onClick={() => navigate("/modificar-huesped")}>

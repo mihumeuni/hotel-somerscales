@@ -44,11 +44,15 @@ export async function apiFetch<T = unknown>(
   return (await response.json()) as T;
 }
 
+type CallOpts = { auth?: boolean };
+
 export const api = {
-  get: <T>(path: string) => apiFetch<T>(path, { method: "GET" }),
-  post: <T>(path: string, body: unknown) =>
-    apiFetch<T>(path, { method: "POST", body }),
-  put: <T>(path: string, body: unknown) =>
-    apiFetch<T>(path, { method: "PUT", body }),
-  delete: <T>(path: string) => apiFetch<T>(path, { method: "DELETE" }),
+  get: <T>(path: string, opts: CallOpts = {}) =>
+    apiFetch<T>(path, { method: "GET", ...opts }),
+  post: <T>(path: string, body: unknown, opts: CallOpts = {}) =>
+    apiFetch<T>(path, { method: "POST", body, ...opts }),
+  put: <T>(path: string, body: unknown, opts: CallOpts = {}) =>
+    apiFetch<T>(path, { method: "PUT", body, ...opts }),
+  delete: <T>(path: string, opts: CallOpts = {}) =>
+    apiFetch<T>(path, { method: "DELETE", ...opts }),
 };

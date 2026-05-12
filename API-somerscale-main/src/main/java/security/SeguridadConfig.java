@@ -39,6 +39,7 @@ public class SeguridadConfig {
             )
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/users/signup-finish").permitAll()
                 .anyRequest().authenticated()
             )
             .authenticationProvider(authenticationProvider())

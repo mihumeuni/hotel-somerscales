@@ -29,4 +29,13 @@ public class UsuarioModel {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private RolModel rolmodel;
+
+    @Column(length = 200)
+    private String nombre;
+
+    @Column(length = 40)
+    private String telefono;
+
+    @Column(unique = true, length = 200)
+    private String email;
 }
