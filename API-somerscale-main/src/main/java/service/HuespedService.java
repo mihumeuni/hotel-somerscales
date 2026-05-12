@@ -44,4 +44,11 @@ public class HuespedService {
 
         return huespedRepository.save(huesped);
     }
+
+    public void deleteHuesped(Long id) {
+        if (!huespedRepository.existsById(id)) {
+            throw new RuntimeException("Huésped no encontrado");
+        }
+        huespedRepository.deleteById(id);
+    }
 }

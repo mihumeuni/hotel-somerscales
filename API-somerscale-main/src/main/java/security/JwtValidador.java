@@ -1,18 +1,20 @@
 package security;
 
-import model.UsuarioModel;
-import repository.UsuarioRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import model.UsuarioModel;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import repository.UsuarioRepository;
 
 import java.io.IOException;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -44,11 +46,16 @@ public class JwtValidador extends OncePerRequestFilter {
 
             if (user != null && jwtService.isTokenValid(token, user)) {
 
+                List<SimpleGrantedAuthority> authorities = jwtService.extractPerms(token)
+                        .stream()
+                        .map(SimpleGrantedAuthority::new)
+                        .toList();
+
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(
                                 user,
                                 null,
-                                null // luego puedes agregar roles aquí
+                                authorities
                         );
 
                 SecurityContextHolder.getContext().setAuthentication(authToken);
