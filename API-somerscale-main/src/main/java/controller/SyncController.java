@@ -1,7 +1,7 @@
 package controller;
 
 import integrations.google.GoogleReviewSyncService;
-import integrations.google.GoogleReviewSyncService.SyncResult;
+import integrations.tripadvisor.TripAdvisorReviewSyncService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,10 +26,11 @@ import java.util.Map;
 public class SyncController {
 
     private final GoogleReviewSyncService googleSync;
+    private final TripAdvisorReviewSyncService tripAdvisorSync;
 
     @PostMapping("/google")
     @PreAuthorize("hasAuthority('user.manage')")
-    public ResponseEntity<SyncResult> google() {
+    public ResponseEntity<GoogleReviewSyncService.SyncResult> google() {
         return ResponseEntity.ok(googleSync.syncOnce());
     }
 
@@ -42,6 +43,25 @@ public class SyncController {
                     Map<String, Object> body = new LinkedHashMap<>();
                     body.put("lastRunAt", null);
                     body.put("mode", googleSync.isLiveMode() ? "live" : "fixture");
+                    return ResponseEntity.ok(body);
+                });
+    }
+
+    @PostMapping("/tripadvisor")
+    @PreAuthorize("hasAuthority('user.manage')")
+    public ResponseEntity<TripAdvisorReviewSyncService.SyncResult> tripadvisor() {
+        return ResponseEntity.ok(tripAdvisorSync.syncOnce());
+    }
+
+    @GetMapping("/tripadvisor/status")
+    @PreAuthorize("hasAuthority('user.manage')")
+    public ResponseEntity<Object> tripadvisorStatus() {
+        return tripAdvisorSync.lastResult()
+                .<ResponseEntity<Object>>map(ResponseEntity::ok)
+                .orElseGet(() -> {
+                    Map<String, Object> body = new LinkedHashMap<>();
+                    body.put("lastRunAt", null);
+                    body.put("mode", tripAdvisorSync.isLiveMode() ? "live" : "fixture");
                     return ResponseEntity.ok(body);
                 });
     }

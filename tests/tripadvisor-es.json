@@ -1,0 +1,179 @@
+{
+  "data": [
+    {
+      "id": 988100001,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-04-18T10:14:00Z",
+      "rating": 5,
+      "helpful_votes": 4,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100001",
+      "trip_type": "COUPLES",
+      "travel_date": "2026-04",
+      "title": "Joya patrimonial en Valparaíso",
+      "text": "Hotel boutique de tradición inglesa en Cerro Alegre. La atención de Tomás y Camila marcó la diferencia. Habitaciones impecables y desayuno con productos locales. Repetiremos sin dudar.",
+      "user": {
+        "username": "MariaFernandez_VP",
+        "user_location": { "id": "294291", "name": "Santiago, Chile" }
+      }
+    },
+    {
+      "id": 988100002,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-03-09T18:42:00Z",
+      "rating": 4,
+      "helpful_votes": 2,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100002",
+      "trip_type": "FAMILY",
+      "travel_date": "2026-02",
+      "title": "Ubicación inmejorable, cuidado con las escaleras",
+      "text": "Vista al puerto desde el balcón es impagable. Las escaleras del cerro pueden ser un desafío con maletas pero el bellboy ayudó sin demora. Cama un poco firme.",
+      "user": {
+        "username": "DiegoSalazar85",
+        "user_location": { "id": "294305", "name": "Viña del Mar, Chile" }
+      }
+    },
+    {
+      "id": 988100003,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-04-02T21:05:00Z",
+      "rating": 5,
+      "helpful_votes": 6,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100003",
+      "trip_type": "COUPLES",
+      "travel_date": "2026-03",
+      "title": "El restaurante es un descubrimiento",
+      "text": "Cena en el restaurante del hotel: corvina del día con quinoa y vinos chilenos seleccionados. Servicio impecable. Recomiendo reservar mesa con vista al mar.",
+      "user": {
+        "username": "PatriciaRojasG",
+        "user_location": { "id": "294291", "name": "Santiago, Chile" }
+      }
+    },
+    {
+      "id": 988100004,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-05-05T08:30:00Z",
+      "rating": 3,
+      "helpful_votes": 1,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100004",
+      "trip_type": "SOLO",
+      "travel_date": "2026-05",
+      "title": "Bonito pero con ruido nocturno",
+      "text": "El edificio histórico es precioso. Pedí cambio de habitación por ruido del cerro y respondieron en menos de una hora. Limpieza muy buena.",
+      "user": {
+        "username": "JoaquinPCh",
+        "user_location": { "id": "294291", "name": "Santiago, Chile" }
+      }
+    },
+    {
+      "id": 988100005,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-01-16T15:50:00Z",
+      "rating": 5,
+      "helpful_votes": 8,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100005",
+      "trip_type": "COUPLES",
+      "travel_date": "2026-01",
+      "title": "Luna de miel inolvidable",
+      "text": "Pasamos nuestra luna de miel acá. Decoración victoriana, champagne en la habitación y vista al atardecer en la terraza. Recomendadísimo.",
+      "user": {
+        "username": "CatalinaMendezH",
+        "user_location": { "id": "294227", "name": "Concepción, Chile" }
+      }
+    },
+    {
+      "id": 988100006,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-12-20T11:25:00Z",
+      "rating": 4,
+      "helpful_votes": 3,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100006",
+      "trip_type": "BUSINESS",
+      "travel_date": "2025-12",
+      "title": "Buen wifi para teletrabajar",
+      "text": "Estadía de tres noches por trabajo. WiFi estable en la habitación y un escritorio cómodo. El check-in fue ágil. Solo faltó café en cápsula.",
+      "user": {
+        "username": "AndresVMRoa",
+        "user_location": { "id": "294291", "name": "Santiago, Chile" }
+      }
+    },
+    {
+      "id": 988100007,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-02-27T09:00:00Z",
+      "rating": 5,
+      "helpful_votes": 5,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100007",
+      "trip_type": "FRIENDS",
+      "travel_date": "2026-02",
+      "title": "Detalles que marcan la diferencia",
+      "text": "Llegamos cumpleaños y dejaron tarta y un dibujo del cerro firmado por el equipo. Habitación luminosa con techos altos. Volveremos.",
+      "user": {
+        "username": "IsidoraPobletex",
+        "user_location": { "id": "294291", "name": "Santiago, Chile" }
+      }
+    },
+    {
+      "id": 988100008,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-11-08T19:20:00Z",
+      "rating": 2,
+      "helpful_votes": 0,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100008",
+      "trip_type": "COUPLES",
+      "travel_date": "2025-11",
+      "title": "Ducha tibia, gestión rápida",
+      "text": "La ducha no calentaba bien el primer día. Mantención respondió pero tardaron en confirmar el arreglo. Hubo descuento en el desayuno al día siguiente.",
+      "user": {
+        "username": "FelipeUrrutiaC",
+        "user_location": { "id": "294305", "name": "Viña del Mar, Chile" }
+      }
+    },
+    {
+      "id": 988100009,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-03-22T13:10:00Z",
+      "rating": 5,
+      "helpful_votes": 7,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100009",
+      "trip_type": "FAMILY",
+      "travel_date": "2026-03",
+      "title": "Ideal para visitar Valparaíso",
+      "text": "Cerca de los ascensores y de los murales del cerro. Desayuno completo, mermeladas caseras y atención bilingüe. Recomendado para familias.",
+      "user": {
+        "username": "BarbaraSilvaCH",
+        "user_location": { "id": "294227", "name": "Concepción, Chile" }
+      }
+    },
+    {
+      "id": 988100010,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-10-30T07:45:00Z",
+      "rating": 4,
+      "helpful_votes": 2,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100010",
+      "trip_type": "COUPLES",
+      "travel_date": "2025-10",
+      "title": "Tranquilidad y vista",
+      "text": "Una noche escapada de fin de semana. Pidieron preferencias antes de llegar y respetaron alergia al gluten en el desayuno. Servicio personalizado.",
+      "user": {
+        "username": "MartinPrietoOR",
+        "user_location": { "id": "294291", "name": "Santiago, Chile" }
+      }
+    }
+  ],
+  "paging": {
+    "results": "10",
+    "total_results": "10",
+    "skipped": "0"
+  }
+}
