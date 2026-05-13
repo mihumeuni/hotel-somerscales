@@ -1,137 +1,91 @@
-// src/pages/Dashboard.tsx
-
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./dashboard.css";
 import { useAuth } from "../context/AuthContext";
+import { AppShell, Button, Card } from "../components/ui";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { user, logout } = useAuth(); 
+  const { user } = useAuth();
 
-  const [showAdminInfo, setShowAdminInfo] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const isAdmin = user?.role === "ADMIN";
 
-  const adminInfo = {
-    nombre: "Juan Pérez",
-    correo: "admin@ejemplo.com",
-    usuario: "admin123",
-    ingreso: "12/04/2026",
-  };
-
-  const handleLogout = () => {
-    logout();
-    navigate("/login");
-  };
-  
   return (
-    
-    <div className="dashboard-page">
-      <button
-        className={`sidebar-toggle ${sidebarOpen ? "open" : ""}`}
-        type="button"
-        aria-label={sidebarOpen ? "Cerrar menú" : "Abrir menú"}
-        onClick={() => setSidebarOpen((prev) => !prev)}
-      >
-        {sidebarOpen ? "x" : "☰"}
-      </button>
+    <AppShell
+      title={`Bienvenido${user?.email ? `, ${user.email}` : ""}`}
+      description={user?.role ? `Sesión iniciada como ${user.role}` : undefined}
+    >
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <Card
+          title="Consultar huésped"
+          description="Busca un huésped por su ID interno para ver su ficha."
+        >
+          <Button onClick={() => navigate("/consulta-huesped")} className="w-full md:w-auto">
+            Ir a consulta
+          </Button>
+        </Card>
 
-      <div className={`dashboard-layout ${sidebarOpen ? "sidebar-open" : ""}`}>
-        <aside className={`dashboard-sidebar ${sidebarOpen ? "open" : "closed"}`}>
-          <div className="sidebar-header">
-            <h2>Menú</h2>
-          </div>
-
-          <button
-            className="sidebar-button"
-            type="button"
-            onClick={() => setShowAdminInfo((prev) => !prev)}
+        {isAdmin && (
+          <Card
+            title="Crear huésped"
+            description="Registra manualmente un nuevo huésped en el sistema."
           >
-            {showAdminInfo ? "Ocultar administrador" : "Mostrar administrador"}
-          </button>
+            <Button onClick={() => navigate("/crear-huesped")} className="w-full md:w-auto">
+              Crear huésped
+            </Button>
+          </Card>
+        )}
 
-          {showAdminInfo && (
-            <div className="admin-info">
-              <p>
-                <span>Nombre:</span> {adminInfo.nombre}
-              </p>
-              <p>
-                <span>Correo:</span> {adminInfo.correo}
-              </p>
-              <p>
-                <span>Usuario:</span> {adminInfo.usuario}
-              </p>
-              <p>
-                <span>Ingreso:</span> {adminInfo.ingreso}
-              </p>
-            </div>
-          )}
-
-          {user?.role === "ADMIN" && (
-            <button
-              className="sidebar-button"
-              type="button"
-              onClick={() => navigate("/crear-huesped")}
-            >
-              Crear huesped
-            </button>
-          )}
-
-          {user?.role === "ADMIN" && (
-            <button
-              className="sidebar-button"
-              type="button"
-              onClick={() => navigate("/crear-user")}
-            >
-              Invitar usuario
-            </button>
-          )}
-
-          <button onClick={() => navigate("/consulta-huesped")}>
-            Consultar huesped
-          </button>
-
-          {user?.role === "ADMIN" && (
-            <button onClick={() => navigate("/modificar-huesped")}>
-              Modificar huesped
-            </button>
-          )}
-
-          {user?.role === "ADMIN" && (
-            <button onClick={() => navigate("/eliminar-huesped")}>
-              Eliminar huesped
-            </button>
-          )}
-          
-          <button
-            className="sidebar-logout"
-            type="button"
-            onClick={handleLogout}
+        {isAdmin && (
+          <Card
+            title="Modificar huésped"
+            description="Edita los datos de un huésped existente."
           >
-            Cerrar sesión
-          </button>
-        </aside>
+            <Button
+              variant="secondary"
+              onClick={() => navigate("/modificar-huesped")}
+              className="w-full md:w-auto"
+            >
+              Modificar
+            </Button>
+          </Card>
+        )}
 
-        <main className="dashboard-main">
-          <div className="dashboard-header">
-            <h1>¡Bienvenido  {user?.email}!</h1>
-            <p>Rol: {user?.role}</p>
-          </div>
+        {isAdmin && (
+          <Card
+            title="Eliminar huésped"
+            description="Da de baja un huésped por número de documento."
+          >
+            <Button
+              variant="danger"
+              onClick={() => navigate("/eliminar-huesped")}
+              className="w-full md:w-auto"
+            >
+              Eliminar
+            </Button>
+          </Card>
+        )}
 
-          <div className="dashboard-cards">
-            <div className="dashboard-card">
-              <h2>Resumen de huesped</h2>
-              <p>Información clave sobre tu cuenta y actividad reciente.</p>
-            </div>
+        {isAdmin && (
+          <Card
+            title="Invitar usuario"
+            description="Envía una invitación por correo para crear una cuenta de staff."
+          >
+            <Button onClick={() => navigate("/crear-user")} className="w-full md:w-auto">
+              Invitar
+            </Button>
+          </Card>
+        )}
 
-            <div className="dashboard-card">
-              <h2>Estadísticas</h2>
-              <p>Datos importantes para ayudarte a tomar mejores decisiones.</p>
-            </div>
-          </div>
-        </main>
+        <Card
+          title="Resumen"
+          description="Información clave sobre tu cuenta y actividad reciente."
+        >
+          <p className="text-sm text-slate-600">
+            Sección reservada para indicadores. Próximamente: ocupación, top huéspedes y
+            sentimiento de reseñas.
+          </p>
+        </Card>
       </div>
-    </div>
+    </AppShell>
   );
 };
 

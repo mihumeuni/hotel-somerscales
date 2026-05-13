@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './crearUser.css';
-import { api } from '../lib/apiClient';
-import type { Rol } from '../types/auth';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { api } from "../lib/apiClient";
+import type { Rol } from "../types/auth";
+import { AppShell, Button, Card, Input, fieldBaseClasses } from "../components/ui";
 
 type FormState = {
   nombre: string;
@@ -12,10 +12,10 @@ type FormState = {
 };
 
 const initialState: FormState = {
-  nombre: '',
-  telefono: '',
-  email: '',
-  role: 'RECEPCIONISTA',
+  nombre: "",
+  telefono: "",
+  email: "",
+  role: "RECEPCIONISTA",
 };
 
 const CrearUser: React.FC = () => {
@@ -26,10 +26,10 @@ const CrearUser: React.FC = () => {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -45,19 +45,19 @@ const CrearUser: React.FC = () => {
         email: formData.email.trim().toLowerCase(),
         role: formData.role,
       };
-      await api.post<{ email: string }>('/api/users/invite', body);
+      await api.post<{ email: string }>("/api/users/invite", body);
       setSuccessEmail(body.email);
       setFormData(initialState);
     } catch (err) {
-      const msg = err instanceof Error ? err.message : '';
-      if (msg.includes('409')) {
-        setErrorMsg('Ya existe un usuario o una invitación activa con ese correo.');
-      } else if (msg.includes('403')) {
-        setErrorMsg('No tienes permiso para invitar usuarios.');
-      } else if (msg.includes('400')) {
-        setErrorMsg('Datos inválidos. Revisa los campos.');
+      const msg = err instanceof Error ? err.message : "";
+      if (msg.includes("409")) {
+        setErrorMsg("Ya existe un usuario o una invitación activa con ese correo.");
+      } else if (msg.includes("403")) {
+        setErrorMsg("No tienes permiso para invitar usuarios.");
+      } else if (msg.includes("400")) {
+        setErrorMsg("Datos inválidos. Revisa los campos.");
       } else {
-        setErrorMsg('No se pudo enviar la invitación. Intenta nuevamente.');
+        setErrorMsg("No se pudo enviar la invitación. Intenta nuevamente.");
       }
     } finally {
       setSubmitting(false);
@@ -65,96 +65,83 @@ const CrearUser: React.FC = () => {
   };
 
   return (
-    <div className="form-container">
-      <h2>Invitar Usuario</h2>
-      <p className="form-hint">
-        Se enviará un correo con un enlace para que la persona elija su contraseña.
-      </p>
-
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="nombre">Nombre Completo:</label>
-          <input
-            type="text"
+    <AppShell
+      title="Invitar usuario"
+      description="Se enviará un correo con un enlace para que la persona elija su contraseña."
+      actions={
+        <Button variant="secondary" onClick={() => navigate("/dashboard")}>
+          Volver
+        </Button>
+      }
+    >
+      <Card>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <Input
+            label="Nombre completo"
             id="nombre"
             name="nombre"
             value={formData.nombre}
             onChange={handleChange}
             required
             maxLength={200}
-            className="form-input"
           />
-        </div>
 
-        <div className="form-group">
-          <label htmlFor="telefono">Teléfono:</label>
-          <input
-            type="tel"
+          <Input
+            label="Teléfono"
             id="telefono"
             name="telefono"
+            type="tel"
             value={formData.telefono}
             onChange={handleChange}
             maxLength={40}
-            className="form-input"
           />
-        </div>
 
-        <div className="form-group">
-          <label htmlFor="email">Correo electrónico:</label>
-          <input
-            type="email"
+          <Input
+            label="Correo electrónico"
             id="email"
             name="email"
+            type="email"
             value={formData.email}
             onChange={handleChange}
             required
             maxLength={200}
-            className="form-input"
           />
-        </div>
 
-        <div className="form-group">
-          <label htmlFor="role">Rol:</label>
-          <select
-            id="role"
-            name="role"
-            value={formData.role}
-            onChange={handleChange}
-            required
-            className="form-input"
-          >
-            <option value="ADMIN">Administrador</option>
-            <option value="RECEPCIONISTA">Recepcionista</option>
-            <option value="ASISTENTE">Asistente</option>
-          </select>
-        </div>
+          <div className="flex flex-col gap-1">
+            <label htmlFor="role" className="text-sm font-medium text-slate-700">
+              Rol
+            </label>
+            <select
+              id="role"
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+              required
+              className={fieldBaseClasses}
+            >
+              <option value="ADMIN">Administrador</option>
+              <option value="RECEPCIONISTA">Recepcionista</option>
+              <option value="ASISTENTE">Asistente</option>
+            </select>
+          </div>
 
-        {errorMsg && <p className="form-error">{errorMsg}</p>}
-        {successEmail && (
-          <p className="form-success">Invitación enviada a {successEmail}.</p>
-        )}
+          {errorMsg && (
+            <p role="alert" className="text-sm text-red-600">
+              {errorMsg}
+            </p>
+          )}
+          {successEmail && (
+            <p role="status" className="text-sm text-emerald-700">
+              Invitación enviada a {successEmail}.
+            </p>
+          )}
 
-        <button
-          type="submit"
-          disabled={submitting}
-          style={{
-            width: '100%',
-            padding: '10px',
-            backgroundColor: submitting ? '#6c757d' : '#007bff',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: submitting ? 'not-allowed' : 'pointer',
-          }}
-        >
-          {submitting ? 'Enviando…' : 'Enviar invitación'}
-        </button>
-      </form>
-
-      <button className="back-button" onClick={() => navigate('/dashboard')}>
-        Volver
-      </button>
-    </div>
+          <Button type="submit" disabled={submitting} className="w-full md:w-auto md:self-start">
+            {submitting ? "Enviando…" : "Enviar invitación"}
+          </Button>
+        </form>
+      </Card>
+    </AppShell>
   );
 };
 

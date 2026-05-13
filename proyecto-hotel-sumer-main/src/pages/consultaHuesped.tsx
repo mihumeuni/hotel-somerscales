@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './consultaHuesped.css';
-import { api } from '../lib/apiClient';
-import type { Huesped } from '../types/huesped';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { api } from "../lib/apiClient";
+import type { Huesped } from "../types/huesped";
+import { AppShell, Button, Card, Input } from "../components/ui";
 
 const ConsultaHuesped: React.FC = () => {
-  const [id, setId] = useState('');
+  const [id, setId] = useState("");
   const [huesped, setHuesped] = useState<Huesped | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -13,14 +13,13 @@ const ConsultaHuesped: React.FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    if (/^\d*$/.test(value)) {
-      setId(value);
-    }
+    if (/^\d*$/.test(value)) setId(value);
   };
 
-  const handleBuscar = async () => {
+  const handleBuscar = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (!id) {
-      setError('Ingrese un ID');
+      setError("Ingrese un ID");
       return;
     }
     setError(null);
@@ -30,53 +29,68 @@ const ConsultaHuesped: React.FC = () => {
       const data = await api.get<Huesped>(`/api/guests/${id}`);
       setHuesped(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error al buscar');
+      setError(err instanceof Error ? err.message : "Error al buscar");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleVolver = () => {
-    navigate('/dashboard');
-  };
-
   return (
-    <div className="consulta-container">
-      <h2>Consultar Huésped</h2>
-      <div className="input-group">
-        <label htmlFor="id">ID del huésped:</label>
-        <input
-          type="text"
-          id="id"
-          value={id}
-          onChange={handleChange}
-          placeholder="Ingrese el ID numérico"
-          className="codigo-input"
-          inputMode="numeric"
-        />
-        <button onClick={handleBuscar} disabled={loading} className="buscar-btn">
-          {loading ? 'Buscando...' : 'Buscar'}
-        </button>
-      </div>
+    <AppShell
+      title="Consultar huésped"
+      description="Busca un huésped por su ID interno."
+      actions={
+        <Button variant="secondary" onClick={() => navigate("/dashboard")}>
+          Volver
+        </Button>
+      }
+    >
+      <Card>
+        <form onSubmit={handleBuscar} className="flex flex-col gap-3 md:flex-row md:items-end">
+          <div className="flex-1">
+            <Input
+              label="ID del huésped"
+              id="id"
+              value={id}
+              onChange={handleChange}
+              placeholder="Ingrese el ID numérico"
+              inputMode="numeric"
+              helper="Solo dígitos."
+            />
+          </div>
+          <Button type="submit" disabled={loading} className="md:self-end">
+            {loading ? "Buscando…" : "Buscar"}
+          </Button>
+        </form>
 
-      {error && <p className="error-msg">{error}</p>}
+        {error && (
+          <p role="alert" className="mt-4 text-sm text-red-600">
+            {error}
+          </p>
+        )}
+      </Card>
 
       {huesped && (
-        <div className="huesped-card">
-          <p><strong>ID:</strong> {huesped.id}</p>
-          <p><strong>Nombre Completo:</strong> {huesped.nombreCompleto}</p>
-          <p><strong>Tipo Documento:</strong> {huesped.tipoDocumento}</p>
-          <p><strong>Número Documento:</strong> {huesped.numeroDocumento}</p>
-          <p><strong>Email:</strong> {huesped.email ?? '—'}</p>
-          <p><strong>Teléfono:</strong> {huesped.telefono ?? '—'}</p>
-          <p><strong>Otros:</strong> {huesped.datoExtra ?? '—'}</p>
-        </div>
+        <Card className="mt-4" title="Ficha del huésped">
+          <dl className="grid grid-cols-[max-content_1fr] gap-x-4 gap-y-2 text-sm">
+            <dt className="font-medium text-slate-700">ID</dt>
+            <dd className="text-slate-900">{huesped.id}</dd>
+            <dt className="font-medium text-slate-700">Nombre completo</dt>
+            <dd className="text-slate-900">{huesped.nombreCompleto}</dd>
+            <dt className="font-medium text-slate-700">Tipo documento</dt>
+            <dd className="text-slate-900">{huesped.tipoDocumento}</dd>
+            <dt className="font-medium text-slate-700">Número documento</dt>
+            <dd className="text-slate-900">{huesped.numeroDocumento}</dd>
+            <dt className="font-medium text-slate-700">Email</dt>
+            <dd className="text-slate-900">{huesped.email ?? "—"}</dd>
+            <dt className="font-medium text-slate-700">Teléfono</dt>
+            <dd className="text-slate-900">{huesped.telefono ?? "—"}</dd>
+            <dt className="font-medium text-slate-700">Otros</dt>
+            <dd className="text-slate-900">{huesped.datoExtra ?? "—"}</dd>
+          </dl>
+        </Card>
       )}
-
-      <button onClick={handleVolver} className="volver-btn">
-        Volver al Dashboard
-      </button>
-    </div>
+    </AppShell>
   );
 };
 

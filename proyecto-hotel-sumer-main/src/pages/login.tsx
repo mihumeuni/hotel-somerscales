@@ -1,60 +1,79 @@
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import "./login.css";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { Button, Card, Input } from "../components/ui";
 
 const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  // Estados para guardar lo que escribe el usuario
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
 
     if (!email || !password) {
-      alert("Debes completar todos los campos");
+      setError("Debes completar todos los campos.");
       return;
     }
 
+    setSubmitting(true);
     const success = await login(email, password);
+    setSubmitting(false);
 
-    if (success) {
-      navigate("/dashboard");
-    } else {
-      alert("Credenciales incorrectas");
-    }
+    if (success) navigate("/dashboard");
+    else setError("Credenciales incorrectas.");
   };
 
-return (
-    <div className="login-container">
-      <div className="login-box">
-        <h2>Login</h2>
+  return (
+    <div className="flex min-h-svh items-center justify-center bg-gradient-to-br from-brand-50 via-white to-slate-100 px-4 py-10">
+      <Card className="w-full max-w-md">
+        <div className="flex flex-col items-center gap-2 text-center">
+          <img
+            src="/logo.svg"
+            alt=""
+            className="h-12 w-12"
+            onError={(e) => (e.currentTarget.style.display = "none")}
+          />
+          <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
+            Hotel Somerscales
+          </h1>
+          <p className="text-sm text-slate-600">Acceso al panel administrativo</p>
+        </div>
 
-        <form onSubmit={handleLogin}>
-          <input
-            className="login-input"
+        <form onSubmit={handleLogin} className="mt-6 flex flex-col gap-4">
+          <Input
+            label="Correo electrónico"
             type="email"
-            placeholder="Correo"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            autoComplete="email"
+            required
           />
-
-          <input
-            className="login-input"
+          <Input
+            label="Contraseña"
             type="password"
-            placeholder="Contraseña"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            autoComplete="current-password"
+            required
           />
 
-          <button className="login-button" type="submit">
-            Ingresar
-          </button>
+          {error && (
+            <p role="alert" className="text-sm text-red-600">
+              {error}
+            </p>
+          )}
+
+          <Button type="submit" disabled={submitting} className="w-full">
+            {submitting ? "Ingresando…" : "Ingresar"}
+          </Button>
         </form>
-      </div>
+      </Card>
     </div>
   );
 };
