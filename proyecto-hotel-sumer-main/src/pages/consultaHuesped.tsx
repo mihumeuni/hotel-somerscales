@@ -35,6 +35,8 @@ const ConsultaHuesped: React.FC = () => {
     }
   };
 
+  const goToDetail = (guestId: number) => navigate(`/huespedes/${guestId}`);
+
   return (
     <AppShell
       title="Consultar huésped"
@@ -71,23 +73,38 @@ const ConsultaHuesped: React.FC = () => {
       </Card>
 
       {huesped && (
-        <Card className="mt-4" title="Ficha del huésped">
-          <dl className="grid grid-cols-[max-content_1fr] gap-x-4 gap-y-2 text-sm">
-            <dt className="font-medium text-slate-700">ID</dt>
-            <dd className="text-slate-900">{huesped.id}</dd>
-            <dt className="font-medium text-slate-700">Nombre completo</dt>
-            <dd className="text-slate-900">{huesped.nombreCompleto}</dd>
-            <dt className="font-medium text-slate-700">Tipo documento</dt>
-            <dd className="text-slate-900">{huesped.tipoDocumento}</dd>
-            <dt className="font-medium text-slate-700">Número documento</dt>
-            <dd className="text-slate-900">{huesped.numeroDocumento}</dd>
-            <dt className="font-medium text-slate-700">Email</dt>
-            <dd className="text-slate-900">{huesped.email ?? "—"}</dd>
-            <dt className="font-medium text-slate-700">Teléfono</dt>
-            <dd className="text-slate-900">{huesped.telefono ?? "—"}</dd>
-            <dt className="font-medium text-slate-700">Otros</dt>
-            <dd className="text-slate-900">{huesped.datoExtra ?? "—"}</dd>
-          </dl>
+        <Card
+          className="mt-4"
+          title="Ficha del huésped"
+        >
+          <button
+            type="button"
+            onClick={() => goToDetail(huesped.id)}
+            className="-m-2 block w-[calc(100%+1rem)] rounded-md p-2 text-left transition-colors hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+            aria-label={`Ver historial de ${huesped.nombreCompleto}`}
+          >
+            <dl className="grid grid-cols-[max-content_1fr] gap-x-4 gap-y-2 text-sm">
+              <dt className="font-medium text-slate-700">ID</dt>
+              <dd className="text-slate-900">{huesped.id}</dd>
+              <dt className="font-medium text-slate-700">Nombre completo</dt>
+              <dd className="text-slate-900">{huesped.nombreCompleto}</dd>
+              <dt className="font-medium text-slate-700">Tipo documento</dt>
+              <dd className="text-slate-900">{huesped.tipoDocumento}</dd>
+              <dt className="font-medium text-slate-700">Número documento</dt>
+              <dd className="text-slate-900">{huesped.numeroDocumento}</dd>
+              <dt className="font-medium text-slate-700">Email</dt>
+              <dd className="text-slate-900">{huesped.email ?? "—"}</dd>
+              <dt className="font-medium text-slate-700">Teléfono</dt>
+              <dd className="text-slate-900">{huesped.telefono ?? "—"}</dd>
+              <dt className="font-medium text-slate-700">Otros</dt>
+              <dd className="text-slate-900">{huesped.datoExtra ?? "—"}</dd>
+            </dl>
+          </button>
+          <div className="mt-3 flex justify-end">
+            <Button onClick={() => goToDetail(huesped.id)}>
+              Ver historial
+            </Button>
+          </div>
         </Card>
       )}
     </AppShell>

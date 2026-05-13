@@ -8,6 +8,7 @@ import ModificarHuesped from "./pages/modificarHuesped";
 import EliminarHuesped from "./pages/eliminarHuesped";
 import SignupFinish from "./pages/signupFinish";
 import GastosReserva from "./pages/gastosReserva";
+import GuestDetail from "./pages/guestDetail";
 import ProtectedRoute from "./routes/Protected-route";
 
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/modificar-huesped" element={<ProtectedRoute><ModificarHuesped /></ProtectedRoute>} />
         <Route path="/eliminar-huesped" element={<ProtectedRoute><EliminarHuesped /></ProtectedRoute>} />
         <Route path="/reservas/:reservaId/gastos" element={<ProtectedRoute><GastosReserva /></ProtectedRoute>} />
+        <Route path="/huespedes/:id" element={<ProtectedRoute><GuestDetail /></ProtectedRoute>} />
       </Routes>
     </BrowserRouter>
   );
