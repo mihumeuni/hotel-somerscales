@@ -25,9 +25,14 @@ cd API-somerscale-main
 
 # Copy environment template
 cp .env-example .env
-# Edit .env with your database credentials
+# Edit .env with:
+#   - Supabase credentials (SPRING_DATASOURCE_URL/USERNAME/PASSWORD — see Supabase dashboard)
+#   - JWT_SECRET (≥32 chars, e.g. `openssl rand -hex 32`)
+#   - Resend SMTP (MAIL_HOST/PORT/USERNAME/PASSWORD/FROM — optional in dev; leave MAIL_PASSWORD blank to log emails to stdout)
+#   - APP_ENCRYPTION_KEY / APP_HMAC_KEY for guest-document AES-GCM (`openssl rand -base64 32`, run twice)
+#   - SPRING_PROFILES_ACTIVE=dev (so invitation emails log instead of send when Resend blank)
 
-# Build and run
+# Build and run (Flyway migrations V1-V5 apply on first boot)
 mvn clean install
 mvn spring-boot:run
 ```
@@ -62,4 +67,4 @@ This includes detailed documentation of:
 
 ## Current Status
 
-⚠️ **The project contains critical issues preventing it from running end-to-end.** See [docs/integration/03-mismatches.md](./docs/integration/03-mismatches.md) for details on backend startup failures, database schema issues, and API contract mismatches.
+The MVP backend is wired through tokenized staff invitations (task004) with Supabase Postgres + Flyway-managed schema, JWT-based auth carrying a `perms[]` claim, and permission-based authorization on protected endpoints. The pre-task001 contract breaks documented in [docs/integration/03-mismatches.md](./docs/integration/03-mismatches.md) are resolved (status annotations in that file). See [docs/plan/](./docs/plan/) for outstanding tasks (task005–task015) and [docs/eval2/](./docs/eval2/) for the Estado de Avance 2 submission package.
