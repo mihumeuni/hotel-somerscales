@@ -1,6 +1,8 @@
 package controller;
 
+import dto.ImportResult;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,8 +20,8 @@ public class ExcelController {
 
     @PostMapping("/upload-excel")
     @PreAuthorize("hasAuthority('booking.write')")
-    public String uploadExcel(@RequestParam("file") MultipartFile file) {
-        excelService.processExcel(file);
-        return "Archivo procesado correctamente";
+    public ResponseEntity<ImportResult> uploadExcel(@RequestParam("file") MultipartFile file) {
+        ImportResult result = excelService.parseBookingsExcel(file);
+        return ResponseEntity.ok(result);
     }
 }

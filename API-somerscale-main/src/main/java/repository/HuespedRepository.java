@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface HuespedRepository extends JpaRepository<HuespedModel, Long> {
     Optional<HuespedModel> findByNumeroDocumentoHmac(String numeroDocumentoHmac);
+    Optional<HuespedModel> findByEmailAndNombreCompleto(String email, String nombreCompleto);
 }
