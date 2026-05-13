@@ -1,5 +1,6 @@
 package controller;
 
+import dto.GuestHistoryDTO;
 import lombok.RequiredArgsConstructor;
 import model.HuespedModel;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,12 @@ public class HuespedController {
     @PreAuthorize("hasAuthority('guest.read')")
     public HuespedModel getHuespedById(@PathVariable Long id) {
         return huespedService.getHuespedById(id);
+    }
+
+    @GetMapping("/{id}/historial")
+    @PreAuthorize("hasAuthority('guest.read')")
+    public GuestHistoryDTO getHistorial(@PathVariable Long id) {
+        return huespedService.getHistorial(id);
     }
 
     @PostMapping
