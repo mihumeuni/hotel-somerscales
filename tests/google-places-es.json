@@ -1,0 +1,81 @@
+{
+  "name": "places/ChIJSomerscalesDummy/places",
+  "id": "ChIJSomerscalesDummy",
+  "displayName": { "text": "Hotel Somerscales", "languageCode": "es" },
+  "reviews": [
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES001",
+      "relativePublishTimeDescription": "hace 3 semanas",
+      "rating": 5,
+      "text": {
+        "text": "Hotel boutique encantador en el corazón de Valparaíso. Habitaciones impecables, desayuno abundante y atención cálida. Volveríamos sin dudarlo.",
+        "languageCode": "es"
+      },
+      "originalText": {
+        "text": "Hotel boutique encantador en el corazón de Valparaíso. Habitaciones impecables, desayuno abundante y atención cálida. Volveríamos sin dudarlo.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "María Fernández",
+        "uri": "https://www.google.com/maps/contrib/dummy001"
+      },
+      "publishTime": "2026-04-22T14:08:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES002",
+      "relativePublishTimeDescription": "hace 2 meses",
+      "rating": 4,
+      "text": {
+        "text": "Excelente ubicación, vista al mar increíble. Las escaleras del cerro son un desafío pero parte del encanto. La cama un poco firme.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Diego Salazar",
+        "uri": "https://www.google.com/maps/contrib/dummy002"
+      },
+      "publishTime": "2026-03-12T09:30:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES003",
+      "relativePublishTimeDescription": "hace 1 mes",
+      "rating": 5,
+      "text": {
+        "text": "El restaurante del hotel es una joya. Pescado fresco del día y vinos chilenos seleccionados. Servicio impecable de Camila y Tomás.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Patricia Rojas",
+        "uri": "https://www.google.com/maps/contrib/dummy003"
+      },
+      "publishTime": "2026-04-04T20:15:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES004",
+      "relativePublishTimeDescription": "hace 6 días",
+      "rating": 3,
+      "text": {
+        "text": "Lugar histórico precioso pero el ruido nocturno del cerro se filtra mucho. Pedí cambio de habitación y respondieron rápido. Limpieza muy buena.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Joaquín Pérez",
+        "uri": "https://www.google.com/maps/contrib/dummy004"
+      },
+      "publishTime": "2026-05-07T11:42:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES005",
+      "relativePublishTimeDescription": "hace 4 meses",
+      "rating": 5,
+      "text": {
+        "text": "Pasamos nuestra luna de miel acá. La decoración inglesa y el detalle del champagne en la habitación fueron mágicos. Recomendadísimo.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Catalina Méndez",
+        "uri": "https://www.google.com/maps/contrib/dummy005"
+      },
+      "publishTime": "2026-01-18T16:00:00Z"
+    }
+  ]
+}

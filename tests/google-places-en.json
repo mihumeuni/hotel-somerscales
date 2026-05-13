@@ -1,0 +1,77 @@
+{
+  "name": "places/ChIJSomerscalesDummy/places",
+  "id": "ChIJSomerscalesDummy",
+  "displayName": { "text": "Hotel Somerscales", "languageCode": "en" },
+  "reviews": [
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkEN001",
+      "relativePublishTimeDescription": "a month ago",
+      "rating": 5,
+      "text": {
+        "text": "A stunning Victorian-era hotel perched on Cerro Alegre. Staff went out of their way to recommend the best empanadas in town. Highly recommended.",
+        "languageCode": "en"
+      },
+      "authorAttribution": {
+        "displayName": "Olivia Carter",
+        "uri": "https://www.google.com/maps/contrib/dummy010"
+      },
+      "publishTime": "2026-04-09T18:25:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkEN002",
+      "relativePublishTimeDescription": "5 months ago",
+      "rating": 4,
+      "text": {
+        "text": "Lovely heritage building with great breakfast. Wi-Fi was a bit patchy on the upper floors but otherwise a wonderful stay.",
+        "languageCode": "en"
+      },
+      "authorAttribution": {
+        "displayName": "James O'Brien",
+        "uri": "https://www.google.com/maps/contrib/dummy011"
+      },
+      "publishTime": "2025-12-02T07:40:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkEN003",
+      "relativePublishTimeDescription": "2 weeks ago",
+      "rating": 5,
+      "text": {
+        "text": "Cozy boutique hotel with character. The view from the rooftop terrace at sunset is worth the trip alone. Cleanliness was top-notch.",
+        "languageCode": "en"
+      },
+      "authorAttribution": {
+        "displayName": "Hannah Liu",
+        "uri": "https://www.google.com/maps/contrib/dummy012"
+      },
+      "publishTime": "2026-04-29T19:55:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkEN004",
+      "relativePublishTimeDescription": "3 months ago",
+      "rating": 2,
+      "text": {
+        "text": "Beautiful location but the room was smaller than the photos suggested and the heater was loud. Front desk was apologetic and offered a free breakfast.",
+        "languageCode": "en"
+      },
+      "authorAttribution": {
+        "displayName": "Mark Donovan",
+        "uri": "https://www.google.com/maps/contrib/dummy013"
+      },
+      "publishTime": "2026-02-14T10:10:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkEN005",
+      "relativePublishTimeDescription": "8 months ago",
+      "rating": 5,
+      "text": {
+        "text": "Exceptional service from the moment we arrived. The restaurant has the best seafood we tried in Chile. Will return on our next trip.",
+        "languageCode": "en"
+      },
+      "authorAttribution": {
+        "displayName": "Sofia Andersen",
+        "uri": "https://www.google.com/maps/contrib/dummy014"
+      },
+      "publishTime": "2025-09-21T13:20:00Z"
+    }
+  ]
+}
