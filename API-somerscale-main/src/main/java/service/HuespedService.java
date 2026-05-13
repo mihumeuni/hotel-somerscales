@@ -4,6 +4,7 @@ import model.HuespedModel;
 import repository.HuespedRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import security.HmacUtil;
 
 import java.util.List;
 
@@ -24,7 +25,8 @@ public class HuespedService {
 
     public HuespedModel createHuesped(HuespedModel huesped) {
 
-        huespedRepository.findByNumeroDocumento(huesped.getNumeroDocumento())
+        String hmac = HmacUtil.hmacSha256Hex(huesped.getNumeroDocumento());
+        huespedRepository.findByNumeroDocumentoHmac(hmac)
                 .ifPresent(g -> {
                     throw new RuntimeException("El huésped ya existe");
                 });
