@@ -1,0 +1,62 @@
+name: Backend CI
+
+on:
+  pull_request:
+    branches: [release, main]
+    paths:
+      - 'API-somerscale-main/**'
+      - '.github/workflows/backend-ci.yml'
+  push:
+    branches: [release]
+    paths:
+      - 'API-somerscale-main/**'
+      - '.github/workflows/backend-ci.yml'
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: somerscale_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      # Real Postgres service above. Keys are throwaway CI-only fixtures.
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/somerscale_ci
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      JWT_SECRET: ci-jwt-secret-not-for-prod-just-tests-padding-to-256-bits-12345
+      APP_ENCRYPTION_KEY: MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDE=
+      APP_HMAC_KEY: MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MGE=
+      MAIL_HOST: disabled.dev.invalid
+      MAIL_PORT: '0'
+      MAIL_USERNAME: ''
+      MAIL_PASSWORD: ''
+      MAIL_FROM: no-reply@somerscales.local
+      FRONTEND_BASE_URL: http://localhost:5173
+      SPRING_PROFILES_ACTIVE: dev
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: temurin
+          cache: maven
+
+      - name: Build and test
+        working-directory: API-somerscale-main
+        run: mvn -B clean verify

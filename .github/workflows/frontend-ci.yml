@@ -1,0 +1,35 @@
+name: Frontend CI
+
+on:
+  pull_request:
+    branches: [release, main]
+    paths:
+      - 'proyecto-hotel-sumer-main/**'
+      - '.github/workflows/frontend-ci.yml'
+  push:
+    branches: [release]
+    paths:
+      - 'proyecto-hotel-sumer-main/**'
+      - '.github/workflows/frontend-ci.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: proyecto-hotel-sumer-main/package-lock.json
+
+      - name: Install
+        working-directory: proyecto-hotel-sumer-main
+        run: npm ci
+
+      - name: Build
+        working-directory: proyecto-hotel-sumer-main
+        run: npm run build
