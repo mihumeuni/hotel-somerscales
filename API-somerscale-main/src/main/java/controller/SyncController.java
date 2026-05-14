@@ -1,5 +1,6 @@
 package controller;
 
+import integrations.gemini.GeminiClassifierService;
 import integrations.google.GoogleReviewSyncService;
 import integrations.tripadvisor.TripAdvisorReviewSyncService;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ public class SyncController {
 
     private final GoogleReviewSyncService googleSync;
     private final TripAdvisorReviewSyncService tripAdvisorSync;
+    private final GeminiClassifierService geminiClassifier;
 
     @PostMapping("/google")
     @PreAuthorize("hasAuthority('user.manage')")
@@ -62,6 +64,25 @@ public class SyncController {
                     Map<String, Object> body = new LinkedHashMap<>();
                     body.put("lastRunAt", null);
                     body.put("mode", tripAdvisorSync.isLiveMode() ? "live" : "fixture");
+                    return ResponseEntity.ok(body);
+                });
+    }
+
+    @PostMapping("/classify")
+    @PreAuthorize("hasAuthority('user.manage')")
+    public ResponseEntity<GeminiClassifierService.ClassifyResult> classify() {
+        return ResponseEntity.ok(geminiClassifier.classifyOnce());
+    }
+
+    @GetMapping("/classify/status")
+    @PreAuthorize("hasAuthority('user.manage')")
+    public ResponseEntity<Object> classifyStatus() {
+        return geminiClassifier.lastResult()
+                .<ResponseEntity<Object>>map(ResponseEntity::ok)
+                .orElseGet(() -> {
+                    Map<String, Object> body = new LinkedHashMap<>();
+                    body.put("lastRunAt", null);
+                    body.put("mode", geminiClassifier.isLiveMode() ? "live" : "disabled");
                     return ResponseEntity.ok(body);
                 });
     }
