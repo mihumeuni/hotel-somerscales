@@ -47,11 +47,11 @@ const Login = () => {
 
         <form onSubmit={handleLogin} className="mt-6 flex flex-col gap-4">
           <Input
-            label="Correo electrónico"
-            type="email"
+            label="Usuario"
+            type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            autoComplete="email"
+            autoComplete="username"
             required
           />
           <Input
