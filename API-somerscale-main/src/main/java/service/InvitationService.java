@@ -1,5 +1,6 @@
 package service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dto.InvitationRequest;
 import lombok.RequiredArgsConstructor;
 import model.InvitationModel;
@@ -17,13 +18,20 @@ import org.springframework.web.server.ResponseStatusException;
 import repository.InvitationRepository;
 import repository.UsuarioRepository;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Base64;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -34,10 +42,15 @@ public class InvitationService {
 
     private static final SecureRandom RNG = new SecureRandom();
 
+    private static final HttpClient HTTP_CLIENT = HttpClient.newHttpClient();
+
+    private static final URI RESEND_ENDPOINT = URI.create("https://api.resend.com/emails");
+
     private final InvitationRepository invitationRepository;
     private final UsuarioRepository usuarioRepository;
     private final JavaMailSender mailSender;
     private final PasswordEncoder passwordEncoder;
+    private final ObjectMapper objectMapper;
 
     @Value("${app.invitation.ttl-hours:72}")
     private long ttlHours;
@@ -50,6 +63,12 @@ public class InvitationService {
 
     @Value("${app.frontend-base-url:http://localhost:5173}")
     private String frontendBaseUrl;
+
+    @Value("${integrations.resend.api-key:}")
+    private String resendApiKey;
+
+    @Value("${integrations.resend.from:onboarding@resend.dev}")
+    private String resendFrom;
 
     @Transactional
     public String inviteUser(InvitationRequest req) {
@@ -122,11 +141,7 @@ public class InvitationService {
     }
 
     private void sendInvitationEmail(InvitationModel inv, String rawToken) {
-        SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setFrom(senderName + " <" + senderEmail + ">");
-        msg.setTo(inv.getEmail());
-        msg.setSubject("Invitación al panel de Somerscales");
-
+        String subject = "Invitación al panel de Somerscales";
         String link = frontendBaseUrl + "/signup-finish?token=" + rawToken;
         String body = "Hola " + inv.getNombre() + ",\n\n"
             + "Has sido invitado/a a unirte al panel de Somerscales con el rol de "
@@ -135,24 +150,83 @@ public class InvitationService {
             + "(válido durante " + ttlHours + " horas):\n\n"
             + link + "\n\n"
             + "Si no esperabas esta invitación, ignora este mensaje.";
-        msg.setText(body);
 
         // Send asynchronously on a fresh thread. HF Spaces' edge proxy kills
         // upstream requests at ~12s and returns an opaque 403 to the client,
-        // so synchronous SMTP (which can take longer than that on a cold
-        // outbound TLS handshake) made the controller appear to fail even
-        // though the invitation row was already committed. Returning 202
-        // first and doing the SMTP call in the background avoids the proxy
-        // timeout entirely; failures are logged loudly so we can spot them
-        // in HF's Logs tab.
+        // so a synchronous outbound call (SMTP cold TLS handshake or even a
+        // slow Resend HTTP round-trip) made the controller appear to fail
+        // even though the invitation row was already committed. Returning
+        // 202 first and doing the network call in the background avoids the
+        // proxy timeout entirely; failures are logged loudly so we can spot
+        // them in HF's Logs tab.
         new Thread(() -> {
             try {
-                mailSender.send(msg);
-                log.info("Invitation email sent to {}", inv.getEmail());
+                if (resendApiKey != null && !resendApiKey.isBlank()) {
+                    sendViaResend(inv.getEmail(), subject, body);
+                } else {
+                    sendViaSmtp(inv.getEmail(), subject, body);
+                }
             } catch (Exception ex) {
-                log.error("SMTP send failed for invite to {}", inv.getEmail(), ex);
+                log.error("Invite delivery failed for {}", inv.getEmail(), ex);
             }
         }, "invite-mail-" + inv.getEmail()).start();
+    }
+
+    private void sendViaSmtp(String toEmail, String subject, String body) {
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setFrom(senderName + " <" + senderEmail + ">");
+        msg.setTo(toEmail);
+        msg.setSubject(subject);
+        msg.setText(body);
+        try {
+            mailSender.send(msg);
+            log.info("Invitation email sent to {} (SMTP)", toEmail);
+        } catch (Exception ex) {
+            log.error("SMTP send failed for invite to {}", toEmail, ex);
+        }
+    }
+
+    // HF Spaces blocks outbound SMTP entirely (port 587 STARTTLS and 465 SSL
+    // both timeout at TCP connect), so the production path uses Resend's
+    // HTTPS API. Sandbox sender onboarding@resend.dev only reaches the
+    // Resend account owner; once a custom domain is verified, set
+    // RESEND_FROM=Somerscales <noreply@your-domain> on the host.
+    private void sendViaResend(String toEmail, String subject, String body) {
+        String json;
+        try {
+            json = objectMapper.writeValueAsString(Map.of(
+                "from", resendFrom,
+                "to", List.of(toEmail),
+                "subject", subject,
+                "text", body
+            ));
+        } catch (Exception ex) {
+            log.error("Resend JSON encoding failed for invite to {}", toEmail, ex);
+            return;
+        }
+
+        HttpRequest req = HttpRequest.newBuilder()
+            .uri(RESEND_ENDPOINT)
+            .header("Authorization", "Bearer " + resendApiKey)
+            .header("Content-Type", "application/json")
+            .timeout(Duration.ofSeconds(15))
+            .POST(HttpRequest.BodyPublishers.ofString(json, StandardCharsets.UTF_8))
+            .build();
+
+        try {
+            HttpResponse<String> resp = HTTP_CLIENT.send(req, HttpResponse.BodyHandlers.ofString());
+            if (resp.statusCode() / 100 == 2) {
+                log.info("Resend accepted invite to {} (status {})", toEmail, resp.statusCode());
+            } else {
+                log.error("Resend rejected invite to {}: status {} body {}",
+                    toEmail, resp.statusCode(), resp.body());
+            }
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
+            log.error("Resend HTTP send interrupted for invite to {}", toEmail, ex);
+        } catch (Exception ex) {
+            log.error("Resend HTTP call failed for invite to {}", toEmail, ex);
+        }
     }
 
     private static String generateRawToken() {
