@@ -4,6 +4,8 @@ import dto.InvitationRequest;
 import lombok.RequiredArgsConstructor;
 import model.InvitationModel;
 import model.UsuarioModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.SimpleMailMessage;
@@ -27,6 +29,8 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class InvitationService {
+
+    private static final Logger log = LoggerFactory.getLogger(InvitationService.class);
 
     private static final SecureRandom RNG = new SecureRandom();
 
@@ -133,15 +137,22 @@ public class InvitationService {
             + "Si no esperabas esta invitación, ignora este mensaje.";
         msg.setText(body);
 
-        try {
-            mailSender.send(msg);
-        } catch (Exception ex) {
-            throw new ResponseStatusException(
-                HttpStatus.BAD_GATEWAY,
-                "No se pudo enviar el correo de invitación: " + ex.getMessage(),
-                ex
-            );
-        }
+        // Send asynchronously on a fresh thread. HF Spaces' edge proxy kills
+        // upstream requests at ~12s and returns an opaque 403 to the client,
+        // so synchronous SMTP (which can take longer than that on a cold
+        // outbound TLS handshake) made the controller appear to fail even
+        // though the invitation row was already committed. Returning 202
+        // first and doing the SMTP call in the background avoids the proxy
+        // timeout entirely; failures are logged loudly so we can spot them
+        // in HF's Logs tab.
+        new Thread(() -> {
+            try {
+                mailSender.send(msg);
+                log.info("Invitation email sent to {}", inv.getEmail());
+            } catch (Exception ex) {
+                log.error("SMTP send failed for invite to {}", inv.getEmail(), ex);
+            }
+        }, "invite-mail-" + inv.getEmail()).start();
     }
 
     private static String generateRawToken() {
