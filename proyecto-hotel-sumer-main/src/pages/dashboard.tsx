@@ -15,7 +15,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { AppShell, Card } from "../components/ui";
+import { Card, PageHeader } from "../components/ui";
 import { api } from "../lib/apiClient";
 
 type OccupancyPoint = { month: string; nights: number };
@@ -125,10 +125,11 @@ const Dashboard = () => {
     sentiment !== null && Object.values(sentiment.counts).every((v) => v === 0);
 
   return (
-    <AppShell
-      title="Dashboard"
-      description="Indicadores de ocupación, fidelidad y reputación"
-    >
+    <>
+      <PageHeader
+        title="Dashboard"
+        description="Indicadores de ocupación, fidelidad y reputación"
+      />
       <Card title="Rango de fechas" className="mb-4">
         <div className="flex flex-wrap items-end gap-3">
           <label className="flex flex-col text-sm">
@@ -256,7 +257,7 @@ const Dashboard = () => {
           </ChartBox>
         </Card>
       </div>
-    </AppShell>
+    </>
   );
 };
 

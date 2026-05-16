@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { TipoDocumento } from "../types/huesped";
-import { AppShell, Button, Card, Input, Modal, fieldBaseClasses } from "../components/ui";
+import { Button, Card, Input, Modal, PageHeader, fieldBaseClasses } from "../components/ui";
 
 const EliminarHuesped: React.FC = () => {
   const [numeroDocumento, setNumeroDocumento] = useState("");
@@ -34,15 +34,16 @@ const EliminarHuesped: React.FC = () => {
   };
 
   return (
-    <AppShell
-      title="Eliminar huésped"
-      description="Localiza por documento y confirma la baja."
-      actions={
-        <Button variant="secondary" onClick={() => navigate("/dashboard")}>
-          Volver
-        </Button>
-      }
-    >
+    <>
+      <PageHeader
+        title="Eliminar huésped"
+        description="Localiza por documento y confirma la baja."
+        actions={
+          <Button variant="secondary" onClick={() => navigate("/dashboard")}>
+            Volver
+          </Button>
+        }
+      />
       <Card>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-1 md:w-48">
@@ -110,7 +111,7 @@ const EliminarHuesped: React.FC = () => {
           <span className="font-medium">{numeroDocumento}</span>. ¿Deseas continuar?
         </p>
       </Modal>
-    </AppShell>
+    </>
   );
 };
 

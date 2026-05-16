@@ -1,7 +1,12 @@
 export { AppShell } from "./AppShell";
 export { Button } from "./Button";
 export { Card } from "./Card";
+export { ComingSoon } from "./ComingSoon";
 export { Input, fieldBaseClasses } from "./Input";
+export { LogoMark } from "./LogoMark";
+export { LogoWordmark } from "./LogoWordmark";
+export { MobileNavDrawer } from "./MobileNavDrawer";
 export { Modal } from "./Modal";
+export { PageHeader } from "./PageHeader";
 export { Table, type Column } from "./Table";
 export { cn } from "./cn";

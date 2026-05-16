@@ -11,13 +11,13 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 const variantClasses: Record<Variant, string> = {
   primary:
-    "bg-brand-500 text-white hover:bg-brand-600 active:bg-brand-700 disabled:bg-brand-500/60 disabled:cursor-not-allowed",
+    "bg-marine text-white hover:bg-marine-soft active:bg-marine-deep disabled:bg-marine/60 disabled:cursor-not-allowed",
   secondary:
-    "bg-white text-slate-900 border border-slate-300 hover:bg-slate-50 active:bg-slate-100 disabled:opacity-60 disabled:cursor-not-allowed",
+    "bg-surface text-ink border border-slate-300 hover:bg-cream active:bg-slate-100 disabled:opacity-60 disabled:cursor-not-allowed",
   danger:
-    "bg-red-600 text-white hover:bg-red-700 active:bg-red-800 disabled:bg-red-600/60 disabled:cursor-not-allowed",
+    "bg-terracotta text-white hover:bg-terracotta/90 active:bg-terracotta/80 disabled:bg-terracotta/60 disabled:cursor-not-allowed",
   ghost:
-    "bg-transparent text-slate-700 hover:bg-slate-100 active:bg-slate-200 disabled:opacity-60 disabled:cursor-not-allowed",
+    "bg-transparent text-slate-700 hover:bg-cream active:bg-slate-100 disabled:opacity-60 disabled:cursor-not-allowed",
 };
 
 const sizeClasses: Record<Size, string> = {
@@ -32,7 +32,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       type={type}
       className={cn(
         "inline-flex items-center justify-center rounded-md font-medium transition-colors",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-marine focus-visible:ring-offset-2",
         variantClasses[variant],
         sizeClasses[size],
         className,

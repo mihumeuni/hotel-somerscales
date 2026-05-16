@@ -10,7 +10,7 @@ import SignupFinish from "./pages/signupFinish";
 import GastosReserva from "./pages/gastosReserva";
 import GuestDetail from "./pages/guestDetail";
 import ProtectedRoute from "./routes/Protected-route";
-
+import { AppShell, ComingSoon } from "./components/ui";
 
 function App() {
   return (
@@ -18,14 +18,52 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/signup-finish" element={<SignupFinish />} />
-        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-        <Route path="/crear-user" element={<ProtectedRoute><CrearUser /></ProtectedRoute>} />
-        <Route path="/crear-huesped" element={<ProtectedRoute><CrearHuesped /></ProtectedRoute>} />
-        <Route path="/consulta-huesped" element={<ProtectedRoute><ConsultaHuesped /></ProtectedRoute>} />
-        <Route path="/modificar-huesped" element={<ProtectedRoute><ModificarHuesped /></ProtectedRoute>} />
-        <Route path="/eliminar-huesped" element={<ProtectedRoute><EliminarHuesped /></ProtectedRoute>} />
-        <Route path="/reservas/:reservaId/gastos" element={<ProtectedRoute><GastosReserva /></ProtectedRoute>} />
-        <Route path="/huespedes/:id" element={<ProtectedRoute><GuestDetail /></ProtectedRoute>} />
+
+        <Route element={<ProtectedRoute />}>
+          <Route element={<AppShell />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+
+            <Route
+              path="/calendario"
+              element={<ComingSoon name="Calendario" taskRef="task025" />}
+            />
+            <Route
+              path="/admin/roles"
+              element={
+                <ComingSoon name="Roles & Permisos" taskRef="task028" />
+              }
+            />
+            <Route
+              path="/admin/perfiles"
+              element={<ComingSoon name="Perfiles" taskRef="task022" />}
+            />
+            <Route
+              path="/fichas"
+              element={<ComingSoon name="Fichas de turno" taskRef="task026" />}
+            />
+            <Route
+              path="/me"
+              element={<ComingSoon name="Mi perfil" taskRef="task023" />}
+            />
+            <Route
+              path="/settings/global"
+              element={
+                <ComingSoon name="Settings globales" taskRef="task027" />
+              }
+            />
+
+            <Route path="/crear-user" element={<CrearUser />} />
+            <Route path="/crear-huesped" element={<CrearHuesped />} />
+            <Route path="/consulta-huesped" element={<ConsultaHuesped />} />
+            <Route path="/modificar-huesped" element={<ModificarHuesped />} />
+            <Route path="/eliminar-huesped" element={<EliminarHuesped />} />
+            <Route
+              path="/reservas/:reservaId/gastos"
+              element={<GastosReserva />}
+            />
+            <Route path="/huespedes/:id" element={<GuestDetail />} />
+          </Route>
+        </Route>
       </Routes>
     </BrowserRouter>
   );

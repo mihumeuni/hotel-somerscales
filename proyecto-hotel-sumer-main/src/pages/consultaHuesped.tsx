@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../lib/apiClient";
 import type { Huesped } from "../types/huesped";
-import { AppShell, Button, Card, Input } from "../components/ui";
+import { Button, Card, Input, PageHeader } from "../components/ui";
 
 const ConsultaHuesped: React.FC = () => {
   const [id, setId] = useState("");
@@ -38,15 +38,16 @@ const ConsultaHuesped: React.FC = () => {
   const goToDetail = (guestId: number) => navigate(`/huespedes/${guestId}`);
 
   return (
-    <AppShell
-      title="Consultar huésped"
-      description="Busca un huésped por su ID interno."
-      actions={
-        <Button variant="secondary" onClick={() => navigate("/dashboard")}>
-          Volver
-        </Button>
-      }
-    >
+    <>
+      <PageHeader
+        title="Consultar huésped"
+        description="Busca un huésped por su ID interno."
+        actions={
+          <Button variant="secondary" onClick={() => navigate("/dashboard")}>
+            Volver
+          </Button>
+        }
+      />
       <Card>
         <form onSubmit={handleBuscar} className="flex flex-col gap-3 md:flex-row md:items-end">
           <div className="flex-1">
@@ -80,7 +81,7 @@ const ConsultaHuesped: React.FC = () => {
           <button
             type="button"
             onClick={() => goToDetail(huesped.id)}
-            className="-m-2 block w-[calc(100%+1rem)] rounded-md p-2 text-left transition-colors hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+            className="-m-2 block w-[calc(100%+1rem)] rounded-md p-2 text-left transition-colors hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-marine"
             aria-label={`Ver historial de ${huesped.nombreCompleto}`}
           >
             <dl className="grid grid-cols-[max-content_1fr] gap-x-4 gap-y-2 text-sm">
@@ -107,7 +108,7 @@ const ConsultaHuesped: React.FC = () => {
           </div>
         </Card>
       )}
-    </AppShell>
+    </>
   );
 };
 

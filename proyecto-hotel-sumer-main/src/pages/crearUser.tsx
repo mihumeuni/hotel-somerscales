@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../lib/apiClient";
 import type { Rol } from "../types/auth";
-import { AppShell, Button, Card, Input, fieldBaseClasses } from "../components/ui";
+import { Button, Card, Input, PageHeader, fieldBaseClasses } from "../components/ui";
 
 type FormState = {
   nombre: string;
@@ -65,15 +65,16 @@ const CrearUser: React.FC = () => {
   };
 
   return (
-    <AppShell
-      title="Invitar usuario"
-      description="Se enviará un correo con un enlace para que la persona elija su contraseña."
-      actions={
-        <Button variant="secondary" onClick={() => navigate("/dashboard")}>
-          Volver
-        </Button>
-      }
-    >
+    <>
+      <PageHeader
+        title="Invitar usuario"
+        description="Se enviará un correo con un enlace para que la persona elija su contraseña."
+        actions={
+          <Button variant="secondary" onClick={() => navigate("/dashboard")}>
+            Volver
+          </Button>
+        }
+      />
       <Card>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <Input
@@ -141,7 +142,7 @@ const CrearUser: React.FC = () => {
           </Button>
         </form>
       </Card>
-    </AppShell>
+    </>
   );
 };
 

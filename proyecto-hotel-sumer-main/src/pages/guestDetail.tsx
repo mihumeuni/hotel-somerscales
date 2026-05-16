@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../lib/apiClient";
 import type { GuestHistory, BookingSummary } from "../types/guestHistory";
-import { AppShell, Button, Card, Table, type Column } from "../components/ui";
+import { Button, Card, PageHeader, Table, type Column } from "../components/ui";
 
 const currencyFormatter = (currency: string, amount: number) => {
   try {
@@ -116,15 +116,16 @@ const GuestDetail: React.FC = () => {
   const huesped = data?.huesped;
 
   return (
-    <AppShell
-      title={huesped ? huesped.nombreCompleto : "Detalle de huésped"}
-      description="Historial completo de visitas, estadía y consumos."
-      actions={
-        <Button variant="secondary" onClick={() => navigate("/consulta-huesped")}>
-          Volver
-        </Button>
-      }
-    >
+    <>
+      <PageHeader
+        title={huesped ? huesped.nombreCompleto : "Detalle de huésped"}
+        description="Historial completo de visitas, estadía y consumos."
+        actions={
+          <Button variant="secondary" onClick={() => navigate("/consulta-huesped")}>
+            Volver
+          </Button>
+        }
+      />
       {guestId === null && (
         <Card>
           <p role="alert" className="text-sm text-red-600">
@@ -160,7 +161,7 @@ const GuestDetail: React.FC = () => {
                 </p>
               </div>
               <div className="flex flex-wrap gap-2">
-                <span className="inline-flex items-center rounded-full bg-brand-50 px-3 py-1 text-sm font-medium text-brand-700">
+                <span className="inline-flex items-center rounded-full bg-marine/10 px-3 py-1 text-sm font-medium text-marine">
                   {data.totalVisits} {data.totalVisits === 1 ? "visita" : "visitas"}
                 </span>
                 <span className="inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-sm font-medium text-emerald-700">
@@ -213,7 +214,7 @@ const GuestDetail: React.FC = () => {
           </Card>
         </div>
       )}
-    </AppShell>
+    </>
   );
 };
 

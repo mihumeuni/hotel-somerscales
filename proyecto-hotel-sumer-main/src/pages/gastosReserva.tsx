@@ -3,11 +3,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../lib/apiClient";
 import { useAuth } from "../context/AuthContext";
 import {
-  AppShell,
   Button,
   Card,
   Input,
   Modal,
+  PageHeader,
   Table,
   fieldBaseClasses,
   type Column,
@@ -210,24 +210,25 @@ const GastosReserva: React.FC = () => {
   ];
 
   return (
-    <AppShell
-      title={`Gastos de la reserva${validReservaId !== null ? ` #${validReservaId}` : ""}`}
-      description="Listado de cargos adicionales (consumos, traslados, extras)."
-      actions={
-        <div className="flex flex-wrap gap-2">
-          <Button variant="secondary" onClick={() => navigate(-1)}>
-            Volver
-          </Button>
-          <Button
-            onClick={openModal}
-            disabled={!canWrite || validReservaId === null}
-            title={writeBlockedReason}
-          >
-            Añadir gasto
-          </Button>
-        </div>
-      }
-    >
+    <>
+      <PageHeader
+        title={`Gastos de la reserva${validReservaId !== null ? ` #${validReservaId}` : ""}`}
+        description="Listado de cargos adicionales (consumos, traslados, extras)."
+        actions={
+          <div className="flex flex-wrap gap-2">
+            <Button variant="secondary" onClick={() => navigate(-1)}>
+              Volver
+            </Button>
+            <Button
+              onClick={openModal}
+              disabled={!canWrite || validReservaId === null}
+              title={writeBlockedReason}
+            >
+              Añadir gasto
+            </Button>
+          </div>
+        }
+      />
       {validReservaId === null ? (
         <Card>
           <p role="alert" className="text-sm text-red-600">
@@ -348,7 +349,7 @@ const GastosReserva: React.FC = () => {
           )}
         </form>
       </Modal>
-    </AppShell>
+    </>
   );
 };
 

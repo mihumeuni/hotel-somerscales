@@ -30,7 +30,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex min-h-svh items-center justify-center bg-gradient-to-br from-brand-50 via-white to-slate-100 px-4 py-10">
+    <div className="flex min-h-svh items-center justify-center bg-gradient-to-br from-cream via-surface to-cream px-4 py-10">
       <Card className="w-full max-w-md">
         <div className="flex flex-col items-center gap-2 text-center">
           <img

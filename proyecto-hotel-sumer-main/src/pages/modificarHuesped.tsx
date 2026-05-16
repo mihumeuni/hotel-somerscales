@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { TipoDocumento } from "../types/huesped";
-import { AppShell, Button, Card, Input, fieldBaseClasses } from "../components/ui";
+import { Button, Card, Input, PageHeader, fieldBaseClasses } from "../components/ui";
 
 const ModificarHuesped: React.FC = () => {
   const [numeroDocumento, setNumeroDocumento] = useState("");
@@ -38,15 +38,16 @@ const ModificarHuesped: React.FC = () => {
   };
 
   return (
-    <AppShell
-      title="Modificar huésped"
-      description="Busca por documento y edita los datos."
-      actions={
-        <Button variant="secondary" onClick={() => navigate("/dashboard")}>
-          Volver
-        </Button>
-      }
-    >
+    <>
+      <PageHeader
+        title="Modificar huésped"
+        description="Busca por documento y edita los datos."
+        actions={
+          <Button variant="secondary" onClick={() => navigate("/dashboard")}>
+            Volver
+          </Button>
+        }
+      />
       <Card title="Buscar huésped">
         <form onSubmit={handleBuscar} className="flex flex-col gap-4 md:flex-row md:items-end">
           <div className="flex flex-col gap-1 md:w-48">
@@ -128,7 +129,7 @@ const ModificarHuesped: React.FC = () => {
           </Button>
         </form>
       </Card>
-    </AppShell>
+    </>
   );
 };
 

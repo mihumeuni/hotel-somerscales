@@ -1,145 +1,358 @@
-import { type ReactNode, useEffect, useMemo, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import {
+  Link,
+  NavLink,
+  Outlet,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import { Button } from "./Button";
 import { cn } from "./cn";
+import { LogoMark } from "./LogoMark";
+import { LogoWordmark } from "./LogoWordmark";
+import { MobileNavDrawer, type NavDestination } from "./MobileNavDrawer";
 
-type NavItem = {
-  to: string;
-  label: string;
-  adminOnly?: boolean;
-};
+const HouseIcon = (
+  <svg
+    className="w-5 h-5"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+    />
+  </svg>
+);
 
-const NAV_ITEMS: NavItem[] = [
-  { to: "/dashboard", label: "Dashboard" },
-  { to: "/consulta-huesped", label: "Consultar huésped" },
-  { to: "/crear-huesped", label: "Crear huésped", adminOnly: true },
-  { to: "/modificar-huesped", label: "Modificar huésped", adminOnly: true },
-  { to: "/eliminar-huesped", label: "Eliminar huésped", adminOnly: true },
-  { to: "/crear-user", label: "Invitar usuario", adminOnly: true },
+const CalendarIcon = (
+  <svg
+    className="w-5 h-5"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+    />
+  </svg>
+);
+
+const ShieldIcon = (
+  <svg
+    className="w-5 h-5"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+    />
+  </svg>
+);
+
+const UsersIcon = (
+  <svg
+    className="w-5 h-5"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+    />
+  </svg>
+);
+
+const SheetIcon = (
+  <svg
+    className="w-5 h-5"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+    />
+  </svg>
+);
+
+const SearchIcon = (
+  <svg
+    className="w-5 h-5"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+    />
+  </svg>
+);
+
+const GearIcon = (
+  <svg
+    className="w-5 h-5"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+    />
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+    />
+  </svg>
+);
+
+const HamburgerIcon = (
+  <svg
+    className="w-6 h-6"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M4 6h16M4 12h16M4 18h16"
+    />
+  </svg>
+);
+
+const NAV_ITEMS: NavDestination[] = [
+  { to: "/dashboard", label: "Dashboard", icon: HouseIcon },
+  { to: "/calendario", label: "Calendario", icon: CalendarIcon },
+  { to: "/admin/roles", label: "Roles & Permisos", icon: ShieldIcon },
+  { to: "/admin/perfiles", label: "Perfiles", icon: UsersIcon },
+  { to: "/fichas", label: "Fichas", icon: SheetIcon },
 ];
 
-type AppShellProps = {
-  title?: ReactNode;
-  description?: ReactNode;
-  actions?: ReactNode;
-  children: ReactNode;
+const initialsFromEmail = (email: string | undefined) => {
+  if (!email) return "?";
+  const local = email.split("@")[0] ?? "";
+  const parts = local.split(/[._-]+/).filter(Boolean);
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[1][0]).toUpperCase();
+  }
+  return (local.slice(0, 2) || "?").toUpperCase();
 };
 
-export const AppShell = ({ title, description, actions, children }: AppShellProps) => {
+const DesktopNavLink = ({
+  to,
+  children,
+}: {
+  to: string;
+  children: ReactNode;
+}) => (
+  <NavLink
+    to={to}
+    end={to === "/dashboard"}
+    className={({ isActive }) =>
+      cn(
+        "pb-1 border-b-2 transition-colors",
+        isActive
+          ? "text-marine border-terracotta"
+          : "text-slate-500 border-transparent hover:text-marine",
+      )
+    }
+  >
+    {children}
+  </NavLink>
+);
+
+export const AppShell = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [avatarOpen, setAvatarOpen] = useState(false);
+  const avatarRef = useRef<HTMLDivElement | null>(null);
 
-  const visibleItems = useMemo(
-    () => NAV_ITEMS.filter((item) => !item.adminOnly || user?.role === "ADMIN"),
-    [user?.role],
-  );
+  const isAdmin = user?.role === "ADMIN";
 
   useEffect(() => {
-    setDrawerOpen(false);
+    setAvatarOpen(false);
   }, [location.pathname]);
 
+  useEffect(() => {
+    if (!avatarOpen) return;
+    const handler = (e: MouseEvent) => {
+      if (!avatarRef.current?.contains(e.target as Node)) {
+        setAvatarOpen(false);
+      }
+    };
+    window.addEventListener("mousedown", handler);
+    return () => window.removeEventListener("mousedown", handler);
+  }, [avatarOpen]);
+
   const handleLogout = () => {
+    setAvatarOpen(false);
+    setDrawerOpen(false);
     logout();
     navigate("/");
   };
 
   return (
-    <div className="flex min-h-svh flex-col bg-slate-50 text-slate-900">
-      {/* Top bar */}
-      <header className="sticky top-0 z-30 border-b border-slate-200 bg-white shadow-sm">
-        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-3 px-4 md:h-16 md:px-6">
-          <div className="flex items-center gap-3">
+    <div className="flex min-h-svh flex-col bg-[var(--color-bg)] text-[var(--color-fg)]">
+      <header className="sticky top-0 z-40 border-b border-slate-200 bg-surface shadow-sm">
+        <div className="mx-auto flex h-14 max-w-[1400px] items-center justify-between gap-3 px-4 sm:px-6 md:h-16 lg:px-8">
+          <div className="flex items-center gap-3 sm:gap-6 lg:gap-10 min-w-0">
             <button
               type="button"
-              aria-label={drawerOpen ? "Cerrar menú" : "Abrir menú"}
+              aria-label="Abrir menú"
               aria-expanded={drawerOpen}
-              aria-controls="app-nav"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-md text-slate-700 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 md:hidden"
-              onClick={() => setDrawerOpen((prev) => !prev)}
+              className="md:hidden -ml-1 p-1 text-marine hover:text-terracotta transition-colors"
+              onClick={() => setDrawerOpen(true)}
             >
-              <span aria-hidden="true" className="text-xl leading-none">
-                {drawerOpen ? "✕" : "☰"}
-              </span>
+              {HamburgerIcon}
             </button>
-            <Link to="/dashboard" className="flex items-center gap-2">
-              <img src="/logo.svg" alt="" className="h-8 w-8" onError={(e) => (e.currentTarget.style.display = "none")} />
-              <span className="text-lg font-semibold tracking-tight text-slate-900 md:text-xl">
-                Hotel Somerscales
-              </span>
+
+            <Link to="/dashboard" className="md:hidden">
+              <LogoMark size={40} />
             </Link>
+
+            <Link to="/dashboard" className="hidden md:block">
+              <LogoWordmark />
+            </Link>
+
+            <nav
+              className="hidden md:flex items-center gap-5 lg:gap-7 text-xs font-bold uppercase tracking-widest"
+              aria-label="Navegación principal"
+            >
+              {NAV_ITEMS.map((item) => (
+                <DesktopNavLink key={item.to} to={item.to}>
+                  {item.label}
+                </DesktopNavLink>
+              ))}
+            </nav>
           </div>
-          <div className="flex items-center gap-2 md:gap-3">
-            {user?.role && (
-              <span className="hidden rounded-full bg-brand-50 px-2.5 py-1 text-xs font-medium text-brand-700 md:inline-flex">
-                {user.role}
+
+          <div className="flex items-center gap-2 sm:gap-3">
+            <button
+              type="button"
+              className="md:hidden p-1 text-slate-500 hover:text-marine transition-colors"
+              aria-label="Buscar"
+              onClick={() => {
+                // Search overlay deferred to task028; for now no-op.
+              }}
+            >
+              {SearchIcon}
+            </button>
+
+            <div className="relative hidden md:block">
+              <input
+                type="text"
+                placeholder="Buscar huésped, reserva…"
+                className="bg-cream border border-slate-200 text-sm rounded-full pl-5 pr-10 py-2 w-56 lg:w-72 focus:outline-none focus:border-marine focus:ring-1 focus:ring-marine"
+                aria-label="Buscar"
+              />
+              <span className="absolute right-4 top-2.5 text-slate-400 pointer-events-none">
+                {SearchIcon}
               </span>
+            </div>
+
+            {isAdmin && (
+              <Link
+                to="/settings/global"
+                className="p-1 text-slate-500 hover:text-marine transition-colors"
+                aria-label="Settings globales"
+              >
+                {GearIcon}
+              </Link>
             )}
-            {user?.email && (
-              <span className="hidden text-sm text-slate-600 md:inline">{user.email}</span>
-            )}
-            <Button variant="secondary" size="sm" onClick={handleLogout}>
-              Cerrar sesión
-            </Button>
+
+            <div className="relative hidden md:block" ref={avatarRef}>
+              <button
+                type="button"
+                onClick={() => setAvatarOpen((p) => !p)}
+                aria-haspopup="menu"
+                aria-expanded={avatarOpen}
+                aria-label="Mi cuenta"
+                className="flex w-9 h-9 rounded-full bg-gold/20 border border-gold/40 items-center justify-center text-marine font-bold text-sm hover:ring-2 hover:ring-marine/30 transition"
+              >
+                {initialsFromEmail(user?.email)}
+              </button>
+              {avatarOpen && (
+                <div
+                  role="menu"
+                  className="absolute right-0 mt-2 w-56 rounded-lg border border-slate-200 bg-surface shadow-lg py-2"
+                >
+                  <div className="px-3 py-2 border-b border-slate-100">
+                    <p className="text-sm font-semibold text-ink truncate">
+                      {user?.email ?? "Invitado"}
+                    </p>
+                    <p className="text-xs text-slate-500 capitalize">
+                      {user?.role?.toLowerCase() ?? "—"}
+                    </p>
+                  </div>
+                  <Link
+                    to="/me"
+                    role="menuitem"
+                    onClick={() => setAvatarOpen(false)}
+                    className="block px-3 py-2 text-sm text-ink hover:bg-cream"
+                  >
+                    Mi perfil
+                  </Link>
+                  <button
+                    type="button"
+                    role="menuitem"
+                    onClick={handleLogout}
+                    className="block w-full text-left px-3 py-2 text-sm text-terracotta hover:bg-terracotta/5"
+                  >
+                    Cerrar sesión
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </header>
 
-      <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-4 px-4 py-4 md:flex-row md:gap-6 md:px-6 md:py-6">
-        {/* Sidebar / drawer */}
-        <nav
-          id="app-nav"
-          className={cn(
-            "shrink-0 md:w-60",
-            !drawerOpen && "hidden md:block",
-          )}
-          aria-label="Navegación principal"
-        >
-          <ul className="flex flex-col gap-1 rounded-lg border border-slate-200 bg-white p-2 shadow-sm">
-            {visibleItems.map((item) => {
-              const active = location.pathname === item.to;
-              return (
-                <li key={item.to}>
-                  <Link
-                    to={item.to}
-                    aria-current={active ? "page" : undefined}
-                    className={cn(
-                      "block rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                      active
-                        ? "bg-brand-50 text-brand-700"
-                        : "text-slate-700 hover:bg-slate-100",
-                    )}
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
+      <main className="mx-auto w-full max-w-[1400px] flex-1 px-4 py-4 sm:px-6 md:py-6 lg:px-8 pb-8">
+        <Outlet />
+      </main>
 
-        {/* Main */}
-        <main className="min-w-0 flex-1">
-          {(title || description || actions) && (
-            <div className="mb-4 flex flex-col gap-2 md:mb-6 md:flex-row md:items-end md:justify-between md:gap-4">
-              <div>
-                {title && (
-                  <h1 className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">
-                    {title}
-                  </h1>
-                )}
-                {description && (
-                  <p className="mt-1 text-sm text-slate-600">{description}</p>
-                )}
-              </div>
-              {actions && <div className="flex flex-wrap gap-2">{actions}</div>}
-            </div>
-          )}
-          {children}
-        </main>
-      </div>
+      <MobileNavDrawer
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        primary={NAV_ITEMS}
+        isAdmin={isAdmin}
+      />
     </div>
   );
 };

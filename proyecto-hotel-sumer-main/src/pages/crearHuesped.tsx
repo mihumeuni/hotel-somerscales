@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { TipoDocumento } from "../types/huesped";
-import { AppShell, Button, Card, Input, fieldBaseClasses } from "../components/ui";
+import { Button, Card, Input, PageHeader, fieldBaseClasses } from "../components/ui";
 
 const CrearHuesped: React.FC = () => {
   const navigate = useNavigate();
@@ -28,15 +28,16 @@ const CrearHuesped: React.FC = () => {
   };
 
   return (
-    <AppShell
-      title="Crear huésped"
-      description="Registra manualmente un nuevo huésped en el sistema."
-      actions={
-        <Button variant="secondary" onClick={() => navigate("/dashboard")}>
-          Volver
-        </Button>
-      }
-    >
+    <>
+      <PageHeader
+        title="Crear huésped"
+        description="Registra manualmente un nuevo huésped en el sistema."
+        actions={
+          <Button variant="secondary" onClick={() => navigate("/dashboard")}>
+            Volver
+          </Button>
+        }
+      />
       <Card>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <Input
@@ -114,7 +115,7 @@ const CrearHuesped: React.FC = () => {
           </Button>
         </form>
       </Card>
-    </AppShell>
+    </>
   );
 };
 
