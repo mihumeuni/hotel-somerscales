@@ -60,7 +60,7 @@ public class DashboardControllerTest {
 
     @Test
     void topGuests_returnsLeaderboardWithDefaultLimit10() throws Exception {
-        when(dashboardService.topGuests(eq(10), any(LocalDate.class), any(LocalDate.class)))
+        when(dashboardService.topGuests(eq(10), any(LocalDate.class), any(LocalDate.class), eq("visits")))
                 .thenReturn(List.of(TopGuestDTO.builder()
                         .huespedId(1L)
                         .nombreCompleto("Juan Pérez")
@@ -79,7 +79,7 @@ public class DashboardControllerTest {
 
     @Test
     void topGuests_passesExplicitLimit() throws Exception {
-        when(dashboardService.topGuests(eq(5), any(LocalDate.class), any(LocalDate.class)))
+        when(dashboardService.topGuests(eq(5), any(LocalDate.class), any(LocalDate.class), eq("visits")))
                 .thenReturn(List.of());
 
         mockMvc.perform(get("/api/dashboard/top-guests")

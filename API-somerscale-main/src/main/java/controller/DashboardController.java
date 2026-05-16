@@ -1,5 +1,9 @@
 package controller;
 
+import dto.AvailabilityDTO;
+import dto.CategoryCountDTO;
+import dto.GuestStripDTO;
+import dto.NormalizedReviewDTO;
 import dto.OccupancyPointDTO;
 import dto.SentimentSummaryDTO;
 import dto.TopGuestDTO;
@@ -35,8 +39,9 @@ public class DashboardController {
     public List<TopGuestDTO> topGuests(
             @RequestParam(defaultValue = "10") int limit,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
-        return dashboardService.topGuests(limit, from, to);
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
+            @RequestParam(defaultValue = "visits") String metric) {
+        return dashboardService.topGuests(limit, from, to, metric);
     }
 
     @GetMapping("/sentiment")
@@ -45,5 +50,40 @@ public class DashboardController {
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
         return dashboardService.sentiment(from, to);
+    }
+
+    @GetMapping("/availability")
+    @PreAuthorize("hasAuthority('dashboard.read')")
+    public AvailabilityDTO availability() {
+        return dashboardService.availability();
+    }
+
+    @GetMapping("/current-guests")
+    @PreAuthorize("hasAuthority('dashboard.read')")
+    public List<GuestStripDTO> currentGuests() {
+        return dashboardService.currentGuests();
+    }
+
+    @GetMapping("/recent-guests")
+    @PreAuthorize("hasAuthority('dashboard.read')")
+    public List<GuestStripDTO> recentGuests(@RequestParam(defaultValue = "10") int limit) {
+        return dashboardService.recentGuests(limit);
+    }
+
+    @GetMapping("/categories")
+    @PreAuthorize("hasAuthority('dashboard.read')")
+    public List<CategoryCountDTO> categories(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
+        return dashboardService.categoryCounts(from, to);
+    }
+
+    @GetMapping("/normalized-reviews")
+    @PreAuthorize("hasAuthority('dashboard.read')")
+    public List<NormalizedReviewDTO> normalizedReviews(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
+            @RequestParam(defaultValue = "10") int limit) {
+        return dashboardService.normalizedReviews(from, to, limit);
     }
 }

@@ -1,5 +1,7 @@
 package model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import config.RoomNumberSerializer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -40,6 +42,7 @@ public class ReservaModel {
     private String numeroConfirmacionTerceros;
 
     @Column(name = "numero_habitacion", length = 20)
+    @JsonSerialize(using = RoomNumberSerializer.class)
     private String numeroHabitacion;
 
     @Column(name = "categoria_habitacion", length = 120)

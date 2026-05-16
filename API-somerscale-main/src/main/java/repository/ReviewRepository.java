@@ -63,4 +63,38 @@ public interface ReviewRepository extends JpaRepository<ReviewModel, Long> {
             """, nativeQuery = true)
     List<Object[]> sentimentByCategory(@Param("from") LocalDateTime from,
                                        @Param("to") LocalDateTime to);
+
+    // Category chips on the dashboard: review-count per category in window.
+    @Query(value = """
+            SELECT c.code     AS code,
+                   c.label_es AS label_es,
+                   c.label_en AS label_en,
+                   COALESCE(COUNT(rc.review_id), 0) AS cnt
+            FROM categories c
+            LEFT JOIN review_categories rc ON rc.category_id = c.id
+            LEFT JOIN reviews r            ON r.id = rc.review_id
+                                          AND r.posted_at BETWEEN :from AND :to
+            GROUP BY c.code, c.label_es, c.label_en
+            ORDER BY cnt DESC, c.code ASC
+            """, nativeQuery = true)
+    List<Object[]> categoryCounts(@Param("from") LocalDateTime from,
+                                  @Param("to") LocalDateTime to);
+
+    // Clusters Gemini-summarized reviews by summary text + sentiment so each
+    // cluster row carries the count of underlying source reviews.
+    @Query(value = """
+            SELECT r.summary    AS summary,
+                   r.sentiment  AS sentiment,
+                   COUNT(*)     AS cnt
+            FROM reviews r
+            WHERE r.summary IS NOT NULL
+              AND length(trim(r.summary)) > 0
+              AND r.posted_at BETWEEN :from AND :to
+            GROUP BY r.summary, r.sentiment
+            ORDER BY cnt DESC, r.summary ASC
+            LIMIT :limit
+            """, nativeQuery = true)
+    List<Object[]> normalizedSummaries(@Param("from") LocalDateTime from,
+                                       @Param("to") LocalDateTime to,
+                                       @Param("limit") int limit);
 }
