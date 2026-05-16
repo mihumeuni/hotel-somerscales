@@ -46,11 +46,17 @@ public class InvitationService {
 
     private static final URI RESEND_ENDPOINT = URI.create("https://api.resend.com/emails");
 
+    // Owned ObjectMapper instance instead of constructor-injecting Spring's
+    // bean. Spring Boot 4's webmvc starter does not register a default
+    // ObjectMapper bean, and adding spring-boot-starter-json pulls in extra
+    // autoconfig we don't need. Jackson's ObjectMapper is thread-safe after
+    // configuration, so a static singleton is appropriate here.
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
     private final InvitationRepository invitationRepository;
     private final UsuarioRepository usuarioRepository;
     private final JavaMailSender mailSender;
     private final PasswordEncoder passwordEncoder;
-    private final ObjectMapper objectMapper;
 
     @Value("${app.invitation.ttl-hours:72}")
     private long ttlHours;
@@ -194,7 +200,7 @@ public class InvitationService {
     private void sendViaResend(String toEmail, String subject, String body) {
         String json;
         try {
-            json = objectMapper.writeValueAsString(Map.of(
+            json = OBJECT_MAPPER.writeValueAsString(Map.of(
                 "from", resendFrom,
                 "to", List.of(toEmail),
                 "subject", subject,
