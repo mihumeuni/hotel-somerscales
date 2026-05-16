@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/login";
 import Dashboard from "./pages/dashboard";
+import Calendario from "./pages/calendario";
 import CrearUser from "./pages/crearUser";
 import CrearHuesped from "./pages/crearHuesped";
 import ConsultaHuesped from "./pages/consultaHuesped";
@@ -23,10 +24,7 @@ function App() {
           <Route element={<AppShell />}>
             <Route path="/dashboard" element={<Dashboard />} />
 
-            <Route
-              path="/calendario"
-              element={<ComingSoon name="Calendario" taskRef="task025" />}
-            />
+            <Route path="/calendario" element={<Calendario />} />
             <Route
               path="/admin/roles"
               element={
