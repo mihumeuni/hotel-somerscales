@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import {
   Link,
   NavLink,
@@ -205,6 +205,11 @@ export const AppShell = () => {
 
   const isAdmin = user?.role === "ADMIN";
 
+  const openDrawer = useCallback(() => setDrawerOpen(true), []);
+  const closeDrawer = useCallback(() => setDrawerOpen(false), []);
+  const toggleAvatar = useCallback(() => setAvatarOpen((p) => !p), []);
+  const closeAvatar = useCallback(() => setAvatarOpen(false), []);
+
   useEffect(() => {
     setAvatarOpen(false);
   }, [location.pathname]);
@@ -220,12 +225,12 @@ export const AppShell = () => {
     return () => window.removeEventListener("mousedown", handler);
   }, [avatarOpen]);
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     setAvatarOpen(false);
     setDrawerOpen(false);
     logout();
     navigate("/");
-  };
+  }, [logout, navigate]);
 
   return (
     <div className="flex min-h-svh flex-col bg-[var(--color-bg)] text-[var(--color-fg)]">
@@ -237,7 +242,7 @@ export const AppShell = () => {
               aria-label="Abrir menú"
               aria-expanded={drawerOpen}
               className="md:hidden -ml-1 p-1 text-marine hover:text-terracotta transition-colors"
-              onClick={() => setDrawerOpen(true)}
+              onClick={openDrawer}
             >
               {HamburgerIcon}
             </button>
@@ -299,7 +304,7 @@ export const AppShell = () => {
             <div className="relative hidden md:block" ref={avatarRef}>
               <button
                 type="button"
-                onClick={() => setAvatarOpen((p) => !p)}
+                onClick={toggleAvatar}
                 aria-haspopup="menu"
                 aria-expanded={avatarOpen}
                 aria-label="Mi cuenta"
@@ -323,7 +328,7 @@ export const AppShell = () => {
                   <Link
                     to="/me"
                     role="menuitem"
-                    onClick={() => setAvatarOpen(false)}
+                    onClick={closeAvatar}
                     className="block px-3 py-2 text-sm text-ink hover:bg-cream"
                   >
                     Mi perfil
@@ -349,7 +354,7 @@ export const AppShell = () => {
 
       <MobileNavDrawer
         open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
+        onClose={closeDrawer}
         primary={NAV_ITEMS}
         isAdmin={isAdmin}
       />
