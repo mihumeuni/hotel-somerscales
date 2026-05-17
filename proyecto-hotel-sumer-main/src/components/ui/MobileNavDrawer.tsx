@@ -99,7 +99,7 @@ export const MobileNavDrawer = ({
           <button
             type="button"
             onClick={onClose}
-            className="p-1 text-slate-400 hover:text-ink"
+            className="inline-flex h-11 w-11 -mr-2 items-center justify-center text-slate-400 hover:text-ink"
             aria-label="Cerrar menú"
           >
             <svg
@@ -145,7 +145,7 @@ export const MobileNavDrawer = ({
               onClick={onClose}
               className={({ isActive }) =>
                 cn(
-                  "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors",
+                  "w-full flex items-center gap-3 min-h-[44px] px-3 py-3 rounded-lg text-left transition-colors",
                   isActive
                     ? "bg-marine/10 text-marine"
                     : "text-ink hover:bg-cream",
@@ -165,7 +165,7 @@ export const MobileNavDrawer = ({
           <Link
             to="/me"
             onClick={onClose}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left hover:bg-cream text-ink"
+            className="w-full flex items-center gap-3 min-h-[44px] px-3 py-3 rounded-lg text-left hover:bg-cream text-ink"
           >
             <svg
               className="w-5 h-5 text-slate-500"
@@ -187,7 +187,7 @@ export const MobileNavDrawer = ({
             <Link
               to="/settings/global"
               onClick={onClose}
-              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left hover:bg-cream text-ink"
+              className="w-full flex items-center gap-3 min-h-[44px] px-3 py-3 rounded-lg text-left hover:bg-cream text-ink"
             >
               <svg
                 className="w-5 h-5 text-slate-500"
@@ -221,7 +221,7 @@ export const MobileNavDrawer = ({
               e.preventDefault();
               onClose();
             }}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left hover:bg-cream text-ink"
+            className="w-full flex items-center gap-3 min-h-[44px] px-3 py-3 rounded-lg text-left hover:bg-cream text-ink"
           >
             <svg
               className="w-5 h-5 text-slate-500"
@@ -242,7 +242,7 @@ export const MobileNavDrawer = ({
           <button
             type="button"
             onClick={handleLogout}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left hover:bg-terracotta/5 text-terracotta"
+            className="w-full flex items-center gap-3 min-h-[44px] px-3 py-3 rounded-lg text-left hover:bg-terracotta/5 text-terracotta"
           >
             <svg
               className="w-5 h-5"

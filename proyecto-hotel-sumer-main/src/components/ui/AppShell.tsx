@@ -291,7 +291,7 @@ export const AppShell = () => {
               type="button"
               aria-label="Abrir menú"
               aria-expanded={drawerOpen}
-              className="md:hidden -ml-1 p-1 text-marine hover:text-terracotta transition-colors"
+              className="md:hidden -ml-2 inline-flex h-11 w-11 items-center justify-center text-marine hover:text-terracotta transition-colors"
               onClick={openDrawer}
             >
               {HamburgerIcon}
@@ -320,7 +320,7 @@ export const AppShell = () => {
           <div className="flex items-center gap-2 sm:gap-3">
             <button
               type="button"
-              className="md:hidden p-1 text-slate-500 hover:text-marine transition-colors"
+              className="md:hidden inline-flex h-11 w-11 items-center justify-center text-slate-500 hover:text-marine transition-colors"
               aria-label="Buscar"
               onClick={() => {
                 // Search overlay deferred to task028; for now no-op.
@@ -378,7 +378,7 @@ export const AppShell = () => {
             {isAdmin && (
               <Link
                 to="/settings/global"
-                className="p-1 text-slate-500 hover:text-marine transition-colors"
+                className="inline-flex h-11 w-11 items-center justify-center text-slate-500 hover:text-marine transition-colors md:h-10 md:w-10"
                 aria-label="Settings globales"
               >
                 {GearIcon}

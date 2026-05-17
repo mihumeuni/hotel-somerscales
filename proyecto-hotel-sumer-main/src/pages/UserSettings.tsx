@@ -235,7 +235,7 @@ const UserSettings = () => {
           <button
             type="button"
             onClick={handleLogout}
-            className="text-terracotta text-xs font-bold uppercase tracking-wider hover:underline"
+            className="min-h-[36px] -mr-2 px-2 text-terracotta text-xs font-bold uppercase tracking-wider hover:underline"
           >
             Cerrar sesión
           </button>

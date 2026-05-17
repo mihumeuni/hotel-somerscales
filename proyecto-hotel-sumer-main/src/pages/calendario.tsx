@@ -101,8 +101,8 @@ const Calendario = () => {
             onClick={() => setWindowDays(opt)}
             className={
               opt === windowDays
-                ? "px-3 py-1.5 text-xs font-bold uppercase tracking-wider bg-[var(--color-marine)] text-white rounded-full shadow-sm"
-                : "px-3 py-1.5 text-xs font-bold uppercase tracking-wider bg-[var(--color-surface)] text-slate-600 border border-slate-200 rounded-full hover:border-[var(--color-marine)]"
+                ? "min-h-[36px] px-4 py-2 text-xs font-bold uppercase tracking-wider bg-[var(--color-marine)] text-white rounded-full shadow-sm"
+                : "min-h-[36px] px-4 py-2 text-xs font-bold uppercase tracking-wider bg-[var(--color-surface)] text-slate-600 border border-slate-200 rounded-full hover:border-[var(--color-marine)]"
             }
           >
             {opt} días

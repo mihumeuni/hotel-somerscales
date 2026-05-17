@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { Modal } from "../components/ui";
+import { EmptyState, Modal, Skeleton } from "../components/ui";
 import {
   createRole,
   deleteRole,
@@ -246,8 +246,24 @@ const RolesPermissions = () => {
       </div>
 
       {loading && (
-        <div className="rounded-xl border border-slate-200 bg-surface p-8 text-center text-sm text-slate-500">
-          Cargando roles…
+        <div className="grid flex-grow grid-cols-1 gap-4 lg:grid-cols-5 lg:gap-6">
+          <aside className="rounded-xl border border-slate-200 bg-surface p-3 shadow-sm lg:col-span-2">
+            <Skeleton className="h-3 w-24 mb-3" />
+            <div className="space-y-2">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <Skeleton key={i} className="h-11 w-full" rounded="lg" />
+              ))}
+            </div>
+          </aside>
+          <section className="rounded-xl border border-slate-200 bg-surface p-4 shadow-sm md:p-6 lg:col-span-3 space-y-4">
+            <Skeleton className="h-9 w-full" rounded="lg" />
+            <Skeleton className="h-9 w-full" rounded="lg" />
+            <div className="border-t border-slate-100 pt-4 space-y-3">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Skeleton key={i} className="h-8 w-full" rounded="lg" />
+              ))}
+            </div>
+          </section>
         </div>
       )}
 
@@ -312,8 +328,12 @@ const RolesPermissions = () => {
                 );
               })}
               {roles.length === 0 && (
-                <li className="px-3 py-6 text-center text-xs text-slate-400">
-                  No hay roles. Crea uno con + Nuevo rol.
+                <li className="w-full py-2">
+                  <EmptyState
+                    size="compact"
+                    title="Sin roles"
+                    body="Crea tu primer rol con + Nuevo rol."
+                  />
                 </li>
               )}
             </ul>

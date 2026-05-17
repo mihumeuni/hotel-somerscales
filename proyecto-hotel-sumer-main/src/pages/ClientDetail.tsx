@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../lib/apiClient";
 import type { GuestHistory } from "../types/guestHistory";
-import { Card, Button } from "../components/ui";
+import { Card, Button, EmptyState, Skeleton } from "../components/ui";
 import { initialsOf } from "../components/dashboard/avatar";
 import { useAuth } from "../context/AuthContext";
 
@@ -96,9 +96,32 @@ const ClientDetail: React.FC = () => {
       )}
 
       {guestId !== null && loading && !data && (
-        <Card>
-          <p className="text-sm text-slate-500">Cargando…</p>
-        </Card>
+        <>
+          <div className="bg-surface border border-slate-200 rounded-xl shadow-sm p-6 flex flex-col sm:flex-row sm:items-center gap-5">
+            <Skeleton className="w-20 h-20 shrink-0" rounded="full" />
+            <div className="flex-1 space-y-2">
+              <Skeleton className="h-6 w-48" />
+              <Skeleton className="h-3 w-72 max-w-full" />
+              <Skeleton className="h-3 w-40" />
+            </div>
+          </div>
+          <div className="bg-surface border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+            <div className="px-5 py-3 bg-cream border-b border-slate-100">
+              <Skeleton className="h-4 w-32" />
+            </div>
+            <div className="divide-y divide-slate-100">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="px-5 py-3 flex items-center justify-between gap-3">
+                  <div className="space-y-2 flex-1">
+                    <Skeleton className="h-4 w-3/5" />
+                    <Skeleton className="h-3 w-2/5" />
+                  </div>
+                  <Skeleton className="h-4 w-20 shrink-0" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </>
       )}
 
       {data && huesped && (
@@ -137,7 +160,10 @@ const ClientDetail: React.FC = () => {
             </div>
 
             {data.bookings.length === 0 ? (
-              <p className="px-5 py-6 text-sm text-slate-500">Sin reservas registradas para este huésped.</p>
+              <EmptyState
+                title="Sin reservas registradas"
+                body="Este huésped aún no tiene reservas en el historial."
+              />
             ) : (
               <>
                 <table className="w-full text-sm hidden md:table">

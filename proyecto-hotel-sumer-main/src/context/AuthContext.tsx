@@ -145,6 +145,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(null);
   }, []);
 
+  // Centralized 401 handler — apiClient fires `auth:unauthorized` on any
+  // response with that status. Guarded so we only bounce if a session exists.
+  useEffect(() => {
+    const onUnauthorized = () => {
+      if (!localStorage.getItem("token")) return;
+      logout();
+      if (window.location.pathname !== "/") {
+        window.location.assign("/");
+      }
+    };
+    window.addEventListener("auth:unauthorized", onUnauthorized);
+    return () => window.removeEventListener("auth:unauthorized", onUnauthorized);
+  }, [logout]);
+
   const has = useCallback(
     (perm: string) => Boolean(user?.permissions?.includes(perm)),
     [user?.permissions],

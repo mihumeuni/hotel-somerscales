@@ -8,6 +8,9 @@ import GastosReserva from "./pages/gastosReserva";
 import ClientDetail from "./pages/ClientDetail";
 import RolesPermissions from "./pages/rolesPermissions";
 import UserSettings from "./pages/UserSettings";
+import SheetsList from "./pages/sheets/SheetsList";
+import SheetEdit from "./pages/sheets/SheetEdit";
+import SheetSummary from "./pages/sheets/SheetSummary";
 import ProtectedRoute from "./routes/Protected-route";
 import { AppShell, ComingSoon } from "./components/ui";
 
@@ -26,10 +29,10 @@ function App() {
             <Route path="/admin/roles" element={<RolesPermissions />} />
             <Route path="/admin/perfiles" element={<Profiles />} />
             <Route path="/admin/perfiles/:id" element={<UserSettings />} />
-            <Route
-              path="/fichas"
-              element={<ComingSoon name="Fichas de turno" taskRef="task026" />}
-            />
+            <Route path="/fichas" element={<SheetsList />} />
+            <Route path="/fichas/nueva" element={<SheetEdit />} />
+            <Route path="/fichas/actual" element={<SheetEdit />} />
+            <Route path="/fichas/:id/resumen" element={<SheetSummary />} />
             <Route path="/me" element={<UserSettings />} />
             <Route
               path="/settings/global"

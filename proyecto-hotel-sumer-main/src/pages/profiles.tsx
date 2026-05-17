@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { Modal } from "../components/ui";
+import { Button, EmptyState, Modal, Skeleton } from "../components/ui";
 import { listRoles, type Role } from "../types/role";
 import {
   deleteUser,
@@ -257,7 +257,36 @@ const Profiles = () => {
       </div>
 
       {loading && (
-        <p className="text-sm text-slate-500">Cargando perfiles…</p>
+        <>
+          <div className="hidden md:block bg-surface border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+            <div className="bg-cream px-6 py-2.5">
+              <Skeleton className="h-3 w-32" />
+            </div>
+            <div className="divide-y divide-slate-100">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="px-6 py-3 flex items-center gap-3">
+                  <Skeleton className="w-9 h-9" rounded="full" />
+                  <Skeleton className="h-4 flex-1" />
+                  <Skeleton className="h-3 w-24" />
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="md:hidden space-y-2">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div
+                key={i}
+                className="bg-surface border border-slate-200 rounded-xl p-4 shadow-sm flex items-center gap-3"
+              >
+                <Skeleton className="w-10 h-10" rounded="full" />
+                <div className="flex-1 space-y-2">
+                  <Skeleton className="h-4 w-2/3" />
+                  <Skeleton className="h-3 w-1/2" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
       )}
       {loadError && !loading && (
         <p role="alert" className="text-sm text-red-600">
@@ -265,9 +294,17 @@ const Profiles = () => {
         </p>
       )}
       {!loading && !loadError && grouped.length === 0 && (
-        <p className="text-sm text-slate-500">
-          Aún no hay usuarios. Invita al primero con “+ Crear usuario”.
-        </p>
+        <div className="bg-surface border border-slate-200 rounded-xl shadow-sm">
+          <EmptyState
+            title="Sin usuarios aún"
+            body="Invita al primero del equipo con “+ Crear usuario”."
+            cta={
+              canInvite ? (
+                <Button onClick={openCreate}>+ Crear usuario</Button>
+              ) : null
+            }
+          />
+        </div>
       )}
 
       {/* Desktop: single bordered card with grouped sections */}
@@ -441,7 +478,7 @@ const Profiles = () => {
                         <button
                           type="button"
                           onClick={() => setConfirmDelete(u)}
-                          className="p-1 text-slate-400 hover:text-terracotta"
+                          className="inline-flex h-11 w-11 -mr-2 items-center justify-center text-slate-400 hover:text-terracotta"
                           title="Eliminar"
                           aria-label={`Eliminar ${u.email}`}
                         >
@@ -473,7 +510,7 @@ const Profiles = () => {
                           type="button"
                           onClick={() => handleReset(u)}
                           disabled={resettingId === u.id}
-                          className="text-marine font-bold uppercase tracking-wider hover:underline disabled:opacity-50"
+                          className="min-h-[36px] -mr-2 px-2 text-marine font-bold uppercase tracking-wider hover:underline disabled:opacity-50"
                         >
                           {resettingId === u.id
                             ? "Enviando…"
