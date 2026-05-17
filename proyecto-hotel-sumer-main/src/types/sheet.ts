@@ -30,11 +30,30 @@ export type FichaSummary = {
   hasNotes: boolean;
 };
 
+// Categories map 1:1 to the BE FichaService.CAT_* constants.
+export type ReporteCategory =
+  | "recepcion"
+  | "gastronomia"
+  | "bedding"
+  | "admin"
+  | "estacionamiento"
+  | "requerimientos"
+  | "reclamos";
+
 export type FichaReporte = {
   id: number;
   label: string;
+  category: ReporteCategory | null;
   value: string | null;
   ordinal: number;
+};
+
+export type FichaParking = {
+  id: number;
+  room: string;
+  lot: string;
+  position: number;
+  createdAt: string;
 };
 
 export type FichaDetail = {
@@ -49,6 +68,7 @@ export type FichaDetail = {
   updatedAt: string;
   notes: string | null;
   reportes: FichaReporte[];
+  parkingEntries: FichaParking[];
 };
 
 export type ReporteUpsert = { ordinal: number; value: string | null };
@@ -59,6 +79,28 @@ export type FichaUpdateRequest = {
 };
 
 export type Quickpicks = Record<string, string[]>;
+
+// Render order + heading labels for the 7 reporte groups. The label of
+// the "Estacionamiento" group also tags the row that uses the special
+// dual-select editor (room + lot pairs persisted in ficha_parking).
+export const CATEGORIES: ReadonlyArray<{ key: ReporteCategory; label: string }> = [
+  { key: "recepcion",       label: "Recepción" },
+  { key: "gastronomia",     label: "Gastronomía" },
+  { key: "bedding",         label: "Bedding" },
+  { key: "admin",           label: "Administración" },
+  { key: "estacionamiento", label: "Estacionamiento" },
+  { key: "requerimientos",  label: "Requerimientos" },
+  { key: "reclamos",        label: "Reclamos" },
+];
+
+export const ROOM_OPTIONS = [
+  "H1", "H2", "H3", "H4", "H5", "H6", "H7", "H8", "H9", "H10",
+] as const;
+
+export const LOT_OPTIONS = ["E-Hotel", "E-Capilla"] as const;
+
+export type RoomOption = (typeof ROOM_OPTIONS)[number];
+export type LotOption = (typeof LOT_OPTIONS)[number];
 
 export const listFichas = (params?: { from?: string; to?: string }) => {
   const qs = new URLSearchParams();
@@ -84,6 +126,12 @@ export const updateFicha = (id: number, body: FichaUpdateRequest) =>
 
 export const handoffFicha = (id: number) =>
   api.post<FichaDetail>(`/api/fichas/${id}/handoff`, {});
+
+export const addParking = (id: number, room: string, lot: string) =>
+  api.post<FichaDetail>(`/api/fichas/${id}/parking`, { room, lot });
+
+export const removeParking = (id: number, parkingId: number) =>
+  api.delete<FichaDetail>(`/api/fichas/${id}/parking/${parkingId}`);
 
 export const shiftLabel = (shift: Shift) =>
   shift === "MANANA" ? "Mañana" : "Noche";

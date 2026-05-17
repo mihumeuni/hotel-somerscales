@@ -101,7 +101,7 @@ const SheetsList = () => {
                 Sin turno abierto
               </h2>
               <p className="text-xs text-slate-600 mt-1">
-                Reclama el turno y la ficha se inicia con los 22 reportes en
+                Reclama el turno y la ficha se inicia con los 21 reportes en
                 blanco. Quedan editables hasta que entregues el turno.
               </p>
             </>

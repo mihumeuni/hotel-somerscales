@@ -8,15 +8,32 @@ import {
   Skeleton,
 } from "../../components/ui";
 import {
+  CATEGORIES,
   getFicha,
   shiftLabel,
   type FichaDetail,
+  type FichaReporte,
+  type ReporteCategory,
 } from "../../types/sheet";
 import { useAuth } from "../../context/AuthContext";
 
 const turnoColor: Record<string, string> = {
   NOCHE: "bg-marine/15 text-marine border-marine/30",
   MANANA: "bg-gold/15 text-gold border-gold/30",
+};
+
+const groupRows = (reportes: FichaReporte[]) => {
+  const buckets = new Map<ReporteCategory, FichaReporte[]>();
+  for (const r of reportes) {
+    if (!r.category) continue;
+    const list = buckets.get(r.category) ?? [];
+    list.push(r);
+    buckets.set(r.category, list);
+  }
+  for (const list of buckets.values()) {
+    list.sort((a, b) => a.ordinal - b.ordinal);
+  }
+  return buckets;
 };
 
 const SheetSummary = () => {
@@ -54,15 +71,17 @@ const SheetSummary = () => {
     void load();
   }, [load]);
 
+  const grouped = useMemo(
+    () => (ficha ? groupRows(ficha.reportes) : new Map<ReporteCategory, FichaReporte[]>()),
+    [ficha],
+  );
+
   const handlePrint = () => {
     if (!ficha) return;
     window.print();
   };
 
   const handleExportPdf = () => {
-    // jsPDF integration is deferred to v2 per task027 playbook. The Print
-    // dialog also exposes "Save as PDF" on every major OS, so the user is
-    // covered for now.
     toast("Usa Imprimir → Guardar como PDF para exportar.", { icon: "ℹ️" });
   };
 
@@ -98,6 +117,11 @@ const SheetSummary = () => {
       </div>
     );
   }
+
+  const parkingSummary =
+    ficha.parkingEntries.length === 0
+      ? null
+      : ficha.parkingEntries.map((p) => `${p.room} · ${p.lot}`).join(", ");
 
   return (
     <div className="flex flex-col gap-6 max-w-3xl mx-auto w-full">
@@ -171,54 +195,99 @@ const SheetSummary = () => {
         </div>
       </section>
 
-      <section className="rounded-xl border border-slate-200 bg-surface shadow-sm overflow-hidden">
-        <header className="px-5 py-3 bg-cream border-b border-slate-100">
-          <h3 className="font-serif text-marine text-base md:text-lg">
-            Reportes operativos
-          </h3>
-        </header>
+      {CATEGORIES.map(({ key, label }) => {
+        const rows = grouped.get(key) ?? [];
+        if (rows.length === 0) return null;
+        return (
+          <section
+            key={key}
+            className="rounded-xl border border-slate-200 bg-surface shadow-sm overflow-hidden"
+          >
+            <header className="px-5 py-3 bg-cream border-b border-slate-100">
+              <h3 className="font-serif text-marine text-base md:text-lg uppercase tracking-wider">
+                {label}
+              </h3>
+            </header>
 
-        {/* Desktop table */}
-        <table className="w-full text-sm hidden md:table">
-          <thead className="bg-slate-50 text-[10px] uppercase tracking-widest text-slate-500">
-            <tr>
-              <th className="px-5 py-2.5 text-left">Reporte</th>
-              <th className="px-5 py-2.5 text-left">Valor</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-100">
-            {ficha.reportes.map((r) => (
-              <tr key={r.ordinal}>
-                <td className="px-5 py-2.5 text-slate-700">{r.label}</td>
-                <td className="px-5 py-2.5 text-ink">
-                  {r.value ?? (
-                    <span className="text-slate-300 italic">sin dato</span>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+            {/* Desktop table */}
+            <table className="w-full text-sm hidden md:table">
+              <tbody className="divide-y divide-slate-100">
+                {rows.map((r) => {
+                  if (r.category === "estacionamiento") {
+                    return (
+                      <tr key={r.ordinal}>
+                        <td className="px-5 py-2.5 text-slate-700 w-1/2">
+                          {r.label}
+                        </td>
+                        <td className="px-5 py-2.5 text-ink">
+                          {parkingSummary ?? (
+                            <span className="text-slate-300 italic">sin dato</span>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  }
+                  return (
+                    <tr key={r.ordinal}>
+                      <td className="px-5 py-2.5 text-slate-700 w-1/2">{r.label}</td>
+                      <td className="px-5 py-2.5 text-ink">
+                        {r.value ?? (
+                          <span className="text-slate-300 italic">sin dato</span>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
 
-        {/* Mobile: stacked rows */}
-        <ul className="md:hidden divide-y divide-slate-100">
-          {ficha.reportes.map((r) => (
-            <li
-              key={r.ordinal}
-              className="px-5 py-3 flex items-center justify-between gap-3"
-            >
-              <p className="text-sm text-ink truncate flex-1 min-w-0">
-                {r.label}
-              </p>
-              <span className="font-mono text-sm text-marine shrink-0 max-w-[50%] truncate text-right">
-                {r.value ?? (
-                  <span className="text-slate-300 italic">sin dato</span>
-                )}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </section>
+            {/* Mobile: stacked rows */}
+            <ul className="md:hidden divide-y divide-slate-100">
+              {rows.map((r) => {
+                if (r.category === "estacionamiento") {
+                  return (
+                    <li
+                      key={r.ordinal}
+                      className="px-5 py-3 flex flex-col gap-1.5"
+                    >
+                      <p className="text-sm text-ink">{r.label}</p>
+                      {ficha.parkingEntries.length === 0 ? (
+                        <p className="text-xs text-slate-300 italic">sin dato</p>
+                      ) : (
+                        <div className="flex flex-wrap gap-1.5">
+                          {ficha.parkingEntries.map((p) => (
+                            <span
+                              key={p.id}
+                              className="inline-flex items-center rounded-full bg-cream border border-slate-200 px-2 py-0.5 text-xs font-semibold text-marine"
+                            >
+                              {p.room} · {p.lot}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </li>
+                  );
+                }
+                return (
+                  <li
+                    key={r.ordinal}
+                    className="px-5 py-3 flex items-center justify-between gap-3"
+                  >
+                    <p className="text-sm text-ink truncate flex-1 min-w-0">
+                      {r.label}
+                    </p>
+                    <span className="font-mono text-sm text-marine shrink-0 max-w-[50%] truncate text-right">
+                      {r.value ?? (
+                        <span className="text-slate-300 italic">sin dato</span>
+                      )}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        );
+      })}
 
       <section className="rounded-xl border border-slate-200 bg-surface p-4 md:p-6 shadow-sm">
         <h3 className="font-serif text-marine text-base md:text-lg mb-3">

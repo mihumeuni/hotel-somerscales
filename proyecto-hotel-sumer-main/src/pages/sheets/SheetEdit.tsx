@@ -3,19 +3,28 @@ import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import {
   Button,
-  Card,
+  Modal,
   PageHeader,
   Skeleton,
 } from "../../components/ui";
 import { useAuth } from "../../context/AuthContext";
 import {
+  addParking,
+  CATEGORIES,
   getFicha,
   getQuickpicks,
   handoffFicha,
+  LOT_OPTIONS,
+  removeParking,
+  ROOM_OPTIONS,
   shiftLabel,
   updateFicha,
   type FichaDetail,
+  type FichaReporte,
+  type LotOption,
   type Quickpicks,
+  type ReporteCategory,
+  type RoomOption,
 } from "../../types/sheet";
 
 const inputClass =
@@ -24,6 +33,21 @@ const labelClass =
   "block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5";
 
 const AUTOSAVE_DEBOUNCE_MS = 600;
+
+const groupRows = (reportes: FichaReporte[]) => {
+  const buckets = new Map<ReporteCategory, FichaReporte[]>();
+  for (const r of reportes) {
+    if (!r.category) continue;
+    const list = buckets.get(r.category) ?? [];
+    list.push(r);
+    buckets.set(r.category, list);
+  }
+  // Ensure intra-group order matches ordinal.
+  for (const list of buckets.values()) {
+    list.sort((a, b) => a.ordinal - b.ordinal);
+  }
+  return buckets;
+};
 
 const SheetEdit = () => {
   const { id } = useParams<{ id: string }>();
@@ -40,15 +64,23 @@ const SheetEdit = () => {
   const [ficha, setFicha] = useState<FichaDetail | null>(null);
   const [quickpicks, setQuickpicks] = useState<Quickpicks>({});
   const [loading, setLoading] = useState(true);
-  const [savingOrdinals, setSavingOrdinals] = useState<Set<number>>(new Set());
   const [savingNotes, setSavingNotes] = useState(false);
   const [notesDraft, setNotesDraft] = useState("");
-  const [valueDrafts, setValueDrafts] = useState<Record<number, string>>({});
   const [handingOff, setHandingOff] = useState(false);
   const [confirmHandoff, setConfirmHandoff] = useState(false);
 
+  // Modal state: which row is being edited (null = closed).
+  const [editing, setEditing] = useState<FichaReporte | null>(null);
+  const [editingDraft, setEditingDraft] = useState("");
+  const [editingSaving, setEditingSaving] = useState(false);
+
+  // Parking modal state (open when the Estacionamiento row is tapped).
+  const [parkingOpen, setParkingOpen] = useState(false);
+  const [pendingRoom, setPendingRoom] = useState<RoomOption | "">("");
+  const [pendingLot, setPendingLot] = useState<LotOption | "">("");
+  const [parkingBusy, setParkingBusy] = useState(false);
+
   const notesTimer = useRef<number | null>(null);
-  const valueTimers = useRef<Map<number, number>>(new Map());
 
   // Initial load.
   useEffect(() => {
@@ -61,11 +93,6 @@ const SheetEdit = () => {
         setFicha(detail);
         setQuickpicks(qp);
         setNotesDraft(detail.notes ?? "");
-        const drafts: Record<number, string> = {};
-        for (const r of detail.reportes) {
-          drafts[r.ordinal] = r.value ?? "";
-        }
-        setValueDrafts(drafts);
       })
       .catch((err) => {
         const msg = err instanceof Error ? err.message : "";
@@ -89,32 +116,9 @@ const SheetEdit = () => {
     }
   }, [ficha, user, canWrite, navigate]);
 
-  const markSaving = (ordinal: number, on: boolean) =>
-    setSavingOrdinals((prev) => {
-      const next = new Set(prev);
-      if (on) next.add(ordinal);
-      else next.delete(ordinal);
-      return next;
-    });
-
-  const persistReporte = useCallback(
-    async (ordinal: number, value: string) => {
-      if (fichaId === null) return;
-      markSaving(ordinal, true);
-      try {
-        const updated = await updateFicha(fichaId, {
-          reportes: [{ ordinal, value: value.trim() ? value : null }],
-        });
-        setFicha(updated);
-      } catch (err) {
-        const msg = err instanceof Error ? err.message : "";
-        if (msg.includes("409")) toast.error("Esta ficha ya fue entregada");
-        else toast.error("No se pudo guardar el reporte");
-      } finally {
-        markSaving(ordinal, false);
-      }
-    },
-    [fichaId],
+  const grouped = useMemo(
+    () => (ficha ? groupRows(ficha.reportes) : new Map<ReporteCategory, FichaReporte[]>()),
+    [ficha],
   );
 
   const persistNotes = useCallback(
@@ -135,31 +139,6 @@ const SheetEdit = () => {
     [fichaId],
   );
 
-  const onValueChange = (ordinal: number, value: string) => {
-    setValueDrafts((prev) => ({ ...prev, [ordinal]: value }));
-    const existing = valueTimers.current.get(ordinal);
-    if (existing) window.clearTimeout(existing);
-    const t = window.setTimeout(() => {
-      void persistReporte(ordinal, value);
-      valueTimers.current.delete(ordinal);
-    }, AUTOSAVE_DEBOUNCE_MS);
-    valueTimers.current.set(ordinal, t);
-  };
-
-  const onValueBlur = (ordinal: number) => {
-    const t = valueTimers.current.get(ordinal);
-    if (t) {
-      window.clearTimeout(t);
-      valueTimers.current.delete(ordinal);
-    }
-    void persistReporte(ordinal, valueDrafts[ordinal] ?? "");
-  };
-
-  const onChipPick = (ordinal: number, value: string) => {
-    setValueDrafts((prev) => ({ ...prev, [ordinal]: value }));
-    void persistReporte(ordinal, value);
-  };
-
   const onNotesChange = (value: string) => {
     setNotesDraft(value);
     if (notesTimer.current) window.clearTimeout(notesTimer.current);
@@ -177,22 +156,93 @@ const SheetEdit = () => {
     void persistNotes(notesDraft);
   };
 
+  // ----- Standard row modal -----
+
+  const openRow = (r: FichaReporte) => {
+    if (r.category === "estacionamiento") {
+      setPendingRoom("");
+      setPendingLot("");
+      setParkingOpen(true);
+      return;
+    }
+    setEditing(r);
+    setEditingDraft(r.value ?? "");
+  };
+
+  const closeRow = () => {
+    setEditing(null);
+    setEditingDraft("");
+  };
+
+  const saveRow = async () => {
+    if (!editing || fichaId === null) return;
+    setEditingSaving(true);
+    try {
+      const trimmed = editingDraft.trim();
+      const updated = await updateFicha(fichaId, {
+        reportes: [{ ordinal: editing.ordinal, value: trimmed ? editingDraft : null }],
+      });
+      setFicha(updated);
+      closeRow();
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "";
+      if (msg.includes("409")) toast.error("Esta ficha ya fue entregada");
+      else toast.error("No se pudo guardar el reporte");
+    } finally {
+      setEditingSaving(false);
+    }
+  };
+
+  // ----- Parking modal -----
+
+  const closeParking = () => {
+    setParkingOpen(false);
+    setPendingRoom("");
+    setPendingLot("");
+  };
+
+  const submitParking = async () => {
+    if (!pendingRoom || !pendingLot || fichaId === null) return;
+    setParkingBusy(true);
+    try {
+      const updated = await addParking(fichaId, pendingRoom, pendingLot);
+      setFicha(updated);
+      setPendingRoom("");
+      setPendingLot("");
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "";
+      if (msg.includes("409")) toast.error("Esta ficha ya fue entregada");
+      else if (msg.includes("400")) toast.error("Habitación o estacionamiento inválido");
+      else toast.error("No se pudo agregar el estacionamiento");
+    } finally {
+      setParkingBusy(false);
+    }
+  };
+
+  const dropParking = async (parkingId: number) => {
+    if (fichaId === null) return;
+    setParkingBusy(true);
+    try {
+      const updated = await removeParking(fichaId, parkingId);
+      setFicha(updated);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "";
+      if (msg.includes("409")) toast.error("Esta ficha ya fue entregada");
+      else toast.error("No se pudo eliminar la entrada");
+    } finally {
+      setParkingBusy(false);
+    }
+  };
+
   const performHandoff = async () => {
     if (fichaId === null) return;
     setHandingOff(true);
     try {
-      // Flush any pending debounced saves before locking.
       if (notesTimer.current) {
         window.clearTimeout(notesTimer.current);
         notesTimer.current = null;
         await persistNotes(notesDraft);
       }
-      for (const [ordinal, t] of valueTimers.current.entries()) {
-        window.clearTimeout(t);
-        await persistReporte(ordinal, valueDrafts[ordinal] ?? "");
-      }
-      valueTimers.current.clear();
-
       const result = await handoffFicha(fichaId);
       setFicha(result);
       toast.success("Turno entregado");
@@ -210,83 +260,110 @@ const SheetEdit = () => {
     return (
       <div className="flex flex-col gap-6 max-w-3xl mx-auto w-full">
         <Skeleton className="h-8 w-48" />
-        <Card>
-          <div className="space-y-3">
-            {Array.from({ length: 8 }).map((_, i) => (
-              <Skeleton key={i} className="h-10 w-full" rounded="lg" />
-            ))}
-          </div>
-        </Card>
+        <div className="space-y-3">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <Skeleton key={i} className="h-14 w-full" rounded="lg" />
+          ))}
+        </div>
       </div>
     );
   }
 
   if (!ficha) return null;
 
+  const editingChips = editing ? quickpicks[editing.label] ?? [] : [];
+
   return (
     <div className="flex flex-col gap-6 max-w-3xl mx-auto w-full">
       <PageHeader
         title={`Ficha #${ficha.id.toString().padStart(4, "0")}`}
-        description={`Turno ${shiftLabel(ficha.shift)} · ${ficha.fecha} · auto-guardado al perder foco`}
+        description={`Turno ${shiftLabel(ficha.shift)} · ${ficha.fecha} · toca un reporte para editar`}
       />
 
-      <section className="rounded-xl border border-slate-200 bg-surface p-4 md:p-6 shadow-sm">
-        <h3 className="font-serif text-marine text-base md:text-lg mb-4">
-          Reportes operativos
-        </h3>
-        <p className="text-xs text-slate-500 mb-4">
-          Los chips bajo cada campo prellenan valores frecuentes. Toca un chip
-          y se guarda automáticamente.
-        </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-3">
-          {ficha.reportes.map((r) => {
-            const draft = valueDrafts[r.ordinal] ?? "";
-            const chips = quickpicks[r.label] ?? [];
-            const saving = savingOrdinals.has(r.ordinal);
-            return (
-              <div key={r.ordinal} className={chips.length > 0 ? "sm:col-span-2" : ""}>
-                <label className={labelClass} htmlFor={`r-${r.ordinal}`}>
-                  {r.label}
-                  {saving && (
-                    <span className="ml-2 text-marine font-normal normal-case tracking-normal">
-                      · guardando…
-                    </span>
-                  )}
-                </label>
-                <input
-                  id={`r-${r.ordinal}`}
-                  type="text"
-                  value={draft}
-                  onChange={(e) => onValueChange(r.ordinal, e.target.value)}
-                  onBlur={() => onValueBlur(r.ordinal)}
-                  className={inputClass}
-                />
-                {chips.length > 0 && (
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    {chips.map((c) => {
-                      const on = draft === c;
-                      return (
+      {CATEGORIES.map(({ key, label }) => {
+        const rows = grouped.get(key) ?? [];
+        if (rows.length === 0) return null;
+        return (
+          <section
+            key={key}
+            className="rounded-xl border border-slate-200 bg-surface shadow-sm overflow-hidden"
+          >
+            <header className="px-4 md:px-5 py-2.5 bg-cream border-b border-slate-100 sticky top-0 z-10">
+              <h3 className="font-serif text-marine text-sm md:text-base uppercase tracking-wider">
+                {label}
+              </h3>
+            </header>
+            <ul className="divide-y divide-slate-100">
+              {rows.map((r) => {
+                if (r.category === "estacionamiento") {
+                  return (
+                    <li key={r.ordinal} className="px-4 md:px-5 py-3">
+                      <div className="flex items-start justify-between gap-3">
+                        <p className="text-sm font-semibold text-ink">{r.label}</p>
                         <button
-                          key={c}
                           type="button"
-                          onClick={() => onChipPick(r.ordinal, c)}
-                          className={`min-h-[36px] px-3 py-1.5 rounded-full border text-xs font-semibold transition ${
-                            on
-                              ? "bg-marine text-white border-marine"
-                              : "bg-cream text-ink border-slate-200 hover:border-marine"
-                          }`}
+                          onClick={() => openRow(r)}
+                          className="shrink-0 min-h-[36px] px-3 py-1.5 rounded-full border border-marine/30 bg-marine/5 text-xs font-bold uppercase tracking-wider text-marine hover:bg-marine/10"
                         >
-                          {c}
+                          + Agregar
                         </button>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      </section>
+                      </div>
+                      {ficha.parkingEntries.length === 0 ? (
+                        <p className="mt-2 text-xs text-slate-400 italic">
+                          Sin registros de estacionamiento.
+                        </p>
+                      ) : (
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          {ficha.parkingEntries.map((p) => (
+                            <span
+                              key={p.id}
+                              className="inline-flex items-center gap-1.5 rounded-full bg-cream border border-slate-200 px-2.5 py-1 text-xs font-semibold text-ink"
+                            >
+                              <span>
+                                {p.room} · {p.lot}
+                              </span>
+                              <button
+                                type="button"
+                                aria-label="Quitar entrada"
+                                onClick={() => void dropParking(p.id)}
+                                disabled={parkingBusy}
+                                className="text-slate-400 hover:text-terracotta disabled:opacity-50"
+                              >
+                                ×
+                              </button>
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </li>
+                  );
+                }
+                const value = r.value;
+                return (
+                  <li key={r.ordinal}>
+                    <button
+                      type="button"
+                      onClick={() => openRow(r)}
+                      className="w-full px-4 md:px-5 py-3 flex items-center justify-between gap-3 text-left hover:bg-cream transition"
+                    >
+                      <span className="text-sm text-ink truncate flex-1 min-w-0">
+                        {r.label}
+                      </span>
+                      <span className="font-mono text-sm shrink-0 max-w-[55%] truncate text-right">
+                        {value ? (
+                          <span className="text-marine">{value}</span>
+                        ) : (
+                          <span className="text-slate-300 italic">sin dato</span>
+                        )}
+                      </span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        );
+      })}
 
       <section className="rounded-xl border border-slate-200 bg-surface p-4 md:p-6 shadow-sm">
         <div className="flex items-center justify-between mb-3">
@@ -344,6 +421,148 @@ const SheetEdit = () => {
           </div>
         )}
       </div>
+
+      {/* Standard reporte editor modal */}
+      <Modal
+        open={editing !== null}
+        onClose={closeRow}
+        title={editing?.label ?? ""}
+        footer={
+          <>
+            <Button variant="secondary" onClick={closeRow} disabled={editingSaving}>
+              Cancelar
+            </Button>
+            <Button onClick={saveRow} disabled={editingSaving}>
+              {editingSaving ? "Guardando…" : "Guardar"}
+            </Button>
+          </>
+        }
+      >
+        <div className="flex flex-col gap-3">
+          <div>
+            <label className={labelClass} htmlFor="reporte-editor-input">
+              Valor
+            </label>
+            <input
+              id="reporte-editor-input"
+              type="text"
+              autoFocus
+              value={editingDraft}
+              onChange={(e) => setEditingDraft(e.target.value)}
+              className={inputClass}
+            />
+          </div>
+          {editingChips.length > 0 && (
+            <div>
+              <p className={labelClass}>Sugerencias rápidas</p>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                {editingChips.map((c) => {
+                  const on = editingDraft === c;
+                  return (
+                    <button
+                      key={c}
+                      type="button"
+                      onClick={() => setEditingDraft(c)}
+                      className={`min-h-[40px] px-3 py-2 rounded-lg border text-xs font-semibold transition text-center ${
+                        on
+                          ? "bg-marine text-white border-marine"
+                          : "bg-cream text-ink border-slate-200 hover:border-marine"
+                      }`}
+                    >
+                      {c}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+      </Modal>
+
+      {/* Parking editor modal */}
+      <Modal
+        open={parkingOpen}
+        onClose={closeParking}
+        title="Estacionamiento"
+        footer={
+          <Button variant="secondary" onClick={closeParking}>
+            Cerrar
+          </Button>
+        }
+      >
+        <div className="flex flex-col gap-4">
+          {ficha.parkingEntries.length > 0 && (
+            <div>
+              <p className={labelClass}>Asignaciones actuales</p>
+              <div className="flex flex-wrap gap-2">
+                {ficha.parkingEntries.map((p) => (
+                  <span
+                    key={p.id}
+                    className="inline-flex items-center gap-1.5 rounded-full bg-cream border border-slate-200 px-2.5 py-1 text-xs font-semibold text-ink"
+                  >
+                    <span>
+                      {p.room} · {p.lot}
+                    </span>
+                    <button
+                      type="button"
+                      aria-label="Quitar entrada"
+                      onClick={() => void dropParking(p.id)}
+                      disabled={parkingBusy}
+                      className="text-slate-400 hover:text-terracotta disabled:opacity-50"
+                    >
+                      ×
+                    </button>
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className={labelClass} htmlFor="parking-room">
+                Habitación
+              </label>
+              <select
+                id="parking-room"
+                value={pendingRoom}
+                onChange={(e) => setPendingRoom(e.target.value as RoomOption | "")}
+                className={inputClass}
+              >
+                <option value="">—</option>
+                {ROOM_OPTIONS.map((r) => (
+                  <option key={r} value={r}>
+                    {r}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className={labelClass} htmlFor="parking-lot">
+                Estacionamiento
+              </label>
+              <select
+                id="parking-lot"
+                value={pendingLot}
+                onChange={(e) => setPendingLot(e.target.value as LotOption | "")}
+                className={inputClass}
+              >
+                <option value="">—</option>
+                {LOT_OPTIONS.map((l) => (
+                  <option key={l} value={l}>
+                    {l}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <Button
+            onClick={submitParking}
+            disabled={!pendingRoom || !pendingLot || parkingBusy}
+          >
+            {parkingBusy ? "Guardando…" : "Agregar entrada"}
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 };
