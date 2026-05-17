@@ -41,6 +41,10 @@ public class SeguridadConfig {
                 .requestMatchers("/actuator/health", "/actuator/health/**").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/users/signup-finish").permitAll()
+                // ERROR dispatch path: Spring Security 6 re-authorizes the
+                // forward to /error after a controller throws ResponseStatusException,
+                // so without this match the original 4xx/5xx is masked as a 403.
+                .requestMatchers("/error").permitAll()
                 .anyRequest().authenticated()
             )
             .authenticationProvider(authenticationProvider())

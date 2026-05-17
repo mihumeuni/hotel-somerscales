@@ -23,11 +23,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import repository.FichaRepository;
 import repository.RoleRepository;
 import repository.UsuarioRepository;
 import service.InvitationService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
@@ -38,21 +41,27 @@ public class UserController {
     private final RoleRepository roleRepository;
     private final InvitationService invitationService;
     private final PasswordEncoder passwordEncoder;
+    private final FichaRepository fichaRepository;
 
     @GetMapping
     @PreAuthorize("hasAuthority('user.invite') or hasAuthority('user.manage')")
     public List<UserDTO> list() {
+        Map<Long, Long> sheetCounts = new HashMap<>();
+        for (var row : fichaRepository.countSheetsGroupedByOwner()) {
+            sheetCounts.put(row.getOwnerId(), row.getTotal());
+        }
         return usuarioRepository
             .findAllByDisabledFalseOrderByRoleNameAscNombreAsc()
             .stream()
-            .map(UserController::toDTO)
+            .map(u -> toDTO(u, sheetCounts.getOrDefault(u.getId(), 0L)))
             .toList();
     }
 
     @GetMapping("/me")
     @PreAuthorize("isAuthenticated()")
     public UserDTO me() {
-        return toDTO(currentUser());
+        UsuarioModel me = currentUser();
+        return toDTO(me, fichaRepository.countByOwnerId(me.getId()));
     }
 
     @PutMapping("/me")
@@ -93,15 +102,17 @@ public class UserController {
             me.setPassword(passwordEncoder.encode(body.getNewPassword()));
         }
 
-        return toDTO(usuarioRepository.save(me));
+        UsuarioModel saved = usuarioRepository.save(me);
+        return toDTO(saved, fichaRepository.countByOwnerId(saved.getId()));
     }
 
     @GetMapping("/{id:\\d+}")
     @PreAuthorize("hasAuthority('user.manage')")
     public UserDTO getById(@PathVariable Long id) {
-        return toDTO(usuarioRepository.findById(id)
+        UsuarioModel u = usuarioRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "Usuario no encontrado")));
+                HttpStatus.NOT_FOUND, "Usuario no encontrado"));
+        return toDTO(u, fichaRepository.countByOwnerId(u.getId()));
     }
 
     @PutMapping("/{id:\\d+}")
@@ -148,7 +159,8 @@ public class UserController {
         }
         target.setRole(newRole);
 
-        return toDTO(usuarioRepository.save(target));
+        UsuarioModel saved = usuarioRepository.save(target);
+        return toDTO(saved, fichaRepository.countByOwnerId(saved.getId()));
     }
 
     @PostMapping("/{id:\\d+}/reset-password")
@@ -196,7 +208,7 @@ public class UserController {
                 HttpStatus.UNAUTHORIZED, "Usuario no encontrado"));
     }
 
-    private static UserDTO toDTO(UsuarioModel u) {
+    private static UserDTO toDTO(UsuarioModel u, long sheetCount) {
         return UserDTO.builder()
             .id(u.getId())
             .name(u.getNombre())
@@ -205,7 +217,7 @@ public class UserController {
             .phone(u.getTelefono())
             .role(u.getRole() != null ? u.getRole().getName() : null)
             .createdAt(u.getCreatedAt())
-            .sheetCount(0L)
+            .sheetCount(sheetCount)
             .build();
     }
 
