@@ -7,10 +7,13 @@ import model.UsuarioModel;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import repository.UsuarioRepository;
 import security.JwtService;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -35,9 +38,14 @@ public class AuthService {
 
         String token = jwtService.generateToken(user, auth.getAuthorities());
 
+        List<String> perms = auth.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .toList();
+
         return AuthResponse.builder()
                 .token(token)
-                .role(user.getRolmodel())
+                .role(user.getRole().getName())
+                .permissions(perms)
                 .build();
     }
 }

@@ -1,6 +1,8 @@
 import { apiFetch } from "../lib/apiClient";
 
-export type Rol = "ADMIN" | "RECEPCIONISTA" | "ASISTENTE";
+// Role name is a free-form string now that roles are DB-managed.
+// The literal union is kept only as documentation of seeded values.
+export type Rol = string;
 
 export interface LoginRequest {
   username: string;
@@ -10,6 +12,7 @@ export interface LoginRequest {
 export interface LoginResponse {
   token: string;
   role: Rol;
+  permissions?: string[];
 }
 
 export const loginUser = async (
@@ -31,5 +34,6 @@ export const logout = () => {
   localStorage.removeItem("token");
   localStorage.removeItem("role");
   localStorage.removeItem("email");
+  localStorage.removeItem("perms");
   window.location.href = "/login";
 };

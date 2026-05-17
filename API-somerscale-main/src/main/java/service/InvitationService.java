@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dto.InvitationRequest;
 import lombok.RequiredArgsConstructor;
 import model.InvitationModel;
+import model.RoleEntity;
 import model.UsuarioModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import repository.InvitationRepository;
+import repository.RoleRepository;
 import repository.UsuarioRepository;
 
 import java.net.URI;
@@ -55,6 +57,7 @@ public class InvitationService {
 
     private final InvitationRepository invitationRepository;
     private final UsuarioRepository usuarioRepository;
+    private final RoleRepository roleRepository;
     private final JavaMailSender mailSender;
     private final PasswordEncoder passwordEncoder;
 
@@ -87,6 +90,12 @@ public class InvitationService {
             );
         }
 
+        RoleEntity role = roleRepository.findByName(req.getRole().trim())
+            .orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "Rol desconocido: " + req.getRole()
+            ));
+
         Optional<InvitationModel> existing = invitationRepository.findByEmail(email);
 
         String rawToken = generateRawToken();
@@ -98,7 +107,7 @@ public class InvitationService {
         inv.setEmail(email);
         inv.setNombre(req.getNombre());
         inv.setTelefono(req.getTelefono());
-        inv.setRole(req.getRole());
+        inv.setRole(role);
         inv.setTokenHash(hash);
         inv.setCreatedAt(now);
         inv.setExpiresAt(expires);
@@ -135,7 +144,7 @@ public class InvitationService {
         UsuarioModel user = UsuarioModel.builder()
             .username(inv.getEmail())
             .password(passwordEncoder.encode(newPassword))
-            .rolmodel(inv.getRole())
+            .role(inv.getRole())
             .email(inv.getEmail())
             .nombre(inv.getNombre())
             .telefono(inv.getTelefono())
@@ -151,7 +160,7 @@ public class InvitationService {
         String link = frontendBaseUrl + "/signup-finish?token=" + rawToken;
         String body = "Hola " + inv.getNombre() + ",\n\n"
             + "Has sido invitado/a a unirte al panel de Somerscales con el rol de "
-            + inv.getRole().name() + ".\n"
+            + inv.getRole().getName() + ".\n"
             + "Activa tu cuenta y elige una contraseña en el siguiente enlace\n"
             + "(válido durante " + ttlHours + " horas):\n\n"
             + link + "\n\n"

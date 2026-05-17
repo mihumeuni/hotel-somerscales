@@ -31,7 +31,7 @@ public class JwtService {
 
         return Jwts.builder()
                 .setSubject(user.getUsername())
-                .claim("role", user.getRolmodel().name())
+                .claim("role", user.getRole().getName())
                 .claim("perms", perms)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))

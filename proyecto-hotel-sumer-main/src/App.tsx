@@ -10,6 +10,7 @@ import EliminarHuesped from "./pages/eliminarHuesped";
 import SignupFinish from "./pages/signupFinish";
 import GastosReserva from "./pages/gastosReserva";
 import GuestDetail from "./pages/guestDetail";
+import RolesPermissions from "./pages/rolesPermissions";
 import ProtectedRoute from "./routes/Protected-route";
 import { AppShell, ComingSoon } from "./components/ui";
 
@@ -25,12 +26,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
 
             <Route path="/calendario" element={<Calendario />} />
-            <Route
-              path="/admin/roles"
-              element={
-                <ComingSoon name="Roles & Permisos" taskRef="task028" />
-              }
-            />
+            <Route path="/admin/roles" element={<RolesPermissions />} />
             <Route
               path="/admin/perfiles"
               element={<ComingSoon name="Perfiles" taskRef="task022" />}

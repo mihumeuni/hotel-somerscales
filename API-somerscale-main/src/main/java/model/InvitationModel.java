@@ -31,9 +31,9 @@ public class InvitationModel {
     @Column(length = 40)
     private String telefono;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
-    private RolModel role;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "role_id", nullable = false)
+    private RoleEntity role;
 
     @Column(name = "token_hash", nullable = false, length = 128)
     private String tokenHash;
