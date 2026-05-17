@@ -30,8 +30,7 @@ function App() {
             <Route path="/admin/perfiles" element={<Profiles />} />
             <Route path="/admin/perfiles/:id" element={<UserSettings />} />
             <Route path="/fichas" element={<SheetsList />} />
-            <Route path="/fichas/nueva" element={<SheetEdit />} />
-            <Route path="/fichas/actual" element={<SheetEdit />} />
+            <Route path="/fichas/:id/editar" element={<SheetEdit />} />
             <Route path="/fichas/:id/resumen" element={<SheetSummary />} />
             <Route path="/me" element={<UserSettings />} />
             <Route
