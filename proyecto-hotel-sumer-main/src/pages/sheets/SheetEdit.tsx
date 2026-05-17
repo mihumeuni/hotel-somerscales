@@ -82,6 +82,7 @@ const SheetEdit = () => {
 
   const notesTimer = useRef<number | null>(null);
   const valueTimers = useRef<Map<number, number>>(new Map());
+  const parkingInFlight = useRef(false);
 
   // Initial load.
   useEffect(() => {
@@ -193,9 +194,27 @@ const SheetEdit = () => {
     void persistReporte(ordinal, valueDrafts[ordinal] ?? "");
   };
 
-  const onChipPick = (ordinal: number, value: string) => {
-    setValueDrafts((prev) => ({ ...prev, [ordinal]: value }));
-    void persistReporte(ordinal, value);
+  // Multi-chip toggle: chip values are tracked as comma-joined tokens in
+  // the input. Tapping a chip adds it (if absent) or removes it (if
+  // already present); free-typed fragments are preserved.
+  const onChipToggle = (ordinal: number, chip: string) => {
+    const current = valueDrafts[ordinal] ?? "";
+    const tokens = current
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+    const idx = tokens.indexOf(chip);
+    if (idx >= 0) tokens.splice(idx, 1);
+    else tokens.push(chip);
+    const next = tokens.join(", ");
+    setValueDrafts((prev) => ({ ...prev, [ordinal]: next }));
+    // Cancel any in-flight debounce — chip taps save instantly.
+    const t = valueTimers.current.get(ordinal);
+    if (t) {
+      window.clearTimeout(t);
+      valueTimers.current.delete(ordinal);
+    }
+    void persistReporte(ordinal, next);
   };
 
   const onNotesChange = (value: string) => {
@@ -224,31 +243,36 @@ const SheetEdit = () => {
     });
 
   // Auto-add the pending parking pair once both halves are filled.
+  // Uses a ref-based in-flight flag instead of putting parkingBusy in the
+  // dep array — otherwise setParkingBusy(true) re-triggers the effect's
+  // own cleanup, sets cancelled=true, and the setFicha call after the
+  // await gets silently skipped.
   useEffect(() => {
-    if (!pendingRoom || !pendingLot || fichaId === null || parkingBusy) return;
-    let cancelled = false;
-    (async () => {
-      setParkingBusy(true);
-      try {
-        const updated = await addParking(fichaId, pendingRoom, pendingLot);
-        if (cancelled) return;
+    if (!pendingRoom || !pendingLot || fichaId === null) return;
+    if (parkingInFlight.current) return;
+    parkingInFlight.current = true;
+    setParkingBusy(true);
+    addParking(fichaId, pendingRoom, pendingLot)
+      .then((updated) => {
         setFicha(updated);
         setPendingRoom("");
         setPendingLot("");
-      } catch (err) {
-        if (cancelled) return;
+      })
+      .catch((err) => {
         const msg = err instanceof Error ? err.message : "";
         if (msg.includes("409")) toast.error("Esta ficha ya fue entregada");
         else if (msg.includes("400")) toast.error("Habitación o estacionamiento inválido");
         else toast.error("No se pudo agregar el estacionamiento");
-      } finally {
-        if (!cancelled) setParkingBusy(false);
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [pendingRoom, pendingLot, fichaId, parkingBusy]);
+        // Clear the pending pair on error too — otherwise the effect
+        // refires forever on every render.
+        setPendingRoom("");
+        setPendingLot("");
+      })
+      .finally(() => {
+        parkingInFlight.current = false;
+        setParkingBusy(false);
+      });
+  }, [pendingRoom, pendingLot, fichaId]);
 
   const dropParking = async (parkingId: number) => {
     if (fichaId === null) return;
@@ -350,28 +374,8 @@ const SheetEdit = () => {
                       <div key={r.ordinal}>
                         <p className={labelClass}>{r.label}</p>
                         <div className="flex flex-wrap gap-2">
-                          {ficha.parkingEntries.map((p) => (
-                            <span
-                              key={p.id}
-                              className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-cream px-2.5 py-1.5 text-xs font-semibold text-ink"
-                            >
-                              <span className="rounded bg-marine/10 text-marine px-1.5 py-0.5">
-                                {p.room}
-                              </span>
-                              <span className="rounded bg-gold/10 text-gold px-1.5 py-0.5">
-                                {p.lot}
-                              </span>
-                              <button
-                                type="button"
-                                aria-label="Quitar entrada"
-                                onClick={() => void dropParking(p.id)}
-                                disabled={parkingBusy}
-                                className="ml-0.5 text-slate-400 hover:text-terracotta disabled:opacity-50"
-                              >
-                                ×
-                              </button>
-                            </span>
-                          ))}
+                          {/* Empty pair is anchored at position 0 and never
+                              moves — saved entries flow to its right. */}
                           <span className="inline-flex items-center gap-1.5 rounded-lg border border-dashed border-marine/40 bg-marine/5 px-2 py-1">
                             <select
                               aria-label="Habitación"
@@ -406,6 +410,28 @@ const SheetEdit = () => {
                               ))}
                             </select>
                           </span>
+                          {ficha.parkingEntries.map((p) => (
+                            <span
+                              key={p.id}
+                              className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-cream px-2.5 py-1.5 text-xs font-semibold text-ink"
+                            >
+                              <span className="rounded bg-marine/10 text-marine px-1.5 py-0.5">
+                                {p.room}
+                              </span>
+                              <span className="rounded bg-gold/10 text-gold px-1.5 py-0.5">
+                                {p.lot}
+                              </span>
+                              <button
+                                type="button"
+                                aria-label="Quitar entrada"
+                                onClick={() => void dropParking(p.id)}
+                                disabled={parkingBusy}
+                                className="ml-0.5 text-slate-400 hover:text-terracotta disabled:opacity-50"
+                              >
+                                ×
+                              </button>
+                            </span>
+                          ))}
                         </div>
                         <p className="mt-2 text-[10px] text-slate-400 uppercase tracking-wider">
                           Elige habitación y estacionamiento — la entrada se agrega sola.
@@ -434,27 +460,38 @@ const SheetEdit = () => {
                         onBlur={() => onValueBlur(r.ordinal)}
                         className={inputClass}
                       />
-                      {chips.length > 0 && (
-                        <div className="mt-2 flex flex-wrap gap-2">
-                          {chips.map((c) => {
-                            const on = draft === c;
-                            return (
-                              <button
-                                key={c}
-                                type="button"
-                                onClick={() => onChipPick(r.ordinal, c)}
-                                className={`min-h-[36px] px-3 py-1.5 rounded-full border text-xs font-semibold transition ${
-                                  on
-                                    ? "bg-marine text-white border-marine"
-                                    : "bg-cream text-ink border-slate-200 hover:border-marine"
-                                }`}
-                              >
-                                {c}
-                              </button>
-                            );
-                          })}
-                        </div>
-                      )}
+                      {chips.length > 0 && (() => {
+                        const tokens = new Set(
+                          draft.split(",").map((s) => s.trim()).filter(Boolean),
+                        );
+                        return (
+                          <div className="mt-2 flex flex-wrap gap-2">
+                            {chips.map((c) => {
+                              const on = tokens.has(c);
+                              return (
+                                <button
+                                  key={c}
+                                  type="button"
+                                  onClick={() => onChipToggle(r.ordinal, c)}
+                                  aria-pressed={on}
+                                  className={`min-h-[36px] px-3 py-1.5 rounded-full border text-xs font-semibold transition ${
+                                    on
+                                      ? "bg-marine text-white border-marine"
+                                      : "bg-cream text-ink border-slate-200 hover:border-marine"
+                                  }`}
+                                >
+                                  {on && (
+                                    <span className="mr-1" aria-hidden="true">
+                                      ✓
+                                    </span>
+                                  )}
+                                  {c}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        );
+                      })()}
                     </div>
                   );
                 })}
