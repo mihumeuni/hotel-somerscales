@@ -11,6 +11,7 @@ import { cn } from "./cn";
 import { LogoMark } from "./LogoMark";
 import { LogoWordmark } from "./LogoWordmark";
 import { MobileNavDrawer, type NavDestination } from "./MobileNavDrawer";
+import { searchGuests, type GuestSearchHit } from "../../types/user";
 
 const HouseIcon = (
   <svg
@@ -196,14 +197,21 @@ const DesktopNavLink = ({
 );
 
 export const AppShell = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, has } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [avatarOpen, setAvatarOpen] = useState(false);
   const avatarRef = useRef<HTMLDivElement | null>(null);
 
+  const [searchQ, setSearchQ] = useState("");
+  const [searchHits, setSearchHits] = useState<GuestSearchHit[]>([]);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchLoading, setSearchLoading] = useState(false);
+  const searchRef = useRef<HTMLDivElement | null>(null);
+
   const isAdmin = user?.role === "ADMIN";
+  const canSearchGuests = has("guest.read");
 
   const openDrawer = useCallback(() => setDrawerOpen(true), []);
   const closeDrawer = useCallback(() => setDrawerOpen(false), []);
@@ -212,6 +220,8 @@ export const AppShell = () => {
 
   useEffect(() => {
     setAvatarOpen(false);
+    setSearchOpen(false);
+    setSearchQ("");
   }, [location.pathname]);
 
   useEffect(() => {
@@ -224,6 +234,46 @@ export const AppShell = () => {
     window.addEventListener("mousedown", handler);
     return () => window.removeEventListener("mousedown", handler);
   }, [avatarOpen]);
+
+  useEffect(() => {
+    if (!searchOpen) return;
+    const handler = (e: MouseEvent) => {
+      if (!searchRef.current?.contains(e.target as Node)) {
+        setSearchOpen(false);
+      }
+    };
+    window.addEventListener("mousedown", handler);
+    return () => window.removeEventListener("mousedown", handler);
+  }, [searchOpen]);
+
+  // Debounced server-side autocomplete. <2 chars or no permission → clear.
+  useEffect(() => {
+    if (!canSearchGuests) return;
+    const q = searchQ.trim();
+    if (q.length < 2) {
+      setSearchHits([]);
+      setSearchLoading(false);
+      return;
+    }
+    setSearchLoading(true);
+    const timer = window.setTimeout(async () => {
+      try {
+        const hits = await searchGuests(q, 8);
+        setSearchHits(hits);
+      } catch {
+        setSearchHits([]);
+      } finally {
+        setSearchLoading(false);
+      }
+    }, 180);
+    return () => window.clearTimeout(timer);
+  }, [searchQ, canSearchGuests]);
+
+  const handleSearchPick = (id: number) => {
+    setSearchOpen(false);
+    setSearchQ("");
+    navigate(`/huespedes/${id}`);
+  };
 
   const handleLogout = useCallback(() => {
     setAvatarOpen(false);
@@ -279,17 +329,51 @@ export const AppShell = () => {
               {SearchIcon}
             </button>
 
-            <div className="relative hidden md:block">
-              <input
-                type="text"
-                placeholder="Buscar huésped, reserva…"
-                className="bg-cream border border-slate-200 text-sm rounded-full pl-5 pr-10 py-2 w-56 lg:w-72 focus:outline-none focus:border-marine focus:ring-1 focus:ring-marine"
-                aria-label="Buscar"
-              />
-              <span className="absolute right-4 top-2.5 text-slate-400 pointer-events-none">
-                {SearchIcon}
-              </span>
-            </div>
+            {canSearchGuests && (
+              <div className="relative hidden md:block" ref={searchRef}>
+                <input
+                  type="text"
+                  value={searchQ}
+                  onChange={(e) => {
+                    setSearchQ(e.target.value);
+                    setSearchOpen(true);
+                  }}
+                  onFocus={() => setSearchOpen(true)}
+                  placeholder="Buscar huésped…"
+                  className="bg-cream border border-slate-200 text-sm rounded-full pl-5 pr-10 py-2 w-56 lg:w-72 focus:outline-none focus:border-marine focus:ring-1 focus:ring-marine"
+                  aria-label="Buscar huésped"
+                  aria-expanded={searchOpen}
+                  autoComplete="off"
+                />
+                <span className="absolute right-4 top-2.5 text-slate-400 pointer-events-none">
+                  {SearchIcon}
+                </span>
+                {searchOpen && searchQ.trim().length >= 2 && (
+                  <div className="absolute right-0 left-0 mt-2 rounded-lg border border-slate-200 bg-surface shadow-lg max-h-80 overflow-y-auto z-50">
+                    {searchLoading && (
+                      <p className="px-3 py-2 text-xs text-slate-500">Buscando…</p>
+                    )}
+                    {!searchLoading && searchHits.length === 0 && (
+                      <p className="px-3 py-2 text-xs text-slate-500">Sin resultados</p>
+                    )}
+                    {!searchLoading && searchHits.map((h) => (
+                      <button
+                        type="button"
+                        key={h.id}
+                        onMouseDown={(e) => e.preventDefault()}
+                        onClick={() => handleSearchPick(h.id)}
+                        className="block w-full text-left px-3 py-2 hover:bg-cream"
+                      >
+                        <p className="text-sm font-semibold text-ink truncate">{h.nombreCompleto}</p>
+                        {h.email && (
+                          <p className="text-xs text-slate-500 truncate">{h.email}</p>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
 
             {isAdmin && (
               <Link

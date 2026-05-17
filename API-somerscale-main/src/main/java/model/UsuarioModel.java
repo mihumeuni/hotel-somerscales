@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.Builder;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.Instant;
 
 @Entity
 @Table(name = "usuarios")
@@ -42,4 +45,8 @@ public class UsuarioModel {
     @Column(nullable = false)
     @Builder.Default
     private boolean disabled = false;
+
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Instant createdAt;
 }

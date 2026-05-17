@@ -14,6 +14,11 @@ public interface HuespedRepository extends JpaRepository<HuespedModel, Long> {
     Optional<HuespedModel> findByNumeroDocumentoHmac(String numeroDocumentoHmac);
     Optional<HuespedModel> findByEmailAndNombreCompleto(String email, String nombreCompleto);
 
+    // Case-insensitive name match used by the header search autocomplete.
+    // Pageable carries the LIMIT.
+    @Query("SELECT h FROM HuespedModel h WHERE LOWER(h.nombreCompleto) LIKE LOWER(CONCAT('%', :q, '%')) ORDER BY h.nombreCompleto ASC")
+    List<HuespedModel> searchByNombreCompleto(@Param("q") String q, Pageable pageable);
+
     // Top guests by visit count, joined through the reserva_huespedes link table.
     // Native to keep the projection flat (id, name, count, max-date) for the
     // dashboard leaderboard. Pageable carries the LIMIT.

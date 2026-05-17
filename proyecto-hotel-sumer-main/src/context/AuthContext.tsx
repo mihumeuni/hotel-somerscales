@@ -8,8 +8,10 @@ import {
   useMemo,
 } from "react";
 import { loginUser, type Rol } from "../types/auth";
+import { getMe } from "../types/user";
 
 type User = {
+  id: number | null;
   email: string;
   role: Rol;
   permissions: string[];
@@ -20,6 +22,7 @@ type AuthContextType = {
   login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
   has: (perm: string) => boolean;
+  refreshSelf: () => Promise<User | null>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -41,30 +44,66 @@ const decodePermsFromToken = (token: string): string[] => {
   }
 };
 
+const bootstrapUser = (): User | null => {
+  const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
+  const email = localStorage.getItem("email");
+  const permsRaw = localStorage.getItem("perms");
+  const idRaw = localStorage.getItem("userId");
+
+  if (!token || !role || !email) return null;
+
+  let perms: string[] = [];
+  if (permsRaw) {
+    try {
+      const parsed = JSON.parse(permsRaw);
+      if (Array.isArray(parsed)) perms = parsed.map(String);
+    } catch {
+      perms = decodePermsFromToken(token);
+    }
+  } else {
+    perms = decodePermsFromToken(token);
+  }
+  const idNum = idRaw ? Number(idRaw) : NaN;
+  return {
+    id: Number.isFinite(idNum) ? idNum : null,
+    email,
+    role: role as Rol,
+    permissions: perms,
+  };
+};
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  // Hydrate synchronously from localStorage so the first paint already has
+  // the auth state — avoids a sync setState inside useEffect.
+  const [user, setUser] = useState<User | null>(() => bootstrapUser());
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const role = localStorage.getItem("role");
-    const email = localStorage.getItem("email");
-    const permsRaw = localStorage.getItem("perms");
-
-    if (token && role && email) {
-      let perms: string[] = [];
-      if (permsRaw) {
-        try {
-          const parsed = JSON.parse(permsRaw);
-          if (Array.isArray(parsed)) perms = parsed.map(String);
-        } catch {
-          perms = decodePermsFromToken(token);
-        }
-      } else {
-        perms = decodePermsFromToken(token);
-      }
-      setUser({ email, role: role as Rol, permissions: perms });
+  const refreshSelf = useCallback(async (): Promise<User | null> => {
+    try {
+      const me = await getMe();
+      const next: User = {
+        id: me.id,
+        email: me.email,
+        role: me.role,
+        permissions: JSON.parse(localStorage.getItem("perms") ?? "[]") as string[],
+      };
+      localStorage.setItem("email", me.email);
+      localStorage.setItem("role", me.role);
+      localStorage.setItem("userId", String(me.id));
+      setUser(next);
+      return next;
+    } catch {
+      return null;
     }
   }, []);
+
+  useEffect(() => {
+    // Refresh id + fresh email/role from BE on mount; failure leaves the
+    // cached snapshot untouched.
+    if (localStorage.getItem("token")) {
+      void refreshSelf();
+    }
+  }, [refreshSelf]);
 
   const login = useCallback(async (email: string, password: string) => {
     try {
@@ -79,7 +118,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       localStorage.setItem("email", email);
       localStorage.setItem("perms", JSON.stringify(perms));
 
-      setUser({ email, role: data.role, permissions: perms });
+      setUser({ id: null, email, role: data.role, permissions: perms });
+
+      // Resolve self id (needed by admin-edit guards) after first login.
+      try {
+        const me = await getMe();
+        localStorage.setItem("userId", String(me.id));
+        localStorage.setItem("email", me.email);
+        setUser({ id: me.id, email: me.email, role: me.role, permissions: perms });
+      } catch {
+        /* tolerated — id will load on the next session bootstrap */
+      }
 
       return true;
     } catch {
@@ -92,6 +141,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem("role");
     localStorage.removeItem("email");
     localStorage.removeItem("perms");
+    localStorage.removeItem("userId");
     setUser(null);
   }, []);
 
@@ -101,8 +151,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 
   const value = useMemo(
-    () => ({ user, login, logout, has }),
-    [user, login, logout, has],
+    () => ({ user, login, logout, has, refreshSelf }),
+    [user, login, logout, has, refreshSelf],
   );
 
   return (

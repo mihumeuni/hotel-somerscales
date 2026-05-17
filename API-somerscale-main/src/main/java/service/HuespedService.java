@@ -39,6 +39,17 @@ public class HuespedService {
                 .orElseThrow(() -> new RuntimeException("Huésped no encontrado"));
     }
 
+    // Header search autocomplete. Empty/short queries return [] to avoid full
+    // table scans on key-up; the FE only fires this once the user typed 2+ chars.
+    public List<HuespedModel> search(String q, int limit) {
+        if (q == null || q.trim().length() < 2) return List.of();
+        int capped = Math.min(Math.max(limit, 1), 20);
+        return huespedRepository.searchByNombreCompleto(
+            q.trim(),
+            org.springframework.data.domain.PageRequest.of(0, capped)
+        );
+    }
+
     public HuespedModel createHuesped(HuespedModel huesped) {
 
         String hmac = HmacUtil.hmacSha256Hex(huesped.getNumeroDocumento());

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Modal } from "../components/ui";
 import { listRoles, type Role } from "../types/role";
@@ -57,9 +57,12 @@ const emptyDraft: CreateDraft = { nombre: "", email: "", telefono: "", role: "" 
 
 const Profiles = () => {
   const { has } = useAuth();
+  const navigate = useNavigate();
   const canInvite = has("user.invite");
   const canManage = has("user.manage");
   const allowed = canInvite || canManage;
+
+  const openEdit = (id: number) => navigate(`/admin/perfiles/${id}`);
 
   const [users, setUsers] = useState<UserSummary[]>([]);
   const [roles, setRoles] = useState<Role[]>([]);
@@ -283,30 +286,47 @@ const Profiles = () => {
                   </span>
                 </h3>
               </div>
-              <table className="w-full text-left text-sm">
+              <table className="w-full text-left text-sm table-fixed">
+                <colgroup>
+                  <col className="w-[28%]" />
+                  <col className="w-[30%]" />
+                  <col className="w-[18%]" />
+                  <col className="w-[12%]" />
+                  <col className="w-[12%]" />
+                </colgroup>
                 <tbody className="divide-y divide-slate-100">
                   {group.members.map((u) => (
                     <tr key={u.id} className="hover:bg-cream transition">
                       <td className="px-6 py-3">
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-3 min-w-0">
                           <span
                             className={`w-9 h-9 rounded-full ${color.bg} border ${color.border} flex items-center justify-center ${color.text} font-bold text-xs`}
                           >
                             {initialsOf(u.name, u.email)}
                           </span>
-                          <span className="font-semibold text-ink">
-                            {u.name ?? u.email}
-                          </span>
+                          {canManage ? (
+                            <button
+                              type="button"
+                              onClick={() => openEdit(u.id)}
+                              className="font-semibold text-ink hover:text-marine hover:underline text-left truncate min-w-0"
+                            >
+                              {u.name ?? u.email}
+                            </button>
+                          ) : (
+                            <span className="font-semibold text-ink truncate min-w-0">
+                              {u.name ?? u.email}
+                            </span>
+                          )}
                         </div>
                       </td>
-                      <td className="px-6 py-3 text-slate-500">{u.email}</td>
+                      <td className="px-6 py-3 text-slate-500 truncate">{u.email}</td>
                       <td className="px-6 py-3">
                         {canManage && (
                           <button
                             type="button"
                             onClick={() => handleReset(u)}
                             disabled={resettingId === u.id}
-                            className="text-[11px] uppercase tracking-wider text-marine hover:underline font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="text-[11px] uppercase tracking-wider text-marine hover:underline font-bold disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
                           >
                             {resettingId === u.id
                               ? "Enviando…"
@@ -324,12 +344,7 @@ const Profiles = () => {
                           <>
                             <button
                               type="button"
-                              onClick={() =>
-                                showToast({
-                                  kind: "ok",
-                                  text: "Editar perfil llega con task025.",
-                                })
-                              }
+                              onClick={() => openEdit(u.id)}
                               className="p-1 text-slate-400 hover:text-marine"
                               title="Editar"
                               aria-label={`Editar ${u.email}`}
@@ -405,9 +420,19 @@ const Profiles = () => {
                         {initialsOf(u.name, u.email)}
                       </span>
                       <div className="min-w-0 flex-1">
-                        <p className="font-semibold text-ink truncate">
-                          {u.name ?? u.email}
-                        </p>
+                        {canManage ? (
+                          <button
+                            type="button"
+                            onClick={() => openEdit(u.id)}
+                            className="font-semibold text-ink truncate text-left hover:text-marine hover:underline w-full"
+                          >
+                            {u.name ?? u.email}
+                          </button>
+                        ) : (
+                          <p className="font-semibold text-ink truncate">
+                            {u.name ?? u.email}
+                          </p>
+                        )}
                         <p className="text-xs text-slate-500 truncate">
                           {u.email}
                         </p>
