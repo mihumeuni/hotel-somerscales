@@ -58,4 +58,9 @@ public class FichaModel {
     @OrderBy("ordinal ASC")
     @Builder.Default
     private List<FichaReporteModel> reportes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "ficha", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OrderBy("position ASC")
+    @Builder.Default
+    private List<FichaParkingModel> parkingEntries = new ArrayList<>();
 }

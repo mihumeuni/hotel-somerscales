@@ -3,6 +3,7 @@ package controller;
 import dto.ActiveShiftDTO;
 import dto.ClaimShiftRequest;
 import dto.FichaDetailDTO;
+import dto.FichaParkingRequest;
 import dto.FichaSummaryDTO;
 import dto.FichaUpdateRequest;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -82,6 +84,24 @@ public class FichaController {
     @PreAuthorize("hasAuthority('sheet.write')")
     public FichaDetailDTO handoff(@PathVariable Long id) {
         return fichaService.handoff(currentUser(), id);
+    }
+
+    @PostMapping("/{id:\\d+}/parking")
+    @PreAuthorize("hasAuthority('sheet.write')")
+    public FichaDetailDTO addParking(
+        @PathVariable Long id,
+        @RequestBody FichaParkingRequest body
+    ) {
+        return fichaService.addParking(currentUser(), id, body.getRoom(), body.getLot());
+    }
+
+    @DeleteMapping("/{id:\\d+}/parking/{parkingId:\\d+}")
+    @PreAuthorize("hasAuthority('sheet.write')")
+    public FichaDetailDTO removeParking(
+        @PathVariable Long id,
+        @PathVariable Long parkingId
+    ) {
+        return fichaService.removeParking(currentUser(), id, parkingId);
     }
 
     private UsuarioModel currentUser() {

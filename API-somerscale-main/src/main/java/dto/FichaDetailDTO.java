@@ -25,4 +25,5 @@ public class FichaDetailDTO {
     private Instant updatedAt;
     private String notes;
     private List<FichaReporteDTO> reportes;
+    private List<FichaParkingDTO> parkingEntries;
 }

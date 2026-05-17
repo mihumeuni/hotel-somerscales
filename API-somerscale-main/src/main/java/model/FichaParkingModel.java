@@ -6,15 +6,18 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.Instant;
 
 @Entity
-@Table(name = "ficha_reportes")
+@Table(name = "ficha_parking")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class FichaReporteModel {
+public class FichaParkingModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,15 +27,16 @@ public class FichaReporteModel {
     @JoinColumn(name = "ficha_id", nullable = false)
     private FichaModel ficha;
 
-    @Column(name = "row_label", nullable = false, length = 64)
-    private String rowLabel;
+    @Column(nullable = false, length = 8)
+    private String room;
 
-    @Column(length = 32)
-    private String category;
-
-    @Column(columnDefinition = "TEXT")
-    private String value;
+    @Column(nullable = false, length = 16)
+    private String lot;
 
     @Column(nullable = false)
-    private Short ordinal;
+    private Short position;
+
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Instant createdAt;
 }
