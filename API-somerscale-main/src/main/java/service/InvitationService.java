@@ -112,9 +112,51 @@ public class InvitationService {
         inv.setCreatedAt(now);
         inv.setExpiresAt(expires);
         inv.setConsumedAt(null);
+        inv.setReset(false);
         invitationRepository.save(inv);
 
-        sendInvitationEmail(inv, rawToken);
+        sendInvitationEmail(inv, rawToken, false);
+        return email;
+    }
+
+    @Transactional
+    public String resetPasswordFor(Long userId) {
+        UsuarioModel user = usuarioRepository.findById(userId)
+            .orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "Usuario no encontrado"
+            ));
+        if (user.isDisabled()) {
+            throw new ResponseStatusException(
+                HttpStatus.CONFLICT, "El usuario esta deshabilitado"
+            );
+        }
+
+        String email = user.getEmail() != null ? user.getEmail() : user.getUsername();
+
+        // Reuse the invitations row keyed by email — schema enforces unique
+        // email, so an old invite for the same person becomes the carrier
+        // for the reset token. This keeps the table single-purpose without
+        // a parallel "password_resets" table.
+        Optional<InvitationModel> existing = invitationRepository.findByEmail(email);
+
+        String rawToken = generateRawToken();
+        String hash = sha256Hex(rawToken);
+        Instant now = Instant.now();
+        Instant expires = now.plus(ttlHours, ChronoUnit.HOURS);
+
+        InvitationModel inv = existing.orElseGet(InvitationModel::new);
+        inv.setEmail(email);
+        inv.setNombre(user.getNombre() != null ? user.getNombre() : email);
+        inv.setTelefono(user.getTelefono());
+        inv.setRole(user.getRole());
+        inv.setTokenHash(hash);
+        inv.setCreatedAt(now);
+        inv.setExpiresAt(expires);
+        inv.setConsumedAt(null);
+        inv.setReset(true);
+        invitationRepository.save(inv);
+
+        sendInvitationEmail(inv, rawToken, true);
         return email;
     }
 
@@ -136,35 +178,59 @@ public class InvitationService {
         if (inv.getExpiresAt().isBefore(Instant.now())) {
             throw new ResponseStatusException(HttpStatus.GONE, "La invitacion ha expirado");
         }
-        if (usuarioRepository.existsByEmail(inv.getEmail())
-                || usuarioRepository.existsByUsername(inv.getEmail())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Usuario ya existe");
-        }
 
-        UsuarioModel user = UsuarioModel.builder()
-            .username(inv.getEmail())
-            .password(passwordEncoder.encode(newPassword))
-            .role(inv.getRole())
-            .email(inv.getEmail())
-            .nombre(inv.getNombre())
-            .telefono(inv.getTelefono())
-            .build();
-        usuarioRepository.save(user);
+        Optional<UsuarioModel> existingUser = usuarioRepository.findByEmail(inv.getEmail());
+
+        if (inv.isReset()) {
+            // Reset path: user must still exist; only update password.
+            UsuarioModel user = existingUser
+                .or(() -> usuarioRepository.findByUsername(inv.getEmail()))
+                .orElseThrow(() -> new ResponseStatusException(
+                    HttpStatus.GONE, "El usuario ya no existe"
+                ));
+            user.setPassword(passwordEncoder.encode(newPassword));
+            usuarioRepository.save(user);
+        } else {
+            // Invite path: user must not exist yet.
+            if (existingUser.isPresent()
+                    || usuarioRepository.existsByUsername(inv.getEmail())) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "Usuario ya existe");
+            }
+            UsuarioModel user = UsuarioModel.builder()
+                .username(inv.getEmail())
+                .password(passwordEncoder.encode(newPassword))
+                .role(inv.getRole())
+                .email(inv.getEmail())
+                .nombre(inv.getNombre())
+                .telefono(inv.getTelefono())
+                .build();
+            usuarioRepository.save(user);
+        }
 
         inv.setConsumedAt(Instant.now());
         invitationRepository.save(inv);
     }
 
-    private void sendInvitationEmail(InvitationModel inv, String rawToken) {
-        String subject = "Invitación al panel de Somerscales";
+    private void sendInvitationEmail(InvitationModel inv, String rawToken, boolean reset) {
+        String subject = reset
+            ? "Restablecer contraseña — Somerscales"
+            : "Invitación al panel de Somerscales";
         String link = frontendBaseUrl + "/signup-finish?token=" + rawToken;
-        String body = "Hola " + inv.getNombre() + ",\n\n"
-            + "Has sido invitado/a a unirte al panel de Somerscales con el rol de "
-            + inv.getRole().getName() + ".\n"
-            + "Activa tu cuenta y elige una contraseña en el siguiente enlace\n"
-            + "(válido durante " + ttlHours + " horas):\n\n"
-            + link + "\n\n"
-            + "Si no esperabas esta invitación, ignora este mensaje.";
+        String body = reset
+            ? "Hola " + inv.getNombre() + ",\n\n"
+                + "Se ha solicitado restablecer la contraseña de tu cuenta en el panel de "
+                + "Somerscales. Elige una contraseña nueva en el siguiente enlace\n"
+                + "(válido durante " + ttlHours + " horas):\n\n"
+                + link + "\n\n"
+                + "Si tú no solicitaste el cambio, ignora este mensaje y tu contraseña "
+                + "actual seguirá siendo válida."
+            : "Hola " + inv.getNombre() + ",\n\n"
+                + "Has sido invitado/a a unirte al panel de Somerscales con el rol de "
+                + inv.getRole().getName() + ".\n"
+                + "Activa tu cuenta y elige una contraseña en el siguiente enlace\n"
+                + "(válido durante " + ttlHours + " horas):\n\n"
+                + link + "\n\n"
+                + "Si no esperabas esta invitación, ignora este mensaje.";
 
         // Send asynchronously on a fresh thread. HF Spaces' edge proxy kills
         // upstream requests at ~12s and returns an opaque 403 to the client,

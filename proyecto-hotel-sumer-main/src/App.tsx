@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/login";
 import Dashboard from "./pages/dashboard";
 import Calendario from "./pages/calendario";
-import CrearUser from "./pages/crearUser";
+import Profiles from "./pages/profiles";
 import CrearHuesped from "./pages/crearHuesped";
 import ConsultaHuesped from "./pages/consultaHuesped";
 import ModificarHuesped from "./pages/modificarHuesped";
@@ -27,17 +27,14 @@ function App() {
 
             <Route path="/calendario" element={<Calendario />} />
             <Route path="/admin/roles" element={<RolesPermissions />} />
-            <Route
-              path="/admin/perfiles"
-              element={<ComingSoon name="Perfiles" taskRef="task022" />}
-            />
+            <Route path="/admin/perfiles" element={<Profiles />} />
             <Route
               path="/fichas"
               element={<ComingSoon name="Fichas de turno" taskRef="task026" />}
             />
             <Route
               path="/me"
-              element={<ComingSoon name="Mi perfil" taskRef="task023" />}
+              element={<ComingSoon name="Mi perfil" taskRef="task025" />}
             />
             <Route
               path="/settings/global"
@@ -46,7 +43,6 @@ function App() {
               }
             />
 
-            <Route path="/crear-user" element={<CrearUser />} />
             <Route path="/crear-huesped" element={<CrearHuesped />} />
             <Route path="/consulta-huesped" element={<ConsultaHuesped />} />
             <Route path="/modificar-huesped" element={<ModificarHuesped />} />

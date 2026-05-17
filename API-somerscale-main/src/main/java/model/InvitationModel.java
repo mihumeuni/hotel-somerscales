@@ -46,4 +46,8 @@ public class InvitationModel {
 
     @Column(name = "consumed_at")
     private Instant consumedAt;
+
+    @Column(nullable = false)
+    @Builder.Default
+    private boolean reset = false;
 }

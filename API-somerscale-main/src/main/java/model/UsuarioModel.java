@@ -38,4 +38,8 @@ public class UsuarioModel {
 
     @Column(unique = true, length = 200)
     private String email;
+
+    @Column(nullable = false)
+    @Builder.Default
+    private boolean disabled = false;
 }
