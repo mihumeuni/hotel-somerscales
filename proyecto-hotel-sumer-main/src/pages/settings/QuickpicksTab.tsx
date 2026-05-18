@@ -3,6 +3,7 @@ import { Button, Card, EmptyState, Input, Skeleton } from "../../components/ui";
 import {
   createQuickpick,
   deleteQuickpick,
+  listQuickpickLabels,
   listQuickpicks,
   updateQuickpick,
   type FichaQuickpick,
@@ -24,6 +25,7 @@ const groupByRowLabel = (rows: FichaQuickpick[]): Record<string, FichaQuickpick[
 
 export const QuickpicksTab = () => {
   const [items, setItems] = useState<FichaQuickpick[] | null>(null);
+  const [labels, setLabels] = useState<string[] | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [open, setOpen] = useState<Set<string>>(new Set());
   const [editing, setEditing] = useState<{ id: number; value: string } | null>(null);
@@ -33,8 +35,12 @@ export const QuickpicksTab = () => {
 
   useEffect(() => {
     let active = true;
-    listQuickpicks()
-      .then((data) => active && setItems(data))
+    Promise.all([listQuickpicks(), listQuickpickLabels()])
+      .then(([data, lbls]) => {
+        if (!active) return;
+        setItems(data);
+        setLabels(lbls);
+      })
       .catch((e) => active && setLoadError(String(e?.message ?? e)));
     return () => { active = false; };
   }, []);
@@ -46,7 +52,18 @@ export const QuickpicksTab = () => {
   }, [toast]);
 
   const grouped = useMemo(() => (items ? groupByRowLabel(items) : {}), [items]);
-  const rowLabels = useMemo(() => Object.keys(grouped).sort(), [grouped]);
+  // Use the BE canonical label list as the source of truth for which
+  // rows to render. Fold in any extra labels found in `items` (e.g. a
+  // legacy row that was seeded before the canonical list shrank) so
+  // they remain editable. Order: canonical first (BE order), then any
+  // extras alphabetically.
+  const rowLabels = useMemo(() => {
+    const canonical = labels ?? [];
+    const fromItems = Object.keys(grouped);
+    const known = new Set(canonical);
+    const extras = fromItems.filter((l) => !known.has(l)).sort();
+    return [...canonical, ...extras];
+  }, [labels, grouped]);
 
   const refresh = async () => setItems(await listQuickpicks());
 
@@ -127,15 +144,15 @@ export const QuickpicksTab = () => {
         title="Quick-picks de fichas"
         description="Chips sugeridos que aparecen en el editor de fichas cuando el operador toca una fila."
       >
-        {items === null ? (
+        {items === null || labels === null ? (
           <Skeleton />
         ) : rowLabels.length === 0 ? (
-          <EmptyState title="Sin quick-picks" body="La migración inicial debió poblar esta tabla. Reinicia el backend." />
+          <EmptyState title="Sin filas configurables" body="El backend no devolvió filas quick-pickables." />
         ) : (
           <div className="space-y-2">
             {rowLabels.map((label) => {
               const isOpen = open.has(label);
-              const chips = grouped[label];
+              const chips = grouped[label] ?? [];
               return (
                 <details
                   key={label}

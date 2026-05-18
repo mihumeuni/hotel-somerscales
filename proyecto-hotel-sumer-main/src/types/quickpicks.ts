@@ -16,6 +16,9 @@ export type FichaQuickpickUpsertRequest = {
 export const listQuickpicks = () =>
   api.get<FichaQuickpick[]>("/api/sheet-quickpicks");
 
+export const listQuickpickLabels = () =>
+  api.get<string[]>("/api/sheet-quickpicks/labels");
+
 export const createQuickpick = (body: FichaQuickpickUpsertRequest) =>
   api.post<FichaQuickpick>("/api/sheet-quickpicks", body);
 

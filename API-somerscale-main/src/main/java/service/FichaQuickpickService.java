@@ -38,6 +38,10 @@ public class FichaQuickpickService {
                 .toList();
     }
 
+    public List<String> labels() {
+        return FichaService.QUICKPICKABLE_LABELS;
+    }
+
     @Transactional
     public FichaQuickpickDTO create(FichaQuickpickUpsertRequest req) {
         Short ordinal = nextOrdinal(req.getRowLabel());

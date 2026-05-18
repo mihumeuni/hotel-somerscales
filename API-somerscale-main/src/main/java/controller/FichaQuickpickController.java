@@ -23,6 +23,11 @@ public class FichaQuickpickController {
         return service.list();
     }
 
+    @GetMapping("/labels")
+    public List<String> labels() {
+        return service.labels();
+    }
+
     @PostMapping
     @PreAuthorize("hasAuthority('category.manage')")
     public ResponseEntity<FichaQuickpickDTO> create(@Valid @RequestBody FichaQuickpickUpsertRequest req) {

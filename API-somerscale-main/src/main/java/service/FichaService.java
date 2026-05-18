@@ -95,6 +95,34 @@ public class FichaService {
      * the FE to group rows visually and by future analytics queries to
      * aggregate without label matching.
      */
+    /**
+     * Subset of {@link #REPORTE_LABELS} that uses the standard text +
+     * quick-pick chip editor. Excludes "Estacionamiento" (special
+     * room/lot picker) and the five free-form text/amount rows (caja
+     * chica, ventas en efectivo, compras, correspondencia, pertenencias)
+     * where suggested chips don't apply. Exposed via
+     * GET /api/sheet-quickpicks/labels so the settings UI can render
+     * every quickpickable row — even ones with zero chips — letting
+     * operators re-seed a row they emptied out.
+     */
+    public static final List<String> QUICKPICKABLE_LABELS = List.of(
+        "Check in",
+        "Check out",
+        "Late check out",
+        "Early check in",
+        "Desayunos",
+        "Agua",
+        "Café",
+        "Secando",
+        "Lavando",
+        "Cama extra",
+        "Lavandería",
+        "Ventas",
+        "Mails",
+        "Requerimientos",
+        "Reclamos"
+    );
+
     public static final List<String> CATEGORIES = List.of(
         CAT_RECEPCION,       // Check in
         CAT_RECEPCION,       // Check out
