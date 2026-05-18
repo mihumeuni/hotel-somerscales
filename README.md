@@ -1,22 +1,42 @@
-# Somerscale Hotel Management
+# Somerscales Hotel Management
 
-A hotel guest and reservation management system consisting of a Spring Boot REST API backend and a React TypeScript admin frontend.
+Internal management platform for Somerscales Hotel — guest history, reservation calendar, expense tracking, and review-sentiment dashboards. Spring Boot REST API + React TypeScript SPA, deployed free-tier on Vercel + Hugging Face Spaces + Supabase.
+
+**Live:**
+- Frontend → <https://somerscales-fe.vercel.app>
+- Backend → <https://mikael1234345-somerscales-be.hf.space>
+- Health → <https://mikael1234345-somerscales-be.hf.space/actuator/health>
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Frontend | React 19, Vite 8, TypeScript, Tailwind CSS v4, Recharts 3, @tanstack/react-query 5, react-router-dom 7 |
+| Backend | Spring Boot 4.0.6, Java 17, Spring Security + JWT (jjwt 0.11.5), Flyway, Apache POI |
+| Database | PostgreSQL 17 (Supabase) |
+| AI | Google Gemini 2.5 Flash (multi-label sentiment) |
+| Reviews | Google Places API + TripAdvisor Content API |
+| Email | Gmail SMTP via App Password |
+| Hosting | Vercel (FE) + Hugging Face Spaces (BE Docker) + Supabase (DB) |
+| CI/CD | GitHub Actions |
 
 ## Project Structure
 
 ```
-├── API-somerscale-main/          # Spring Boot backend (Java 17, Maven)
-├── proyecto-hotel-sumer-main/    # React 19 frontend (Vite, TypeScript)
-├── tests/                        # Review-API fixture JSON (Google Places + TripAdvisor, EN + ES) used as offline fallback
-├── README.md                     # This file
+.
+├── API-somerscale-main/          Spring Boot backend (Java 17, Maven)
+├── proyecto-hotel-sumer-main/    React 19 frontend (Vite, TypeScript)
+├── tests/                        Offline JSON fixtures (Google Places + TripAdvisor reviews)
+├── README.md
 └── .gitignore
 ```
 
 ## Prerequisites
 
-- **Backend**: Java 17, Maven, PostgreSQL
-- **Frontend**: Node.js 20+, npm (Vite 8 requires Node 20.19+ or 22.12+)
-- **Database**: PostgreSQL (local or Supabase)
+- Java 17 (Eclipse Temurin recommended)
+- Maven 3.9+ (or use the bundled `./mvnw` wrapper)
+- Node.js 20.19+ or 22.12+
+- PostgreSQL 17 — local or [Supabase](https://supabase.com) free tier
 
 ## Quick Start
 
@@ -24,53 +44,51 @@ A hotel guest and reservation management system consisting of a Spring Boot REST
 
 ```bash
 cd API-somerscale-main
-
-# Copy environment template
-cp .env-example .env
-# Edit .env with:
-#   - Supabase credentials (SPRING_DATASOURCE_URL/USERNAME/PASSWORD — see Supabase dashboard)
-#   - JWT_SECRET (≥32 chars, e.g. `openssl rand -hex 32`)
-#   - APP_ENCRYPTION_KEY / APP_HMAC_KEY for guest-document AES-GCM (`openssl rand -base64 32`, run twice)
-#   - SMTP credentials (MAIL_HOST/PORT/USERNAME/PASSWORD/FROM — optional in dev; leave MAIL_PASSWORD blank to log emails to stdout instead of sending)
-#   - GEMINI_API_KEY for review sentiment classification (optional; falls back to no-op if blank)
-#   - GOOGLE_PLACES_API_KEY + TRIPADVISOR_API_KEY for review sync (optional; fixture data ships in repo as fallback)
-#   - SPRING_PROFILES_ACTIVE=dev (so invitation emails log instead of send when SMTP is blank)
-
-# Build and run (Flyway migrations V1-V8 apply on first boot)
-mvn clean install
-mvn spring-boot:run
+cp .env-example .env          # fill in DB, JWT, mail, encryption keys
+./mvnw spring-boot:run        # Flyway applies V1..V8 on first boot
 ```
 
-The API runs on `http://localhost:8080`
+API listens on `http://localhost:8080`.
 
 ### Frontend
 
 ```bash
 cd proyecto-hotel-sumer-main
-
-# Install dependencies
 npm install
-
-# Start development server
 npm run dev
 ```
 
-The frontend runs on `http://localhost:5173`
+SPA serves on `http://localhost:5173`.
 
-## Current Status
+### Seed credentials (dev only)
 
-**Backend** — 14 phases shipped on `development` (Supabase Postgres + Flyway V1–V8):
-- JWT auth + RBAC (`permissions` + `role_permissions` + `@PreAuthorize`).
-- Tokenized staff invitations (raw token never persisted).
-- AES-GCM encryption with HMAC sidecar on `huespedes.numero_documento`, verified live.
-- Cloudbeds Excel importer + Java Faker demo seeder (200 huéspedes + 500 reservas).
-- `additional_expenses` CRUD; guest history aggregate endpoint.
-- Google Places + TripAdvisor review sync (`@Scheduled` + idempotent fixture fallback).
-- Gemini 2.5 Flash sentiment + category classifier (rate-limited at runtime by free-tier quota; degrades gracefully).
-- Recharts dashboard endpoints: occupancy, top-guests, sentiment KPIs.
+| Username | Password | Role |
+|---|---|---|
+| `admin` | `admin123` | ADMIN |
+| `recep` | `recep123` | RECEPCIONISTA |
+| `asistente` | `asis123` | ASISTENTE |
 
-**Frontend** — feature pages for login, signup-finish, guest CRUD, expenses, dashboard, and admin user creation. Heritage-themed revamp planned next (locked design contract pending).
+Rotate before any non-dev deployment.
 
-**Pending (next two tasks):**
-1. **Staff invitation delivery channel** — Brevo signup blocked at corporate-email check; pivoting to WhatsApp `wa.me` click-to-chat OR Gmail SMTP App Password.
-2. **Public deployment** — Vercel (FE) + Render (BE Docker) + Supabase (prod) + GitHub Actions CI, plus branch protection on `release` / `main`.
+## Features
+
+- **Auth & RBAC** — JWT with `perms[]` claim; permission-table-driven `@PreAuthorize` gates; tokenized staff invitations (raw token never persisted).
+- **Encryption at rest** — AES-GCM-256 on `huespedes.numero_documento` with HMAC-SHA-256 sidecar for equality lookups.
+- **Guests & reservations** — CRUD, history aggregate, additional expenses, Cloudbeds Excel import, Datafaker seed (200 guests / 500 bookings).
+- **Reviews pipeline** — daily Google Places + TripAdvisor sync (idempotent, with offline fixtures); Gemini multi-label 5-bucket sentiment + category classification.
+- **Dashboard** — Recharts widgets: occupancy line, top-guests bar, multi-label sentiment doughnut with drill-in.
+- **Settings** — roles & permissions matrix, categories, sentiment taxonomy, sheets/quick-picks editor, per-user dark mode + avatar + password change.
+
+## Branch Model
+
+| Branch | Purpose |
+|---|---|
+| `development` | Active work; all commits land here first. |
+| `release` | QA / staging deploys. |
+| `main` | Production cuts. |
+
+Conventional Commits (`feat`, `fix`, `chore`, `docs`, `refactor`, `test`, `perf`, `build`, `ci`, `revert`).
+
+## License
+
+Private — DuocUC academic project.
