@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import repository.CategoryRepository;
 import repository.ReviewCategoryRepository;
 import repository.ReviewRepository;
@@ -160,7 +161,7 @@ public class GeminiClassifierService {
     // is exactly what we want — a per-review boundary means one bad row
     // never rolls back the rest of the batch.
     void classifyAndPersist(ReviewModel review) {
-        GeminiClassification c = geminiClient.classify(review.getRawText());
+        GeminiClassification c = geminiClient.classify(review.getRawText(), currentCategoryCodes());
 
         Sentiment sentiment = parseSentiment(c.sentiment());
         if (sentiment == null) {
@@ -200,6 +201,28 @@ public class GeminiClassifierService {
                 .confidence(clampConfidence(hit.confidence()))
                 .build();
         reviewCategoryRepository.save(rc);
+    }
+
+    /**
+     * task028: drops all review_categories rows + nulls every review's
+     * classifier output, then runs {@link #classifyOnce()} to re-tag every
+     * review against the current operator-managed categories. Intended for
+     * the "Guardar y reclasificar" button in /settings/global. Same daily-cap
+     * + throttle guardrails as the scheduled run.
+     */
+    @Transactional
+    public synchronized ClassifyResult reclassifyAll() {
+        reviewCategoryRepository.deleteAllRows();
+        reviewRepository.resetClassification();
+        entityManager.flush();
+        entityManager.clear();
+        return classifyOnce();
+    }
+
+    private List<String> currentCategoryCodes() {
+        return categoryRepository.findAll().stream()
+                .map(CategoryModel::getCode)
+                .toList();
     }
 
     private void throttle() {

@@ -6,6 +6,7 @@ import model.Sentiment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -26,6 +27,13 @@ public interface ReviewRepository extends JpaRepository<ReviewModel, Long> {
     Page<ReviewModel> findBySentimentIsNull(Pageable pageable);
 
     long countBySentimentIsNull();
+
+    // task028: null out classifier outputs so the next classifyOnce() picks
+    // every review back up. Used when categories change and a full
+    // reclassification is requested.
+    @Modifying
+    @Query("update ReviewModel r set r.sentiment = null, r.summary = null, r.keyPhrases = null")
+    void resetClassification();
 
     // Sentiment-bucket counts for dashboard tiles. NULL bucket included so the
     // unclassified-review backlog (sentiment IS NULL) reconciles with the total.

@@ -124,30 +124,13 @@ public class FichaService {
         "H1", "H2", "H3", "H4", "H5", "H6", "H7", "H8", "H9", "H10"
     );
 
-    /**
-     * Quick-pick chip values per row label. The FE shows these inside a
-     * 4-col chip grid modal when the operator taps a row; tapping a chip
-     * fills the value and saves.
-     */
-    private static final Map<String, List<String>> QUICKPICKS = new LinkedHashMap<>() {{
-        put("Check in", List.of("Sin novedad", "Pendiente documentación", "Pago al ingreso"));
-        put("Check out", List.of("Sin novedad", "Llave devuelta", "Cobro extra pendiente"));
-        put("Late check out", List.of("Sin solicitudes", "Hasta 14:00", "Hasta 16:00"));
-        put("Early check in", List.of("Sin solicitudes", "Pasajero esperó", "Habitación lista temprano"));
-        put("Desayunos", List.of("Sin novedad", "Stock OK", "Reponer pan", "Reponer fruta"));
-        put("Agua", List.of("Stock OK", "Reponer", "Sin stock"));
-        put("Café", List.of("Hay café fresco", "Reponer", "Solo descafeinado"));
-        put("Secando", List.of("Nada en curso", "1 ciclo", "Esperando recoger"));
-        put("Lavando", List.of("Nada en curso", "1 ciclo", "2 ciclos", "Carga completa"));
-        put("Cama extra", List.of("Sin solicitudes", "1 cama armada", "2 camas armadas"));
-        put("Lavandería", List.of("Sin pedidos", "Entrega pendiente", "Retiro pendiente"));
-        put("Ventas", List.of("Sin ventas", "Tarjeta", "Efectivo", "Transferencia"));
-        put("Mails", List.of("Sin novedad", "Respondidos al día", "Pendientes"));
-        put("Requerimientos", List.of("Sin requerimientos", "Mantenimiento", "Limpieza", "Recepción"));
-        put("Reclamos", List.of("Sin reclamos", "Ruido", "Limpieza", "Servicio"));
-    }};
+    // Quick-pick chip values are now operator-editable from /settings/global
+    // (task028). The seed in V17 backfills the original hardcoded map so
+    // behavior is unchanged on first deploy; FichaQuickpickService reads
+    // them from ficha_quickpicks at request time.
 
     private final FichaRepository fichaRepository;
+    private final FichaQuickpickService quickpickService;
 
     // ---------------------------------------------------------------------
     // Shift detection
@@ -207,7 +190,7 @@ public class FichaService {
     }
 
     public Map<String, List<String>> quickpicks() {
-        return QUICKPICKS;
+        return quickpickService.asMap();
     }
 
     // ---------------------------------------------------------------------

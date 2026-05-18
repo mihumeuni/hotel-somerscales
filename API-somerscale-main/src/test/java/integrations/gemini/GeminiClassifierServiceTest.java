@@ -27,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -78,14 +79,14 @@ class GeminiClassifierServiceTest {
         assertEquals("disabled", result.mode());
         assertEquals(0, result.processed());
         verify(repo, never()).findBySentimentIsNull(any(Pageable.class));
-        verify(client, never()).classify(anyString());
+        verify(client, never()).classify(anyString(), anyList());
     }
 
     @Test
     void classifyOnce_writesSentimentSummaryKeyPhrasesAndCategory() {
         GeminiClient client = mock(GeminiClient.class);
         when(client.isLiveMode()).thenReturn(true);
-        when(client.classify(anyString()))
+        when(client.classify(anyString(), anyList()))
                 .thenReturn(classification("POSITIVE", "cleanliness"));
 
         ReviewModel r1 = review(1L, "Hotel impecable, todo limpio.");
@@ -135,7 +136,7 @@ class GeminiClassifierServiceTest {
     void classifyOnce_skipsUnknownCategoryCodes() {
         GeminiClient client = mock(GeminiClient.class);
         when(client.isLiveMode()).thenReturn(true);
-        when(client.classify(anyString()))
+        when(client.classify(anyString(), anyList()))
                 .thenReturn(classification("NEUTRAL", "definitely-not-a-real-code"));
 
         ReviewRepository repo = mock(ReviewRepository.class);
@@ -160,7 +161,7 @@ class GeminiClassifierServiceTest {
     void classifyOnce_countsErrorsWhenGeminiThrows() {
         GeminiClient client = mock(GeminiClient.class);
         when(client.isLiveMode()).thenReturn(true);
-        when(client.classify(anyString()))
+        when(client.classify(anyString(), anyList()))
                 .thenThrow(new IllegalStateException("transport error"));
 
         ReviewRepository repo = mock(ReviewRepository.class);
@@ -188,7 +189,7 @@ class GeminiClassifierServiceTest {
     void classifyOnce_stopsAtDailyCap() {
         GeminiClient client = mock(GeminiClient.class);
         when(client.isLiveMode()).thenReturn(true);
-        when(client.classify(anyString()))
+        when(client.classify(anyString(), anyList()))
                 .thenReturn(classification("POSITIVE", "service"));
 
         // 5 reviews available; cap=2 must stop after 2 processed.
@@ -211,7 +212,7 @@ class GeminiClassifierServiceTest {
 
         assertEquals(2, result.processed(), "daily cap must stop the loop after N reviews");
         assertEquals(2, result.ok());
-        verify(client, times(2)).classify(anyString());
+        verify(client, times(2)).classify(anyString(), anyList());
     }
 
     @Test
@@ -219,7 +220,7 @@ class GeminiClassifierServiceTest {
         GeminiClient client = mock(GeminiClient.class);
         when(client.isLiveMode()).thenReturn(true);
         // Schema constrains sentiment, but defend the persistence side anyway.
-        when(client.classify(anyString())).thenReturn(
+        when(client.classify(anyString(), anyList())).thenReturn(
                 new GeminiClassification("MAYBE", "ok", List.of(), List.of("x")));
 
         ReviewRepository repo = mock(ReviewRepository.class);

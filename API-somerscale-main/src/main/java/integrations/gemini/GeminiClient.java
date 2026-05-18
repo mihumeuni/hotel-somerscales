@@ -52,16 +52,17 @@ public class GeminiClient {
     }
 
     /**
-     * Classifies a single review. Throws {@link IllegalStateException} when
-     * called without an API key — callers must gate on {@link #isLiveMode()}.
+     * Classifies a single review against the supplied category code list.
+     * Throws {@link IllegalStateException} when called without an API key —
+     * callers must gate on {@link #isLiveMode()}.
      */
-    public GeminiClassification classify(String rawText) {
+    public GeminiClassification classify(String rawText, List<String> categoryCodes) {
         if (client == null) {
             throw new IllegalStateException(
                     "GeminiClient called without GEMINI_API_KEY configured");
         }
 
-        String prompt = buildPrompt(rawText);
+        String prompt = buildPrompt(rawText, categoryCodes);
         GenerateContentConfig config = GenerateContentConfig.builder()
                 .responseMimeType("application/json")
                 .responseSchema(responseSchema)
@@ -84,17 +85,21 @@ public class GeminiClient {
         }
     }
 
-    private static String buildPrompt(String rawText) {
-        // Spanish system + the raw review verbatim. The responseSchema forces
-        // strict JSON shape — the prompt only guides content quality.
+    private static String buildPrompt(String rawText, List<String> categoryCodes) {
+        // Category list is now operator-managed (task028); injected dynamically
+        // so adding a category in /settings/global reaches the classifier
+        // without a code change. responseSchema stays open (no enum) so
+        // unknown codes deserialize cleanly and the service drops them.
+        String codes = String.join(", ", categoryCodes);
         return """
                Eres un analista de reseñas de hotel. Dada la reseña al final,
                clasifica el sentimiento (POSITIVE, NEUTRAL o NEGATIVE), escribe
                un resumen en español en una sola oración de máximo 30 palabras,
                etiqueta las categorías relevantes con un valor de confianza
                entre 0.0 y 1.0, y extrae entre 3 y 5 frases clave cortas en el
-               idioma original. Categorías válidas:
-               cleanliness, service, food, location, value, comfort, amenities, other.
+               idioma original. Categorías válidas (usa solo estos códigos):
+               """ + codes + """
+               .
                Reseña:
                """ + rawText;
     }
@@ -106,12 +111,7 @@ public class GeminiClient {
         Schema categoryHit = Schema.builder()
                 .type("OBJECT")
                 .properties(orderedMap(
-                        "code", Schema.builder()
-                                .type("STRING")
-                                .enum_(List.of("cleanliness", "service", "food",
-                                        "location", "value", "comfort",
-                                        "amenities", "other"))
-                                .build(),
+                        "code", Schema.builder().type("STRING").build(),
                         "confidence", Schema.builder().type("NUMBER").build()
                 ))
                 .required(List.of("code", "confidence"))
