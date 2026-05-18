@@ -12,6 +12,7 @@ import { LogoMark } from "./LogoMark";
 import { LogoWordmark } from "./LogoWordmark";
 import { MobileNavDrawer, type NavDestination } from "./MobileNavDrawer";
 import { searchGuests, type GuestSearchHit } from "../../types/user";
+import { UserAvatar } from "../UserAvatar";
 
 const HouseIcon = (
   <svg
@@ -392,9 +393,21 @@ export const AppShell = () => {
                 aria-haspopup="menu"
                 aria-expanded={avatarOpen}
                 aria-label="Mi cuenta"
-                className="flex w-9 h-9 rounded-full bg-gold/20 border border-gold/40 items-center justify-center text-marine font-bold text-sm hover:ring-2 hover:ring-marine/30 transition"
+                className="hover:ring-2 hover:ring-marine/30 transition rounded-full"
               >
-                {initialsFromEmail(user?.email)}
+                {user?.id ? (
+                  <UserAvatar
+                    userId={user.id}
+                    email={user.email}
+                    version={user.avatarVersion}
+                    className="w-9 h-9 rounded-full"
+                    fallbackClassName="bg-gold/20 border border-gold/40 text-marine font-bold text-sm"
+                  />
+                ) : (
+                  <span className="flex w-9 h-9 rounded-full bg-gold/20 border border-gold/40 items-center justify-center text-marine font-bold text-sm">
+                    {initialsFromEmail(user?.email)}
+                  </span>
+                )}
               </button>
               {avatarOpen && (
                 <div

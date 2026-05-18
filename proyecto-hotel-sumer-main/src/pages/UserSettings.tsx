@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { applyThemeAttribute, useAuth } from "../context/AuthContext";
 import {
   getMe,
   getUserById,
@@ -12,25 +12,32 @@ import {
   type UserSummary,
 } from "../types/user";
 import { listRoles, type Role } from "../types/role";
+import {
+  changePassword,
+  deleteAvatar,
+  updatePreferences,
+  type Theme,
+} from "../types/preferences";
 import { Button, Card } from "../components/ui";
-import { initialsOf } from "../components/dashboard/avatar";
-
-type Theme = "light" | "dark" | "system";
+import { AvatarUploader } from "../components/AvatarUploader";
+import { UserAvatar } from "../components/UserAvatar";
 
 const THEME_KEY = "theme";
 
-const applyTheme = (t: Theme) => {
-  const root = document.documentElement;
-  if (t === "system") {
-    root.removeAttribute("data-theme");
-  } else {
-    root.setAttribute("data-theme", t);
-  }
-};
-
 const readTheme = (): Theme => {
   const v = localStorage.getItem(THEME_KEY);
-  return v === "dark" || v === "system" ? v : "light";
+  return v === "dark" || v === "light" || v === "system" ? v : "system";
+};
+
+const passwordStrength = (pw: string): { score: 0 | 1 | 2 | 3 | 4; label: string } => {
+  if (!pw) return { score: 0, label: "—" };
+  let s = 0;
+  if (pw.length >= 10) s++;
+  if (/[a-z]/.test(pw) && /[A-Z]/.test(pw)) s++;
+  if (/\d/.test(pw)) s++;
+  if (/[^A-Za-z0-9]/.test(pw)) s++;
+  const labels = ["Muy débil", "Débil", "Aceptable", "Buena", "Fuerte"] as const;
+  return { score: s as 0 | 1 | 2 | 3 | 4, label: labels[s] };
 };
 
 const memberSince = (iso: string | null | undefined) => {
@@ -54,7 +61,7 @@ const CameraIcon = (
 const UserSettings = () => {
   const navigate = useNavigate();
   const { id: pathId } = useParams<{ id: string }>();
-  const { user, logout, has, refreshSelf } = useAuth();
+  const { user, logout, has, refreshSelf, bumpAvatarVersion } = useAuth();
 
   const adminEditTargetId = useMemo(() => {
     if (!pathId) return null;
@@ -82,8 +89,13 @@ const UserSettings = () => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [pwError, setPwError] = useState<string | null>(null);
+  const [pwSuccess, setPwSuccess] = useState<string | null>(null);
+  const [pwSaving, setPwSaving] = useState(false);
 
   const [theme, setTheme] = useState<Theme>(() => readTheme());
+  const [showUploader, setShowUploader] = useState(false);
+  const [avatarDeleting, setAvatarDeleting] = useState(false);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -136,16 +148,8 @@ const UserSettings = () => {
           email: email.trim(),
           phone: phone.trim() || null,
         };
-        if (currentPassword || newPassword || confirmPassword) {
-          req.currentPassword = currentPassword;
-          req.newPassword = newPassword;
-          req.confirmPassword = confirmPassword;
-        }
         const updated = await updateMe(req);
         setTarget(updated);
-        setCurrentPassword("");
-        setNewPassword("");
-        setConfirmPassword("");
         setSuccess("Cambios guardados");
         await refreshSelf();
       }
@@ -194,10 +198,72 @@ const UserSettings = () => {
     navigate("/");
   };
 
-  const handleThemeChange = (next: Theme) => {
+  const handleThemeChange = async (next: Theme) => {
+    // Optimistic apply — fall back to localStorage if the BE write fails.
     setTheme(next);
     localStorage.setItem(THEME_KEY, next);
-    applyTheme(next);
+    applyThemeAttribute(next);
+    try {
+      await updatePreferences({ theme: next });
+    } catch {
+      // BE write failed; local state still reflects the choice.
+    }
+  };
+
+  const handlePasswordSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setPwError(null);
+    setPwSuccess(null);
+    if (!newPassword || !currentPassword) {
+      setPwError("Completa la contraseña actual y la nueva");
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      setPwError("La confirmación no coincide");
+      return;
+    }
+    if (newPassword.length < 10) {
+      setPwError("La nueva contraseña debe tener al menos 10 caracteres");
+      return;
+    }
+    setPwSaving(true);
+    try {
+      await changePassword(currentPassword, newPassword);
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+      setPwSuccess("Contraseña actualizada");
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Error al cambiar la contraseña";
+      const code = msg.match(/HTTP (\d+)/)?.[1];
+      if (code === "429") setPwError("Demasiados intentos; espera una hora");
+      else if (code === "400") setPwError("La contraseña actual no coincide");
+      else setPwError(msg);
+    } finally {
+      setPwSaving(false);
+    }
+  };
+
+  const handleAvatarUploaded = async () => {
+    setShowUploader(false);
+    bumpAvatarVersion();
+    await refreshSelf();
+    setSuccess("Avatar actualizado");
+  };
+
+  const handleAvatarDelete = async () => {
+    if (!window.confirm("¿Eliminar tu foto de perfil?")) return;
+    setAvatarDeleting(true);
+    setError(null);
+    try {
+      await deleteAvatar();
+      bumpAvatarVersion();
+      setSuccess("Avatar eliminado");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Error al eliminar");
+    } finally {
+      setAvatarDeleting(false);
+    }
   };
 
   const memberDate = memberSince(target?.createdAt ?? null);
@@ -245,18 +311,25 @@ const UserSettings = () => {
       <section className="bg-surface border border-slate-200 rounded-xl shadow-sm p-6 sm:p-8">
         <div className="flex items-center gap-5 mb-8">
           <div className="relative">
-            <div className="w-20 h-20 rounded-full bg-gold/20 border-2 border-gold/40 flex items-center justify-center text-marine font-serif text-2xl shadow-sm">
-              {initialsOf(target.name ?? target.email)}
-            </div>
-            <button
-              type="button"
-              disabled
-              title="Disponible en próxima versión"
-              aria-label="Cambiar foto (disponible en próxima versión)"
-              className="absolute bottom-0 right-0 w-7 h-7 bg-marine/40 text-white rounded-full flex items-center justify-center shadow-md cursor-not-allowed"
-            >
-              {CameraIcon}
-            </button>
+            <UserAvatar
+              userId={target.id}
+              name={target.name}
+              email={target.email}
+              version={user?.avatarVersion ?? 0}
+              className="w-20 h-20 rounded-full"
+              fallbackClassName="bg-gold/20 border-2 border-gold/40 text-marine font-serif text-2xl"
+            />
+            {!isAdminEdit && (
+              <button
+                type="button"
+                onClick={() => setShowUploader(true)}
+                title="Cambiar foto"
+                aria-label="Cambiar foto"
+                className="absolute bottom-0 right-0 w-7 h-7 bg-marine text-white rounded-full flex items-center justify-center shadow-md hover:bg-marine-soft"
+              >
+                {CameraIcon}
+              </button>
+            )}
           </div>
           <div className="min-w-0">
             <p className="font-serif text-marine text-xl truncate">{target.name ?? "Sin nombre"}</p>
@@ -264,8 +337,30 @@ const UserSettings = () => {
             {memberDate && (
               <p className="text-[11px] text-slate-400 mt-1">Miembro desde {memberDate}</p>
             )}
+            {!isAdminEdit && (
+              <button
+                type="button"
+                onClick={handleAvatarDelete}
+                disabled={avatarDeleting}
+                className="mt-1 text-[11px] text-slate-500 hover:text-terracotta disabled:opacity-50"
+              >
+                {avatarDeleting ? "Eliminando…" : "Eliminar foto"}
+              </button>
+            )}
           </div>
         </div>
+
+        {showUploader && !isAdminEdit && (
+          <div className="mb-8 p-4 rounded-lg border border-slate-200 bg-cream/40">
+            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-3">
+              Nueva foto de perfil
+            </p>
+            <AvatarUploader
+              onUploaded={handleAvatarUploaded}
+              onCancel={() => setShowUploader(false)}
+            />
+          </div>
+        )}
 
         <form className="space-y-5" onSubmit={handleSave}>
           <div>
@@ -332,42 +427,7 @@ const UserSettings = () => {
                 </Button>
               </div>
             </>
-          ) : (
-            <fieldset className="border border-slate-200 rounded-lg p-4">
-              <legend className="text-[10px] font-bold text-slate-500 uppercase tracking-wider px-2">
-                Cambiar contraseña
-              </legend>
-              <div className="space-y-3 pt-2">
-                <input
-                  type="password"
-                  placeholder="Contraseña actual"
-                  value={currentPassword}
-                  onChange={(e) => setCurrentPassword(e.target.value)}
-                  className={inputClass}
-                  autoComplete="current-password"
-                />
-                <input
-                  type="password"
-                  placeholder="Nueva contraseña (mín. 8 caracteres)"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  className={inputClass}
-                  autoComplete="new-password"
-                />
-                <input
-                  type="password"
-                  placeholder="Confirmar nueva"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className={inputClass}
-                  autoComplete="new-password"
-                />
-              </div>
-              <p className="text-[11px] text-slate-400 mt-3">
-                Deja los tres campos en blanco para no cambiar la contraseña.
-              </p>
-            </fieldset>
-          )}
+          ) : null}
 
           <fieldset className="border border-slate-200 rounded-lg p-4">
             <legend className="text-[10px] font-bold text-slate-500 uppercase tracking-wider px-2">
@@ -428,6 +488,79 @@ const UserSettings = () => {
           </div>
         </form>
       </section>
+
+      {!isAdminEdit && (
+        <section className="bg-surface border border-slate-200 rounded-xl shadow-sm p-6 sm:p-8">
+          <h3 className="font-serif text-marine text-lg mb-4">Cambiar contraseña</h3>
+          <form className="space-y-4" onSubmit={handlePasswordSubmit}>
+            <div>
+              <label className={labelClass} htmlFor="pw-current">Contraseña actual</label>
+              <input
+                id="pw-current"
+                type="password"
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+                className={inputClass}
+                autoComplete="current-password"
+              />
+            </div>
+            <div>
+              <label className={labelClass} htmlFor="pw-new">Nueva contraseña</label>
+              <input
+                id="pw-new"
+                type="password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                className={inputClass}
+                autoComplete="new-password"
+              />
+              {newPassword && (
+                <div className="mt-2 flex items-center gap-2">
+                  <div className="flex-1 h-1.5 bg-slate-200 rounded overflow-hidden">
+                    <div
+                      className={
+                        passwordStrength(newPassword).score >= 3
+                          ? "h-full bg-emerald-500"
+                          : passwordStrength(newPassword).score === 2
+                            ? "h-full bg-gold"
+                            : "h-full bg-terracotta"
+                      }
+                      style={{ width: `${(passwordStrength(newPassword).score / 4) * 100}%` }}
+                    />
+                  </div>
+                  <span className="text-[11px] text-slate-500 w-20 text-right">
+                    {passwordStrength(newPassword).label}
+                  </span>
+                </div>
+              )}
+            </div>
+            <div>
+              <label className={labelClass} htmlFor="pw-confirm">Confirmar nueva</label>
+              <input
+                id="pw-confirm"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className={inputClass}
+                autoComplete="new-password"
+              />
+              {confirmPassword && confirmPassword !== newPassword && (
+                <p className="text-[11px] text-terracotta mt-1">No coincide con la nueva contraseña.</p>
+              )}
+            </div>
+            <p className="text-[11px] text-slate-400">
+              Mínimo 10 caracteres. Mezcla mayúsculas, minúsculas, números y símbolos.
+            </p>
+            {pwError && <p role="alert" className="text-sm text-terracotta">{pwError}</p>}
+            {pwSuccess && <p role="status" className="text-sm text-emerald-700">{pwSuccess}</p>}
+            <div className="pt-2 flex justify-end">
+              <Button type="submit" disabled={pwSaving}>
+                {pwSaving ? "Cambiando…" : "Cambiar contraseña"}
+              </Button>
+            </div>
+          </form>
+        </section>
+      )}
     </div>
   );
 };

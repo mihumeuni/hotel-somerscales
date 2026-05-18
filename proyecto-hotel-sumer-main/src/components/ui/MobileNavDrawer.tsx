@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { LogoMark } from "./LogoMark";
 import { cn } from "./cn";
+import { UserAvatar } from "../UserAvatar";
 
 export type NavDestination = {
   to: string;
@@ -120,9 +121,19 @@ export const MobileNavDrawer = ({
         </div>
 
         <div className="flex items-center gap-3 px-5 py-4 bg-cream/50">
-          <div className="w-11 h-11 rounded-full bg-gold/20 border border-gold/40 flex items-center justify-center text-marine font-serif text-base">
-            {initialsFromEmail(user?.email)}
-          </div>
+          {user?.id ? (
+            <UserAvatar
+              userId={user.id}
+              email={user.email}
+              version={user.avatarVersion}
+              className="w-11 h-11 rounded-full"
+              fallbackClassName="bg-gold/20 border border-gold/40 text-marine font-serif text-base"
+            />
+          ) : (
+            <div className="w-11 h-11 rounded-full bg-gold/20 border border-gold/40 flex items-center justify-center text-marine font-serif text-base">
+              {initialsFromEmail(user?.email)}
+            </div>
+          )}
           <div className="min-w-0">
             <p className="font-semibold text-ink truncate">
               {user?.email ?? "Invitado"}

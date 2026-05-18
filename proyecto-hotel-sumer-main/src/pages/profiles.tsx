@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Button, EmptyState, Modal, Skeleton } from "../components/ui";
+import { UserAvatar } from "../components/UserAvatar";
 import { listRoles, type Role } from "../types/role";
 import {
   deleteUser,
@@ -38,13 +39,6 @@ const DEFAULT_COLOR = {
   border: "border-slate-300",
 };
 const colorFor = (role: string) => ROLE_COLORS[role] ?? DEFAULT_COLOR;
-
-const initialsOf = (name: string | null, email: string) => {
-  const source = (name && name.trim()) || email.split("@")[0] || "?";
-  const parts = source.split(/[\s._-]+/).filter(Boolean);
-  if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
-  return source.slice(0, 2).toUpperCase();
-};
 
 type CreateDraft = {
   nombre: string;
@@ -336,11 +330,13 @@ const Profiles = () => {
                     <tr key={u.id} className="hover:bg-cream transition">
                       <td className="px-6 py-3">
                         <div className="flex items-center gap-3 min-w-0">
-                          <span
-                            className={`w-9 h-9 rounded-full ${color.bg} border ${color.border} flex items-center justify-center ${color.text} font-bold text-xs`}
-                          >
-                            {initialsOf(u.name, u.email)}
-                          </span>
+                          <UserAvatar
+                            userId={u.id}
+                            name={u.name}
+                            email={u.email}
+                            className="w-9 h-9 rounded-full"
+                            fallbackClassName={`${color.bg} border ${color.border} ${color.text} font-bold text-xs`}
+                          />
                           {canManage ? (
                             <button
                               type="button"
@@ -451,11 +447,13 @@ const Profiles = () => {
                     className="bg-surface border border-slate-200 rounded-xl p-4 shadow-sm"
                   >
                     <div className="flex items-center gap-3 mb-3">
-                      <span
-                        className={`w-10 h-10 rounded-full ${color.bg} border ${color.border} flex items-center justify-center ${color.text} font-bold`}
-                      >
-                        {initialsOf(u.name, u.email)}
-                      </span>
+                      <UserAvatar
+                        userId={u.id}
+                        name={u.name}
+                        email={u.email}
+                        className="w-10 h-10 rounded-full"
+                        fallbackClassName={`${color.bg} border ${color.border} ${color.text} font-bold`}
+                      />
                       <div className="min-w-0 flex-1">
                         {canManage ? (
                           <button

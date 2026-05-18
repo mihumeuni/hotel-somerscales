@@ -9,12 +9,14 @@ import {
 } from "react";
 import { loginUser, type Rol } from "../types/auth";
 import { getMe } from "../types/user";
+import { getPreferences, type Theme } from "../types/preferences";
 
 type User = {
   id: number | null;
   email: string;
   role: Rol;
   permissions: string[];
+  avatarVersion: number;
 };
 
 type AuthContextType = {
@@ -23,6 +25,30 @@ type AuthContextType = {
   logout: () => void;
   has: (perm: string) => boolean;
   refreshSelf: () => Promise<User | null>;
+  bumpAvatarVersion: () => void;
+};
+
+const THEME_STORAGE_KEY = "theme";
+
+// Applies a theme to <html data-theme=...>. "system" leaves the attribute off
+// and lets the CSS prefers-color-scheme rule decide (no-op without one set,
+// matching the existing light defaults in index.css).
+export const applyThemeAttribute = (theme: Theme) => {
+  const root = document.documentElement;
+  if (theme === "system") {
+    const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)").matches;
+    if (prefersDark) root.setAttribute("data-theme", "dark");
+    else root.removeAttribute("data-theme");
+  } else if (theme === "dark") {
+    root.setAttribute("data-theme", "dark");
+  } else {
+    root.removeAttribute("data-theme");
+  }
+};
+
+const readThemeFromStorage = (): Theme => {
+  const v = localStorage.getItem(THEME_STORAGE_KEY);
+  return v === "dark" || v === "light" || v === "system" ? v : "system";
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -70,6 +96,7 @@ const bootstrapUser = (): User | null => {
     email,
     role: role as Rol,
     permissions: perms,
+    avatarVersion: 0,
   };
 };
 
@@ -77,6 +104,39 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // Hydrate synchronously from localStorage so the first paint already has
   // the auth state — avoids a sync setState inside useEffect.
   const [user, setUser] = useState<User | null>(() => bootstrapUser());
+
+  const bumpAvatarVersion = useCallback(() => {
+    setUser((prev) => (prev ? { ...prev, avatarVersion: prev.avatarVersion + 1 } : prev));
+  }, []);
+
+  // Apply the localStorage theme synchronously at first paint so dark mode
+  // doesn't flash light during the initial render. The BE-stored theme
+  // overrides this once preferences load post-login.
+  useEffect(() => {
+    applyThemeAttribute(readThemeFromStorage());
+  }, []);
+
+  // System theme listener — switches the data-theme attr when the OS theme
+  // changes while the user has chosen "system".
+  useEffect(() => {
+    const mq = window.matchMedia?.("(prefers-color-scheme: dark)");
+    if (!mq) return;
+    const handler = () => {
+      if (readThemeFromStorage() === "system") applyThemeAttribute("system");
+    };
+    mq.addEventListener?.("change", handler);
+    return () => mq.removeEventListener?.("change", handler);
+  }, []);
+
+  const loadPreferences = useCallback(async () => {
+    try {
+      const prefs = await getPreferences();
+      localStorage.setItem(THEME_STORAGE_KEY, prefs.theme);
+      applyThemeAttribute(prefs.theme);
+    } catch {
+      /* tolerated — keep local theme until next refresh */
+    }
+  }, []);
 
   const refreshSelf = useCallback(async (): Promise<User | null> => {
     try {
@@ -86,6 +146,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         email: me.email,
         role: me.role,
         permissions: JSON.parse(localStorage.getItem("perms") ?? "[]") as string[],
+        avatarVersion: 0,
       };
       localStorage.setItem("email", me.email);
       localStorage.setItem("role", me.role);
@@ -102,10 +163,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // cached snapshot untouched.
     if (localStorage.getItem("token")) {
       void refreshSelf();
+      void loadPreferences();
     }
-  }, [refreshSelf]);
+  }, [refreshSelf, loadPreferences]);
 
-  const login = useCallback(async (email: string, password: string) => {
+  const login = useCallback(async (email: string, password: string): Promise<boolean> => {
     try {
       const data = await loginUser(email, password);
 
@@ -118,23 +180,26 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       localStorage.setItem("email", email);
       localStorage.setItem("perms", JSON.stringify(perms));
 
-      setUser({ id: null, email, role: data.role, permissions: perms });
+      setUser({ id: null, email, role: data.role, permissions: perms, avatarVersion: 0 });
 
       // Resolve self id (needed by admin-edit guards) after first login.
       try {
         const me = await getMe();
         localStorage.setItem("userId", String(me.id));
         localStorage.setItem("email", me.email);
-        setUser({ id: me.id, email: me.email, role: me.role, permissions: perms });
+        setUser({ id: me.id, email: me.email, role: me.role, permissions: perms, avatarVersion: 0 });
       } catch {
         /* tolerated — id will load on the next session bootstrap */
       }
+
+      // Load BE-stored theme; fire-and-forget so login doesn't block on it.
+      void loadPreferences();
 
       return true;
     } catch {
       return false;
     }
-  }, []);
+  }, [loadPreferences]);
 
   const logout = useCallback(() => {
     localStorage.removeItem("token");
@@ -165,8 +230,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 
   const value = useMemo(
-    () => ({ user, login, logout, has, refreshSelf }),
-    [user, login, logout, has, refreshSelf],
+    () => ({ user, login, logout, has, refreshSelf, bumpAvatarVersion }),
+    [user, login, logout, has, refreshSelf, bumpAvatarVersion],
   );
 
   return (
