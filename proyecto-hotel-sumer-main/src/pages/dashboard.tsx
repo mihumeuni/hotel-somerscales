@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PageHeader } from "../components/ui";
 import { api } from "../lib/apiClient";
+import { lastSuccessfulSync, type SyncRun } from "../types/cloudbedsSync";
 import {
   AvailabilityTile,
   CategoryChips,
@@ -46,6 +47,7 @@ const Dashboard = () => {
   const [categories, setCategories] = useState<CategoryCountDTO[]>([]);
   const [normalized, setNormalized] = useState<NormalizedReviewDTO[]>([]);
   const [reservas, setReservas] = useState<ReservaCalendarDTO[]>([]);
+  const [lastSync, setLastSync] = useState<SyncRun | null>(null);
 
   const [loading, setLoading] = useState({
     availability: true,
@@ -111,10 +113,18 @@ const Dashboard = () => {
     }
 
     load();
+    lastSuccessfulSync().then((run) => !cancelled && setLastSync(run));
     return () => {
       cancelled = true;
     };
   }, []);
+
+  const lastSyncLabel = lastSync
+    ? new Date(lastSync.startedAt).toLocaleString("es-CL", {
+        day: "2-digit", month: "2-digit", year: "numeric",
+        hour: "2-digit", minute: "2-digit",
+      })
+    : null;
 
   const reviewCount = sentiment
     ? Object.values(sentiment.counts).reduce((a, b) => a + b, 0)
@@ -197,6 +207,11 @@ const Dashboard = () => {
           loading={loading.reservas}
           onSeeAll={() => navigate("/calendario")}
         />
+        {lastSyncLabel && (
+          <p className="text-xs text-slate-500 text-right -mt-2">
+            Datos al {lastSyncLabel} · sincronización Cloudbeds
+          </p>
+        )}
       </section>
     </div>
   );
