@@ -8,12 +8,15 @@ export { NormalizedComments } from "./NormalizedComments";
 export { RoomCalendarGrid } from "./RoomCalendarGrid";
 export { EmptyState } from "./EmptyState";
 export { SkeletonRow } from "./SkeletonRow";
+export { SentimentChip } from "./SentimentChip";
+export { sentimentPalette } from "./sentimentPalette";
 export type {
   AvailabilityDTO,
   AvailabilityWindow,
   TopGuestDTO,
   GuestStripDTO,
   SentimentSummaryDTO,
+  SentimentBucketDTO,
   CategoryCountDTO,
   NormalizedReviewDTO,
   ReservaCalendarDTO,

@@ -12,6 +12,7 @@ import SheetsList from "./pages/sheets/SheetsList";
 import SheetEdit from "./pages/sheets/SheetEdit";
 import SheetSummary from "./pages/sheets/SheetSummary";
 import GlobalSettings from "./pages/settings/GlobalSettings";
+import ReviewsByLabel from "./pages/ReviewsByLabel";
 import ProtectedRoute from "./routes/Protected-route";
 import { AppShell } from "./components/ui";
 
@@ -35,6 +36,7 @@ function App() {
             <Route path="/fichas/:id/resumen" element={<SheetSummary />} />
             <Route path="/me" element={<UserSettings />} />
             <Route path="/settings/global" element={<GlobalSettings />} />
+            <Route path="/reviews" element={<ReviewsByLabel />} />
 
             <Route
               path="/reservas/:reservaId/gastos"

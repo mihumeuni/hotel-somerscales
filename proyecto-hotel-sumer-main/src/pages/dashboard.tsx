@@ -126,12 +126,15 @@ const Dashboard = () => {
       })
     : null;
 
-  const reviewCount = sentiment
-    ? Object.values(sentiment.counts).reduce((a, b) => a + b, 0)
-    : 0;
-  const negativeCount = sentiment?.counts?.NEGATIVE ?? 0;
-  const positiveCount = sentiment?.counts?.POSITIVE ?? 0;
-  const neutralCount = sentiment?.counts?.NEUTRAL ?? 0;
+  // task031: totalReviews is the distinct labelled count (multi-label means
+  // sum of bucket counts ≥ total). Surface a few headline buckets for the KPI
+  // tile by code so a renamed label still appears under the right number.
+  const reviewCount = sentiment?.totalReviews ?? 0;
+  const bucketCount = (code: string) =>
+    sentiment?.buckets.find((b) => b.code === code)?.count ?? 0;
+  const negativeCount = bucketCount("negative");
+  const positiveCount = bucketCount("positive");
+  const complaintCount = bucketCount("complaint");
 
   return (
     <div className="flex flex-col gap-6">
@@ -160,7 +163,7 @@ const Dashboard = () => {
                 {" · "}
                 <span>{positiveCount} positivas</span>
                 {" · "}
-                <span>{neutralCount} neutras</span>
+                <span>{complaintCount} reclamos</span>
               </p>
             </>
           )}

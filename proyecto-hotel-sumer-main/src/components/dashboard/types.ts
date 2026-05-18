@@ -30,16 +30,21 @@ export type GuestStripDTO = {
   partySize: number;
 };
 
-export type SentimentBucket = {
-  key: string;
-  label: string;
+// task031: BE-driven sentiment buckets — code/labelEs/emoji come straight
+// from the sentiment_labels table so renaming a label in /settings/global
+// updates the dashboard without a FE change.
+export type SentimentBucketDTO = {
+  code: string;
+  labelEs: string;
   emoji: string;
-  className: string; // tailwind bg-* for the bar fill
+  count: number;
 };
 
 export type SentimentSummaryDTO = {
-  counts: Record<string, number>;
-  byCategory: Array<{ code: string; positive: number; neutral: number; negative: number }>;
+  buckets: SentimentBucketDTO[];
+  totalReviews: number;
+  multiLabel: boolean;
+  byCategory: Array<{ code: string; buckets: Record<string, number> }>;
 };
 
 export type CategoryCountDTO = {
@@ -49,9 +54,12 @@ export type CategoryCountDTO = {
   count: number;
 };
 
+// task031: a cluster can carry mixed sentiment chips when the underlying
+// reviews disagree; `labels` is the deduped union of every label_code
+// applied to any review in the cluster.
 export type NormalizedReviewDTO = {
   summary: string;
-  sentiment: string | null;
+  labels: string[];
   count: number;
 };
 
