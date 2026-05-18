@@ -7,17 +7,19 @@ import dto.GuestStripDTO;
 import dto.NormalizedReviewDTO;
 import dto.OccupancyPointDTO;
 import dto.SentimentSummaryDTO;
+import dto.SentimentSummaryDTO.Bucket;
 import dto.SentimentSummaryDTO.CategoryBreakdown;
 import dto.TopGuestDTO;
 import lombok.RequiredArgsConstructor;
 import model.HotelConfigModel;
-import model.Sentiment;
+import model.SentimentLabelModel;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import repository.HotelConfigRepository;
 import repository.HuespedRepository;
 import repository.ReservaRepository;
 import repository.ReviewRepository;
+import repository.SentimentLabelRepository;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -44,6 +46,7 @@ public class DashboardService {
     private final HuespedRepository huespedRepository;
     private final ReviewRepository reviewRepository;
     private final HotelConfigRepository hotelConfigRepository;
+    private final SentimentLabelRepository sentimentLabelRepository;
 
     public List<OccupancyPointDTO> occupancy(LocalDate from, LocalDate to) {
         LocalDateTime fromTs = from.atStartOfDay();
@@ -83,32 +86,51 @@ public class DashboardService {
         LocalDateTime fromTs = from.atStartOfDay();
         LocalDateTime toTs = to.atTime(LocalTime.MAX);
 
-        // Stable iteration order — pie slices render in the same order across reloads.
+        // Stable taxonomy order: buckets follow sentiment_labels.ordinal so
+        // the dashboard widget renders rows in the operator-defined sequence.
+        List<SentimentLabelModel> taxonomy = sentimentLabelRepository.findAllByOrderByOrdinalAsc();
         Map<String, Long> counts = new LinkedHashMap<>();
-        counts.put("POSITIVE", 0L);
-        counts.put("NEUTRAL", 0L);
-        counts.put("NEGATIVE", 0L);
-        for (Object[] row : reviewRepository.countBySentimentBetween(fromTs, toTs)) {
-            Sentiment s = (Sentiment) row[0];
+        for (SentimentLabelModel label : taxonomy) {
+            counts.put(label.getCode(), 0L);
+        }
+        for (Object[] row : reviewRepository.countByLabelBetween(fromTs, toTs)) {
+            String code = (String) row[0];
             long n = ((Number) row[1]).longValue();
-            if (s != null) {
-                counts.put(s.name(), n);
-            }
+            // Only surface codes that still exist in the taxonomy — operator
+            // may have deleted a label between classifier runs.
+            if (counts.containsKey(code)) counts.put(code, n);
         }
 
-        List<CategoryBreakdown> byCategory = new ArrayList<>();
-        for (Object[] row : reviewRepository.sentimentByCategory(fromTs, toTs)) {
-            byCategory.add(CategoryBreakdown.builder()
-                    .code((String) row[0])
-                    .positive(((Number) row[1]).longValue())
-                    .neutral(((Number) row[2]).longValue())
-                    .negative(((Number) row[3]).longValue())
+        List<Bucket> buckets = new ArrayList<>(taxonomy.size());
+        for (SentimentLabelModel label : taxonomy) {
+            buckets.add(Bucket.builder()
+                    .code(label.getCode())
+                    .labelEs(label.getLabelEs())
+                    .emoji(label.getEmoji())
+                    .count(counts.getOrDefault(label.getCode(), 0L))
                     .build());
         }
 
+        // Per-category × per-label pivot. The native query returns one row per
+        // (category, label) pair; we collapse that into a Map keyed by code so
+        // adding a new label later doesn't require a DTO change.
+        Map<String, CategoryBreakdown> byCategory = new LinkedHashMap<>();
+        for (Object[] row : reviewRepository.sentimentByCategory(fromTs, toTs)) {
+            String catCode = (String) row[0];
+            String labelCode = (String) row[1];
+            long cnt = ((Number) row[2]).longValue();
+            CategoryBreakdown cb = byCategory.computeIfAbsent(catCode,
+                    k -> CategoryBreakdown.builder().code(k).buckets(new LinkedHashMap<>()).build());
+            cb.getBuckets().merge(labelCode, cnt, Long::sum);
+        }
+
+        long totalReviews = reviewRepository.countLabeledBetween(fromTs, toTs);
+
         return SentimentSummaryDTO.builder()
-                .counts(counts)
-                .byCategory(byCategory)
+                .buckets(buckets)
+                .totalReviews(totalReviews)
+                .multiLabel(true)
+                .byCategory(new ArrayList<>(byCategory.values()))
                 .build();
     }
 
@@ -228,9 +250,19 @@ public class DashboardService {
         for (Object[] row : rows) {
             out.add(NormalizedReviewDTO.builder()
                     .summary((String) row[0])
-                    .sentiment((String) row[1])
+                    .labels(splitLabels((String) row[1]))
                     .count(((Number) row[2]).longValue())
                     .build());
+        }
+        return out;
+    }
+
+    private static List<String> splitLabels(String agg) {
+        if (agg == null || agg.isBlank()) return List.of();
+        List<String> out = new ArrayList<>();
+        for (String p : agg.split(",")) {
+            String t = p == null ? null : p.trim();
+            if (t != null && !t.isEmpty() && !out.contains(t)) out.add(t);
         }
         return out;
     }

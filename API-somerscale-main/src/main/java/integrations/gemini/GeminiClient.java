@@ -33,7 +33,6 @@ public class GeminiClient {
     private final String model;
     private final ObjectMapper objectMapper;
     private final Client client;
-    private final Schema responseSchema;
 
     public GeminiClient(
             @Value("${integrations.gemini.api-key:}") String apiKey,
@@ -44,7 +43,6 @@ public class GeminiClient {
         this.client = this.apiKey.isBlank()
                 ? null
                 : Client.builder().apiKey(this.apiKey).build();
-        this.responseSchema = buildResponseSchema();
     }
 
     public boolean isLiveMode() {
@@ -52,20 +50,30 @@ public class GeminiClient {
     }
 
     /**
-     * Classifies a single review against the supplied category code list.
-     * Throws {@link IllegalStateException} when called without an API key —
-     * callers must gate on {@link #isLiveMode()}.
+     * Classifies a single review against the supplied category + sentiment
+     * label code lists. task031: {@code sentimentCodes} is the operator-
+     * managed taxonomy from {@code sentiment_labels} — Gemini emits any
+     * subset as an array. Throws {@link IllegalStateException} when called
+     * without an API key — callers must gate on {@link #isLiveMode()}.
+     * <p>
+     * Returns the raw JSON Gemini emitted in {@link Result#rawJson} so the
+     * service can persist it to {@code reviews.classification_raw} for audit.
      */
-    public GeminiClassification classify(String rawText, List<String> categoryCodes) {
+    public Result classify(String rawText,
+                           List<String> categoryCodes,
+                           List<String> sentimentCodes) {
         if (client == null) {
             throw new IllegalStateException(
                     "GeminiClient called without GEMINI_API_KEY configured");
         }
 
-        String prompt = buildPrompt(rawText, categoryCodes);
+        String prompt = buildPrompt(rawText, categoryCodes, sentimentCodes);
+        // Schema is built per-call so the labels enum reflects the operator's
+        // current sentiment taxonomy without a process restart.
+        Schema schema = buildResponseSchema(sentimentCodes);
         GenerateContentConfig config = GenerateContentConfig.builder()
                 .responseMimeType("application/json")
-                .responseSchema(responseSchema)
+                .responseSchema(schema)
                 .candidateCount(1)
                 .build();
 
@@ -77,7 +85,8 @@ public class GeminiClient {
         }
 
         try {
-            return objectMapper.readValue(json, GeminiClassification.class);
+            GeminiClassification parsed = objectMapper.readValue(json, GeminiClassification.class);
+            return new Result(parsed, json);
         } catch (Exception e) {
             log.warn("[GeminiClient] JSON parse failed: payload={} err={}",
                     json, e.getMessage());
@@ -85,29 +94,38 @@ public class GeminiClient {
         }
     }
 
-    private static String buildPrompt(String rawText, List<String> categoryCodes) {
-        // Category list is now operator-managed (task028); injected dynamically
-        // so adding a category in /settings/global reaches the classifier
-        // without a code change. responseSchema stays open (no enum) so
-        // unknown codes deserialize cleanly and the service drops them.
-        String codes = String.join(", ", categoryCodes);
+    public record Result(GeminiClassification classification, String rawJson) {}
+
+    private static String buildPrompt(String rawText,
+                                      List<String> categoryCodes,
+                                      List<String> sentimentCodes) {
+        // Category + sentiment lists are operator-managed (task028 + task031);
+        // injected dynamically so editing the taxonomy in /settings/global
+        // reaches the classifier without a code change. responseSchema enums
+        // mirror these lists so unknown codes can't be returned at all.
+        String catList = String.join(", ", categoryCodes);
+        String sentList = String.join(", ", sentimentCodes);
         return """
                Eres un analista de reseñas de hotel. Dada la reseña al final,
-               clasifica el sentimiento (POSITIVE, NEUTRAL o NEGATIVE), escribe
-               un resumen en español en una sola oración de máximo 30 palabras,
-               etiqueta las categorías relevantes con un valor de confianza
+               etiqueta TODOS los sentimientos aplicables (puede ser más de uno)
+               usando exclusivamente estos códigos: """ + sentList + """
+               .
+               Por ejemplo, una reseña que elogia el desayuno pero se queja del
+               ruido debería recibir ["positive","complaint"]. No incluyas
+               códigos que no apliquen.
+               Escribe un resumen en español en una sola oración de máximo 30
+               palabras que capture todos los aspectos detectados.
+               Etiqueta las categorías relevantes con un valor de confianza
                entre 0.0 y 1.0, y extrae entre 3 y 5 frases clave cortas en el
-               idioma original. Categorías válidas (usa solo estos códigos):
-               """ + codes + """
+               idioma original.
+               Categorías válidas (usa solo estos códigos): """ + catList + """
                .
                Reseña:
                """ + rawText;
     }
 
-    private static Schema buildResponseSchema() {
+    private static Schema buildResponseSchema(List<String> sentimentCodes) {
         // Gemini structured-output schema using the typed SDK builder.
-        // Type names accept both enum (Type.Known.OBJECT) and string ("OBJECT")
-        // — strings keep the JSON-equivalent shape obvious at the call site.
         Schema categoryHit = Schema.builder()
                 .type("OBJECT")
                 .properties(orderedMap(
@@ -117,12 +135,16 @@ public class GeminiClient {
                 .required(List.of("code", "confidence"))
                 .build();
 
+        Schema labelString = sentimentCodes == null || sentimentCodes.isEmpty()
+                ? Schema.builder().type("STRING").build()
+                : Schema.builder().type("STRING").enum_(sentimentCodes).build();
+
         return Schema.builder()
                 .type("OBJECT")
                 .properties(orderedMap(
-                        "sentiment", Schema.builder()
-                                .type("STRING")
-                                .enum_(List.of("POSITIVE", "NEUTRAL", "NEGATIVE"))
+                        "labels", Schema.builder()
+                                .type("ARRAY")
+                                .items(labelString)
                                 .build(),
                         "summary", Schema.builder().type("STRING").build(),
                         "categories", Schema.builder()
@@ -134,7 +156,7 @@ public class GeminiClient {
                                 .items(Schema.builder().type("STRING").build())
                                 .build()
                 ))
-                .required(List.of("sentiment", "summary", "categories", "keyPhrases"))
+                .required(List.of("labels", "summary", "categories", "keyPhrases"))
                 .build();
     }
 

@@ -3,6 +3,7 @@ package desarrollo.proyecto.somerscale.controller;
 import controller.DashboardController;
 import dto.OccupancyPointDTO;
 import dto.SentimentSummaryDTO;
+import dto.SentimentSummaryDTO.Bucket;
 import dto.SentimentSummaryDTO.CategoryBreakdown;
 import dto.TopGuestDTO;
 import org.junit.jupiter.api.BeforeEach;
@@ -90,19 +91,23 @@ public class DashboardControllerTest {
     }
 
     @Test
-    void sentiment_returnsCountsAndByCategory() throws Exception {
-        Map<String, Long> counts = new LinkedHashMap<>();
-        counts.put("POSITIVE", 32L);
-        counts.put("NEUTRAL", 8L);
-        counts.put("NEGATIVE", 5L);
+    void sentiment_returnsBucketsAndByCategory() throws Exception {
+        Map<String, Long> catBuckets = new LinkedHashMap<>();
+        catBuckets.put("positive", 10L);
+        catBuckets.put("complaint", 2L);
+
         when(dashboardService.sentiment(any(LocalDate.class), any(LocalDate.class)))
                 .thenReturn(SentimentSummaryDTO.builder()
-                        .counts(counts)
+                        .buckets(List.of(
+                                Bucket.builder().code("positive").labelEs("Positivo").emoji("😊").count(32L).build(),
+                                Bucket.builder().code("neutral").labelEs("Neutral").emoji("😐").count(8L).build(),
+                                Bucket.builder().code("negative").labelEs("Negativo").emoji("😞").count(5L).build()
+                        ))
+                        .totalReviews(40L)
+                        .multiLabel(true)
                         .byCategory(List.of(CategoryBreakdown.builder()
                                 .code("cleanliness")
-                                .positive(10L)
-                                .neutral(1L)
-                                .negative(2L)
+                                .buckets(catBuckets)
                                 .build()))
                         .build());
 
@@ -110,9 +115,13 @@ public class DashboardControllerTest {
                         .param("from", "2025-05-01")
                         .param("to", "2026-05-01"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.counts.POSITIVE").value(32))
-                .andExpect(jsonPath("$.counts.NEUTRAL").value(8))
+                .andExpect(jsonPath("$.totalReviews").value(40))
+                .andExpect(jsonPath("$.multiLabel").value(true))
+                .andExpect(jsonPath("$.buckets[0].code").value("positive"))
+                .andExpect(jsonPath("$.buckets[0].count").value(32))
+                .andExpect(jsonPath("$.buckets[1].code").value("neutral"))
                 .andExpect(jsonPath("$.byCategory[0].code").value("cleanliness"))
-                .andExpect(jsonPath("$.byCategory[0].positive").value(10));
+                .andExpect(jsonPath("$.byCategory[0].buckets.positive").value(10))
+                .andExpect(jsonPath("$.byCategory[0].buckets.complaint").value(2));
     }
 }

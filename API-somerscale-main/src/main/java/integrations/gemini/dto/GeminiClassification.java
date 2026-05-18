@@ -7,11 +7,16 @@ import java.util.List;
 
 /**
  * Strict JSON shape Gemini returns when called with the responseSchema in
- * {@code integrations.gemini.GeminiClient}. Maps to {@code model.Sentiment}
- * and to the seeded {@code categories.code} catalog.
+ * {@link integrations.gemini.GeminiClient}. task031: {@code labels} is the
+ * multi-label upgrade — Gemini may emit any subset of the codes in
+ * {@code sentiment_labels} (positive, negative, neutral, improvement,
+ * complaint) and the classifier service drops any unknown codes. The legacy
+ * {@code sentiment} field is kept optional so old fixture JSON keeps
+ * deserializing during the rollout; it is ignored when {@code labels} is set.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record GeminiClassification(
+        List<String> labels,
         String sentiment,
         String summary,
         List<CategoryHit> categories,

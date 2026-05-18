@@ -6,20 +6,27 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
+/**
+ * task031 shape: one bucket per row in {@code sentiment_labels}, plus the
+ * total distinct labelled reviews (since multi-label means sum(buckets) ≥
+ * totalReviews). {@code multiLabel} flags FE to render the "una reseña puede
+ * contar en varias etiquetas" tooltip.
+ */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class SentimentSummaryDTO {
 
-    // Sentiment label → count. NULL is excluded; only POSITIVE/NEUTRAL/NEGATIVE
-    // are surfaced so the dashboard pie sums match what was classified.
     @Builder.Default
-    private Map<String, Long> counts = new LinkedHashMap<>();
+    private List<Bucket> buckets = new ArrayList<>();
+
+    private long totalReviews;
+
+    @Builder.Default
+    private boolean multiLabel = true;
 
     @Builder.Default
     private List<CategoryBreakdown> byCategory = new ArrayList<>();
@@ -28,10 +35,23 @@ public class SentimentSummaryDTO {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
+    public static class Bucket {
+        private String code;
+        private String labelEs;
+        private String emoji;
+        private long count;
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class CategoryBreakdown {
         private String code;
-        private long positive;
-        private long neutral;
-        private long negative;
+        // task031: bucket counts keyed by sentiment_labels.code (lowercase).
+        // FE matches against the same code so renaming a label only requires
+        // editing sentiment_labels.label_es — no FE change.
+        @Builder.Default
+        private java.util.Map<String, Long> buckets = new java.util.LinkedHashMap<>();
     }
 }

@@ -9,6 +9,8 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(
@@ -54,9 +56,17 @@ public class ReviewModel {
     @Column(name = "fetched_at", nullable = false)
     private LocalDateTime fetchedAt;
 
-    @Enumerated(EnumType.STRING)
-    @Column(length = 20)
-    private Sentiment sentiment;
+    // task031: replaces the legacy single-enum sentiment column. Each row in
+    // review_sentiment_labels is one applicable label_code, so a review can
+    // count as positive AND complaint at the same time.
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(
+            name = "review_sentiment_labels",
+            joinColumns = @JoinColumn(name = "review_id")
+    )
+    @Column(name = "label_code", length = 16, nullable = false)
+    @Builder.Default
+    private Set<String> labels = new LinkedHashSet<>();
 
     @Column(length = 500)
     private String summary;
@@ -64,6 +74,11 @@ public class ReviewModel {
     // JSON array of phrases stored as text; Gemini writes here in task 013.
     @Column(name = "key_phrases", columnDefinition = "TEXT")
     private String keyPhrases;
+
+    // task031: raw Gemini JSON response, doubles as the "classified yet?"
+    // marker. NULL → still in the classifier backlog.
+    @Column(name = "classification_raw", columnDefinition = "TEXT")
+    private String classificationRaw;
 
     @PrePersist
     void onInsert() {

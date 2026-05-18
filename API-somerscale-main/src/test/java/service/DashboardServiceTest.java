@@ -6,7 +6,7 @@ import dto.OccupancyPointDTO;
 import dto.SentimentSummaryDTO;
 import dto.TopGuestDTO;
 import model.HotelConfigModel;
-import model.Sentiment;
+import model.SentimentLabelModel;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +14,7 @@ import repository.HotelConfigRepository;
 import repository.HuespedRepository;
 import repository.ReservaRepository;
 import repository.ReviewRepository;
+import repository.SentimentLabelRepository;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -34,13 +35,31 @@ class DashboardServiceTest {
     private final LocalDate from = LocalDate.of(2025, 5, 1);
     private final LocalDate to = LocalDate.of(2026, 5, 1);
 
+    private static SentimentLabelModel label(String code, String es, String emoji, short ord) {
+        return SentimentLabelModel.builder()
+                .code(code).labelEs(es).emoji(emoji).ordinal(ord).build();
+    }
+
+    private static SentimentLabelRepository taxonomy() {
+        SentimentLabelRepository r = mock(SentimentLabelRepository.class);
+        when(r.findAllByOrderByOrdinalAsc()).thenReturn(List.of(
+                label("positive", "Positivo", "😊", (short) 0),
+                label("negative", "Negativo", "😞", (short) 1),
+                label("neutral", "Neutral", "😐", (short) 2),
+                label("improvement", "Mejora", "💡", (short) 3),
+                label("complaint", "Reclamo", "⚠️", (short) 4)
+        ));
+        return r;
+    }
+
     private DashboardService svc(ReservaRepository reservas, HuespedRepository huespedes, ReviewRepository reviews) {
-        return new DashboardService(reservas, huespedes, reviews, mock(HotelConfigRepository.class));
+        return new DashboardService(reservas, huespedes, reviews,
+                mock(HotelConfigRepository.class), taxonomy());
     }
 
     private DashboardService svc(ReservaRepository reservas, HuespedRepository huespedes, ReviewRepository reviews,
                                  HotelConfigRepository hotelConfig) {
-        return new DashboardService(reservas, huespedes, reviews, hotelConfig);
+        return new DashboardService(reservas, huespedes, reviews, hotelConfig, taxonomy());
     }
 
     @Test
@@ -110,36 +129,46 @@ class DashboardServiceTest {
     @Test
     void sentiment_seedsAllBucketsAndOverlaysCounts() {
         ReviewRepository reviews = mock(ReviewRepository.class);
-        when(reviews.countBySentimentBetween(any(LocalDateTime.class), any(LocalDateTime.class)))
+        when(reviews.countByLabelBetween(any(LocalDateTime.class), any(LocalDateTime.class)))
                 .thenReturn(List.of(
-                        new Object[]{Sentiment.POSITIVE, 32L},
-                        new Object[]{Sentiment.NEGATIVE, 5L}
-                        // NEUTRAL deliberately missing
+                        new Object[]{"positive", 32L},
+                        new Object[]{"negative", 5L},
+                        new Object[]{"improvement", 4L}
+                        // neutral + complaint deliberately missing — must default to 0
                 ));
         when(reviews.sentimentByCategory(any(LocalDateTime.class), any(LocalDateTime.class)))
                 .thenReturn(List.of(
-                        new Object[]{"cleanliness", 10L, 1L, 2L},
-                        new Object[]{"service", 8L, 3L, 1L}
+                        new Object[]{"cleanliness", "positive", 10L},
+                        new Object[]{"cleanliness", "complaint", 2L},
+                        new Object[]{"service",     "positive", 8L},
+                        new Object[]{"service",     "neutral",  3L}
                 ));
+        when(reviews.countLabeledBetween(any(LocalDateTime.class), any(LocalDateTime.class)))
+                .thenReturn(30L);
 
         SentimentSummaryDTO out = svc(mock(ReservaRepository.class), mock(HuespedRepository.class), reviews)
                 .sentiment(from, to);
         assertNotNull(out);
-        assertEquals(32L, out.getCounts().get("POSITIVE"));
-        assertEquals(0L, out.getCounts().get("NEUTRAL"));
-        assertEquals(5L, out.getCounts().get("NEGATIVE"));
+        assertTrue(out.isMultiLabel(), "multiLabel flag tells the FE to render the tooltip");
+        assertEquals(30L, out.getTotalReviews(), "totalReviews is distinct count, not sum of buckets");
+        assertEquals(5, out.getBuckets().size(), "every taxonomy row is surfaced even with zero count");
+        assertEquals("positive", out.getBuckets().get(0).getCode());
+        assertEquals(32L, out.getBuckets().get(0).getCount());
+        assertEquals("neutral", out.getBuckets().get(2).getCode());
+        assertEquals(0L, out.getBuckets().get(2).getCount(), "missing taxonomy row → zero, not absent");
+        assertEquals(4L, out.getBuckets().get(3).getCount());
+        assertEquals(0L, out.getBuckets().get(4).getCount());
 
         assertEquals(2, out.getByCategory().size());
         assertEquals("cleanliness", out.getByCategory().get(0).getCode());
-        assertEquals(10L, out.getByCategory().get(0).getPositive());
-        assertEquals(3L, out.getByCategory().get(1).getNeutral());
+        assertEquals(10L, out.getByCategory().get(0).getBuckets().get("positive"));
+        assertEquals(2L, out.getByCategory().get(0).getBuckets().get("complaint"));
+        assertEquals(3L, out.getByCategory().get(1).getBuckets().get("neutral"));
     }
 
     @Test
     void availability_subtractsOccupiedAndPicksMaxFreeAcrossWindow() {
         ReservaRepository reservas = mock(ReservaRepository.class);
-        // 0 rooms occupied means full availability — every day in week/month should
-        // return totalRooms as maxFree.
         when(reservas.countOccupiedRoomsAt(any(LocalDateTime.class))).thenReturn(2L);
 
         HotelConfigRepository hotelConfig = mock(HotelConfigRepository.class);
