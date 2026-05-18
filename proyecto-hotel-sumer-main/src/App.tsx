@@ -11,8 +11,9 @@ import UserSettings from "./pages/UserSettings";
 import SheetsList from "./pages/sheets/SheetsList";
 import SheetEdit from "./pages/sheets/SheetEdit";
 import SheetSummary from "./pages/sheets/SheetSummary";
+import GlobalSettings from "./pages/settings/GlobalSettings";
 import ProtectedRoute from "./routes/Protected-route";
-import { AppShell, ComingSoon } from "./components/ui";
+import { AppShell } from "./components/ui";
 
 function App() {
   return (
@@ -33,12 +34,7 @@ function App() {
             <Route path="/fichas/:id/editar" element={<SheetEdit />} />
             <Route path="/fichas/:id/resumen" element={<SheetSummary />} />
             <Route path="/me" element={<UserSettings />} />
-            <Route
-              path="/settings/global"
-              element={
-                <ComingSoon name="Settings globales" taskRef="task027" />
-              }
-            />
+            <Route path="/settings/global" element={<GlobalSettings />} />
 
             <Route
               path="/reservas/:reservaId/gastos"
