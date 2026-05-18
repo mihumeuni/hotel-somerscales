@@ -52,9 +52,10 @@ public class FichaSeeder {
             log.info("[FichaSeeder] skip — {} fichas already present", fichaRepository.count());
             return;
         }
-        Path fixture = Path.of(fixtureDir).resolve(fixtureFile);
-        if (!Files.exists(fixture)) {
-            log.warn("[FichaSeeder] fixture missing path={}", fixture.toAbsolutePath());
+        Path fixture = resolveFixture();
+        if (fixture == null) {
+            log.warn("[FichaSeeder] fixture missing: tried {} and ./tests/{}",
+                     Path.of(fixtureDir).resolve(fixtureFile).toAbsolutePath(), fixtureFile);
             return;
         }
         try {
@@ -112,6 +113,14 @@ public class FichaSeeder {
             log.error("[FichaSeeder] failed to load fixture path={}: {}",
                       fixture, e.getMessage(), e);
         }
+    }
+
+    private Path resolveFixture() {
+        Path primary = Path.of(fixtureDir).resolve(fixtureFile);
+        if (Files.exists(primary)) return primary;
+        Path docker = Path.of("./tests").resolve(fixtureFile);
+        if (Files.exists(docker)) return docker;
+        return null;
     }
 
     private UsuarioModel resolveOwner(String username) {

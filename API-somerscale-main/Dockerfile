@@ -9,6 +9,12 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
+# Fixture data consumed by MockCloudbedsApiClient, GooglePlacesClient,
+# TripAdvisorClient, FichaSeeder. Lives next to src/ in the HF Space repo;
+# Dockerfile drops it at /app/tests so the default fixture-dir resolves
+# correctly when WORKDIR=/app (../tests = /tests in Docker, hence the
+# mock client searches both ../tests and ./tests).
+COPY tests /app/tests
 
 # Standard environment variables
 ENV PORT=8080

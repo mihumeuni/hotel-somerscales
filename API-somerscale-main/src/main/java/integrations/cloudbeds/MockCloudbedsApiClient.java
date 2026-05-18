@@ -29,13 +29,13 @@ import java.util.stream.Stream;
 @Component
 public class MockCloudbedsApiClient implements CloudbedsApiClient {
 
-    private final Path fixtureDir;
+    private final String configuredDir;
     private final String fileName;
 
     public MockCloudbedsApiClient(
             @Value("${integrations.cloudbeds.fixture-dir:../tests}") String fixtureDir,
             @Value("${integrations.cloudbeds.fixture-file:huespedes.csv}") String fileName) {
-        this.fixtureDir = Path.of(fixtureDir);
+        this.configuredDir = fixtureDir;
         this.fileName = fileName;
     }
 
@@ -44,9 +44,10 @@ public class MockCloudbedsApiClient implements CloudbedsApiClient {
 
     @Override
     public List<CloudbedsRow> fetchReservations(LocalDate updatedSince) {
-        Path fixture = fixtureDir.resolve(fileName);
-        if (!Files.exists(fixture)) {
-            log.warn("[MockCloudbedsApiClient] fixture missing path={}", fixture.toAbsolutePath());
+        Path fixture = resolveFixture();
+        if (fixture == null) {
+            log.warn("[MockCloudbedsApiClient] fixture missing: tried {} and ./tests/{}",
+                     Path.of(configuredDir).resolve(fileName).toAbsolutePath(), fileName);
             return List.of();
         }
         try (Stream<String> lines = Files.lines(fixture, StandardCharsets.UTF_8)) {
@@ -129,5 +130,19 @@ public class MockCloudbedsApiClient implements CloudbedsApiClient {
         if (i == null || i >= cols.length) return null;
         String v = cols[i];
         return v == null ? null : v;
+    }
+
+    /**
+     * Search the configured fixture dir first, then fall back to {@code ./tests}
+     * so the same default works both locally (CWD=API-somerscale-main, fixtures
+     * one level up) and inside the Docker image (CWD=/app, fixtures at
+     * {@code /app/tests} per the Dockerfile COPY).
+     */
+    private Path resolveFixture() {
+        Path primary = Path.of(configuredDir).resolve(fileName);
+        if (Files.exists(primary)) return primary;
+        Path docker = Path.of("./tests").resolve(fileName);
+        if (Files.exists(docker)) return docker;
+        return null;
     }
 }
