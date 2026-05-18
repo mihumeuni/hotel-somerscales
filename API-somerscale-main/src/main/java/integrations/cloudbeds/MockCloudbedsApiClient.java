@@ -2,6 +2,7 @@ package integrations.cloudbeds;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.stereotype.Component;
 import service.cloudbeds.CloudbedsHeaders;
 import service.cloudbeds.CloudbedsParsers;
@@ -27,6 +28,7 @@ import java.util.stream.Stream;
  */
 @Slf4j
 @Component
+@ConditionalOnExpression("'${integrations.cloudbeds.client-id:}'.isEmpty()")
 public class MockCloudbedsApiClient implements CloudbedsApiClient {
 
     private final String configuredDir;

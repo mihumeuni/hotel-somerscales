@@ -98,7 +98,7 @@ Las funciones de reseñas + IA corren con **fixtures offline** por defecto. Para
 | Google Places (reseñas) | `GOOGLE_PLACES_API_KEY`, `GOOGLE_PLACES_PLACE_ID` | <https://console.cloud.google.com> → habilitar Places API (New) + billing → [Place ID Finder](https://developers.google.com/maps/documentation/places/web-service/place-id) |
 | TripAdvisor (reseñas) | `TRIPADVISOR_API_KEY`, `TRIPADVISOR_LOCATION_ID` | <https://developer-tripadvisor.com> → solicitar Content API (aprobación 1–3 días) |
 | Google Gemini (sentimiento) | `GEMINI_API_KEY` | <https://aistudio.google.com> → "Get API key" (tier gratuito; si aparece `429 limit:0`, habilitar billing en el proyecto GCP) |
-| Cloudbeds (sync PMS) | `CLOUDBEDS_API_KEY`, `CLOUDBEDS_PROPERTY_ID` | Dashboard de Cloudbeds → My Account → API Credentials |
+| Cloudbeds (sync PMS) | `CLOUDBEDS_CLIENT_ID`, `CLOUDBEDS_CLIENT_SECRET`, `CLOUDBEDS_PROPERTY_ID` | Dashboard de Cloudbeds → My Account → API Credentials → *Create a Server-to-Server App*. El `property-id` aparece en la URL `/admin/property/{id}`. Sin estas variables corre el mock de CSV (`tests/huespedes.csv`); con ellas se activa `LiveCloudbedsApiClient` (OAuth2 client-credentials) y el cron domingo 03:00 Santiago trae datos reales. |
 
 Cada integración auto-detecta una clave vacía y degrada con elegancia (fixtures offline, fallback log-only o no-op).
 
