@@ -5,22 +5,19 @@ import { PageHeader } from "../../components/ui";
 import { CategoriesTab } from "./CategoriesTab";
 import { SentimentTaxonomyTab } from "./SentimentTaxonomyTab";
 import { QuickpicksTab } from "./QuickpicksTab";
-import { DefaultsTab } from "./DefaultsTab";
 import { SyncTab } from "./SyncTab";
 
-type TabKey = "categories" | "taxonomy" | "quickpicks" | "defaults" | "sync";
+type TabKey = "categories" | "taxonomy" | "quickpicks" | "sync";
 
 const TABS: ReadonlyArray<{ key: TabKey; label: string }> = [
   { key: "categories", label: "Categorías" },
   { key: "taxonomy",   label: "Taxonomía de sentimiento" },
   { key: "quickpicks", label: "Quick-picks de fichas" },
-  { key: "defaults",   label: "Por defecto" },
   { key: "sync",       label: "Sincronización Cloudbeds" },
 ];
 
 const isTabKey = (v: string | null): v is TabKey =>
-  v === "categories" || v === "taxonomy" || v === "quickpicks"
-  || v === "defaults" || v === "sync";
+  v === "categories" || v === "taxonomy" || v === "quickpicks" || v === "sync";
 
 const GlobalSettings = () => {
   const { has } = useAuth();
@@ -79,7 +76,6 @@ const GlobalSettings = () => {
         {active === "categories" && <CategoriesTab />}
         {active === "taxonomy" && <SentimentTaxonomyTab />}
         {active === "quickpicks" && <QuickpicksTab />}
-        {active === "defaults" && <DefaultsTab />}
         {active === "sync" && <SyncTab />}
       </section>
     </div>
