@@ -67,7 +67,7 @@ public class ReservaModel {
     @Column(name = "fecha_cancelacion")
     private LocalDate fechaCancelacion;
 
-    @Column(name = "hora_estimada_llegada", length = 10)
+    @Column(name = "hora_estimada_llegada", length = 40)
     private String horaEstimadaLlegada;
 
     @Column(name = "plan_comidas", length = 80)

@@ -1,0 +1,104 @@
+[
+  {
+    "fecha": "2026-05-15",
+    "shift": "MANANA",
+    "ownerUsername": "recep",
+    "locked": true,
+    "notes": "Día tranquilo. Sin incidencias mayores. Pasajeros de HA7 reportaron WiFi lento en piso 2 — reportado a admin.",
+    "reportes": [
+      { "rowLabel": "Check in",                                              "value": "3 ingresos sin novedad; HA7 documentación al día" },
+      { "rowLabel": "Check out",                                             "value": "2 salidas; llaves devueltas" },
+      { "rowLabel": "Late check out",                                        "value": "Hasta 14:00 (HA8)" },
+      { "rowLabel": "Early check in",                                        "value": "Sin solicitudes" },
+      { "rowLabel": "Desayunos",                                             "value": "12 servidos; sin requerimientos especiales" },
+      { "rowLabel": "Agua",                                                  "value": "Stock botellas OK" },
+      { "rowLabel": "Café",                                                  "value": "Granos repuestos a las 09:00" },
+      { "rowLabel": "Secando",                                               "value": "Sin novedad" },
+      { "rowLabel": "Lavando",                                               "value": "Sábanas HA7-HA9 en lavandería" },
+      { "rowLabel": "Cama extra",                                            "value": "No solicitada" },
+      { "rowLabel": "Lavandería",                                            "value": "Retirada 11:30; total 8 kg" },
+      { "rowLabel": "Ventas",                                                "value": "2 souvenirs (CLP 18.000)" },
+      { "rowLabel": "Dinero recibido en caja chica",                         "value": "CLP 10.000" },
+      { "rowLabel": "Dinero recibido de ventas en efectivo",                 "value": "CLP 18.000" },
+      { "rowLabel": "Registro de compras recibidas",                         "value": "Sin compras" },
+      { "rowLabel": "Registro de correspondencia o encomiendas recibidas",   "value": "Encomienda DHL (HA10)" },
+      { "rowLabel": "Registro de pertenencias de pasajeros olvidadas",       "value": "Cargador USB (HA8) entregado a admin" },
+      { "rowLabel": "Mails",                                                 "value": "5 reservas confirmadas vía Booking" },
+      { "rowLabel": "Estacionamiento",                                       "value": null },
+      { "rowLabel": "Requerimientos",                                        "value": "HA7: toalla extra entregada" },
+      { "rowLabel": "Reclamos",                                              "value": "Ninguno" }
+    ],
+    "parking": [
+      { "room": "HA7", "lot": "L01" },
+      { "room": "HA8", "lot": "L02" }
+    ]
+  },
+  {
+    "fecha": "2026-05-15",
+    "shift": "NOCHE",
+    "ownerUsername": "recep",
+    "locked": true,
+    "notes": "Turno tranquilo. Pasajero HA10 pidió late check out hasta 16:00 mañana — confirmado con admin.",
+    "reportes": [
+      { "rowLabel": "Check in",                                              "value": "1 ingreso tardío (HA10) - llegada 22:15" },
+      { "rowLabel": "Check out",                                             "value": "Sin novedad" },
+      { "rowLabel": "Late check out",                                        "value": "HA10 confirmado hasta 16:00 día siguiente" },
+      { "rowLabel": "Early check in",                                        "value": "Sin solicitudes" },
+      { "rowLabel": "Desayunos",                                             "value": "N/A (turno noche)" },
+      { "rowLabel": "Agua",                                                  "value": "Stock OK" },
+      { "rowLabel": "Café",                                                  "value": "Stock OK" },
+      { "rowLabel": "Secando",                                               "value": "Sin novedad" },
+      { "rowLabel": "Lavando",                                               "value": "N/A" },
+      { "rowLabel": "Cama extra",                                            "value": "Solicitada HA10 - entregada 22:30" },
+      { "rowLabel": "Lavandería",                                            "value": "N/A" },
+      { "rowLabel": "Ventas",                                                "value": "Ninguna" },
+      { "rowLabel": "Dinero recibido en caja chica",                         "value": "CLP 0" },
+      { "rowLabel": "Dinero recibido de ventas en efectivo",                 "value": "CLP 0" },
+      { "rowLabel": "Registro de compras recibidas",                         "value": "Ninguna" },
+      { "rowLabel": "Registro de correspondencia o encomiendas recibidas",   "value": "Ninguna" },
+      { "rowLabel": "Registro de pertenencias de pasajeros olvidadas",       "value": "Ninguna" },
+      { "rowLabel": "Mails",                                                 "value": "3 consultas respondidas" },
+      { "rowLabel": "Estacionamiento",                                       "value": null },
+      { "rowLabel": "Requerimientos",                                        "value": "HA10: cama extra (cumplido)" },
+      { "rowLabel": "Reclamos",                                              "value": "Ninguno" }
+    ],
+    "parking": [
+      { "room": "HA7", "lot": "L01" },
+      { "room": "HA8", "lot": "L02" },
+      { "room": "HA10", "lot": "L03" }
+    ]
+  },
+  {
+    "fecha": "2026-05-16",
+    "shift": "MANANA",
+    "ownerUsername": "recep",
+    "locked": false,
+    "notes": "En progreso. HA12 reportó ruido del piso superior — investigando.",
+    "reportes": [
+      { "rowLabel": "Check in",                                              "value": "1 ingreso 11:30 (HA12); pasaporte verificado" },
+      { "rowLabel": "Check out",                                             "value": "HA10 (late 16:00 pendiente)" },
+      { "rowLabel": "Late check out",                                        "value": "HA10 hasta 16:00 (pendiente cobro)" },
+      { "rowLabel": "Early check in",                                        "value": "Sin solicitudes" },
+      { "rowLabel": "Desayunos",                                             "value": "10 servidos" },
+      { "rowLabel": "Agua",                                                  "value": "Stock OK" },
+      { "rowLabel": "Café",                                                  "value": "Repuesto 09:15" },
+      { "rowLabel": "Secando",                                               "value": null },
+      { "rowLabel": "Lavando",                                               "value": null },
+      { "rowLabel": "Cama extra",                                            "value": "No solicitada" },
+      { "rowLabel": "Lavandería",                                            "value": "Retirada 11:00; 6 kg" },
+      { "rowLabel": "Ventas",                                                "value": null },
+      { "rowLabel": "Dinero recibido en caja chica",                         "value": null },
+      { "rowLabel": "Dinero recibido de ventas en efectivo",                 "value": null },
+      { "rowLabel": "Registro de compras recibidas",                         "value": "1 paquete Amazon (HA8)" },
+      { "rowLabel": "Registro de correspondencia o encomiendas recibidas",   "value": null },
+      { "rowLabel": "Registro de pertenencias de pasajeros olvidadas",       "value": null },
+      { "rowLabel": "Mails",                                                 "value": "2 reservas Booking" },
+      { "rowLabel": "Estacionamiento",                                       "value": null },
+      { "rowLabel": "Requerimientos",                                        "value": "HA12: ruido piso superior (investigando)" },
+      { "rowLabel": "Reclamos",                                              "value": null }
+    ],
+    "parking": [
+      { "room": "HA12", "lot": "L01" }
+    ]
+  }
+]
