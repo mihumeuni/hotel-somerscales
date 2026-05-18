@@ -1,54 +1,54 @@
 # Somerscales Hotel Management
 
-Internal management platform for Somerscales Hotel — guest history, reservation calendar, expense tracking, and review-sentiment dashboards. Spring Boot REST API + React TypeScript SPA, deployed free-tier on Vercel + Hugging Face Spaces + Supabase.
+Plataforma de gestión interna para Somerscales Hotel — historial de huéspedes, calendario de reservas, control de gastos y dashboards de sentimiento de reseñas. API REST en Spring Boot + SPA en React TypeScript, desplegada sobre tier gratuito en Vercel + Hugging Face Spaces + Supabase.
 
-**Live:**
+**En producción:**
 - Frontend → <https://somerscales-fe.vercel.app>
 - Backend → <https://mikael1234345-somerscales-be.hf.space>
-- Health → <https://mikael1234345-somerscales-be.hf.space/actuator/health>
+- Healthcheck → <https://mikael1234345-somerscales-be.hf.space/actuator/health>
 
-## Tech Stack
+## Stack tecnológico
 
-| Layer | Technology |
+| Capa | Tecnología |
 |---|---|
 | Frontend | React 19, Vite 8, TypeScript, Tailwind CSS v4, Recharts 3, @tanstack/react-query 5, react-router-dom 7 |
 | Backend | Spring Boot 4.0.6, Java 17, Spring Security + JWT (jjwt 0.11.5), Flyway, Apache POI |
-| Database | PostgreSQL 17 (Supabase) |
-| AI | Google Gemini 2.5 Flash (multi-label sentiment) |
-| Reviews | Google Places API + TripAdvisor Content API |
-| Email | Gmail SMTP via App Password |
+| Base de datos | PostgreSQL 17 (Supabase) |
+| IA | Google Gemini 2.5 Flash (sentimiento multi-label) |
+| Reseñas | Google Places API + TripAdvisor Content API |
+| Correo | Gmail SMTP con App Password |
 | Hosting | Vercel (FE) + Hugging Face Spaces (BE Docker) + Supabase (DB) |
 | CI/CD | GitHub Actions |
 
-## Project Structure
+## Estructura del proyecto
 
 ```
 .
-├── API-somerscale-main/          Spring Boot backend (Java 17, Maven)
-├── proyecto-hotel-sumer-main/    React 19 frontend (Vite, TypeScript)
-├── tests/                        Offline JSON fixtures (Google Places + TripAdvisor reviews)
+├── API-somerscale-main/          Backend Spring Boot (Java 17, Maven)
+├── proyecto-hotel-sumer-main/    Frontend React 19 (Vite, TypeScript)
+├── tests/                        Fixtures JSON offline (reseñas de Google Places + TripAdvisor)
 ├── README.md
 └── .gitignore
 ```
 
-## Prerequisites
+## Requisitos previos
 
-- Java 17 (Eclipse Temurin recommended)
-- Maven 3.9+ (or use the bundled `./mvnw` wrapper)
-- Node.js 20.19+ or 22.12+
-- PostgreSQL 17 — local or [Supabase](https://supabase.com) free tier
+- Java 17 (Eclipse Temurin recomendado)
+- Maven 3.9+ (o usar el wrapper incluido `./mvnw`)
+- Node.js 20.19+ o 22.12+
+- PostgreSQL 17 — local o [Supabase](https://supabase.com) tier gratuito
 
-## Quick Start
+## Inicio rápido
 
 ### Backend
 
 ```bash
 cd API-somerscale-main
-cp .env-example .env          # fill in DB, JWT, mail, encryption keys
-./mvnw spring-boot:run        # Flyway applies V1..V8 on first boot
+cp .env-example .env          # completar DB, JWT, correo, claves de cifrado
+./mvnw spring-boot:run        # Flyway aplica V1..V8 en el primer arranque
 ```
 
-API listens on `http://localhost:8080`.
+La API escucha en `http://localhost:8080`.
 
 ### Frontend
 
@@ -58,37 +58,50 @@ npm install
 npm run dev
 ```
 
-SPA serves on `http://localhost:5173`.
+La SPA se sirve en `http://localhost:5173`.
 
-### Seed credentials (dev only)
+### Credenciales semilla (solo desarrollo)
 
-| Username | Password | Role |
+| Usuario | Contraseña | Rol |
 |---|---|---|
 | `admin` | `admin123` | ADMIN |
 | `recep` | `recep123` | RECEPCIONISTA |
 | `asistente` | `asis123` | ASISTENTE |
 
-Rotate before any non-dev deployment.
+Rotar antes de cualquier despliegue que no sea de desarrollo.
 
-## Features
+## Funcionalidades
 
-- **Auth & RBAC** — JWT with `perms[]` claim; permission-table-driven `@PreAuthorize` gates; tokenized staff invitations (raw token never persisted).
-- **Encryption at rest** — AES-GCM-256 on `huespedes.numero_documento` with HMAC-SHA-256 sidecar for equality lookups.
-- **Guests & reservations** — CRUD, history aggregate, additional expenses, Cloudbeds Excel import, Datafaker seed (200 guests / 500 bookings).
-- **Reviews pipeline** — daily Google Places + TripAdvisor sync (idempotent, with offline fixtures); Gemini multi-label 5-bucket sentiment + category classification.
-- **Dashboard** — Recharts widgets: occupancy line, top-guests bar, multi-label sentiment doughnut with drill-in.
-- **Settings** — roles & permissions matrix, categories, sentiment taxonomy, sheets/quick-picks editor, per-user dark mode + avatar + password change.
+- **Autenticación y RBAC** — JWT con claim `perms[]`; gates `@PreAuthorize` basados en tabla de permisos; invitaciones tokenizadas de staff (el token raw nunca se persiste).
+- **Cifrado en reposo** — AES-GCM-256 sobre `huespedes.numero_documento` con sidecar HMAC-SHA-256 para búsquedas por igualdad.
+- **Huéspedes y reservas** — CRUD, agregación de historial, gastos adicionales, importación Excel de Cloudbeds, seed con Datafaker (200 huéspedes / 500 reservas).
+- **Pipeline de reseñas** — sync diario de Google Places + TripAdvisor (idempotente, con fixtures offline); clasificación multi-label de sentimiento en 5 buckets + categorías vía Gemini.
+- **Dashboard** — widgets Recharts: línea de ocupación, barra de top huéspedes, doughnut de sentimiento multi-label con drill-in.
+- **Settings** — matriz de roles y permisos, categorías, taxonomía de sentimiento, editor de fichas/quick-picks, dark mode + avatar + cambio de contraseña por usuario.
 
-## Branch Model
+## Modelo de ramas
 
-| Branch | Purpose |
+| Rama | Propósito |
 |---|---|
-| `development` | Active work; all commits land here first. |
-| `release` | QA / staging deploys. |
-| `main` | Production cuts. |
+| `development` | Trabajo activo; todos los commits aterrizan acá primero. |
+| `release` | Deploys de QA / staging. |
+| `main` | Cortes de producción. |
 
 Conventional Commits (`feat`, `fix`, `chore`, `docs`, `refactor`, `test`, `perf`, `build`, `ci`, `revert`).
 
-## License
+## Integraciones de API
 
-Private — DuocUC academic project.
+Las funciones de reseñas + IA corren con **fixtures offline** por defecto. Para habilitar datos en vivo, pegar las claves en `API-somerscale-main/.env` y reiniciar el backend.
+
+| Integración | Variables de entorno | Dónde obtenerla |
+|---|---|---|
+| Google Places (reseñas) | `GOOGLE_PLACES_API_KEY`, `GOOGLE_PLACES_PLACE_ID` | <https://console.cloud.google.com> → habilitar Places API (New) + billing → [Place ID Finder](https://developers.google.com/maps/documentation/places/web-service/place-id) |
+| TripAdvisor (reseñas) | `TRIPADVISOR_API_KEY`, `TRIPADVISOR_LOCATION_ID` | <https://developer-tripadvisor.com> → solicitar Content API (aprobación 1–3 días) |
+| Google Gemini (sentimiento) | `GEMINI_API_KEY` | <https://aistudio.google.com> → "Get API key" (tier gratuito; si aparece `429 limit:0`, habilitar billing en el proyecto GCP) |
+| Cloudbeds (sync PMS) | `CLOUDBEDS_API_KEY`, `CLOUDBEDS_PROPERTY_ID` | Dashboard de Cloudbeds → My Account → API Credentials |
+
+Cada integración auto-detecta una clave vacía y degrada con elegancia (fixtures offline, fallback log-only o no-op).
+
+## Licencia
+
+Privada — proyecto académico DuocUC.
