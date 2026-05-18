@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { PageHeader } from "../components/ui";
 import { api } from "../lib/apiClient";
 import {
@@ -17,24 +18,17 @@ function rangeLabel(start: Date, days: number): string {
 }
 
 const Calendario = () => {
-  const [reservas, setReservas] = useState<ReservaCalendarDTO[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [windowDays, setWindowDays] = useState<WindowOption>(7);
 
-  useEffect(() => {
-    let cancelled = false;
-    api
-      .get<ReservaCalendarDTO[]>("/api/reservas")
-      .then((d) => {
-        if (!cancelled) setReservas(d);
-      })
-      .catch(() => !cancelled && setError("No se pudieron cargar las reservas."))
-      .finally(() => !cancelled && setLoading(false));
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  const {
+    data: reservas = [],
+    isLoading: loading,
+    isError,
+  } = useQuery({
+    queryKey: ["reservas"],
+    queryFn: () => api.get<ReservaCalendarDTO[]>("/api/reservas"),
+  });
+  const error = isError ? "No se pudieron cargar las reservas." : null;
 
   const now = useMemo(() => new Date(), []);
 
