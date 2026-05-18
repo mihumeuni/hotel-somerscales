@@ -41,6 +41,12 @@ public class SeguridadConfig {
                 .requestMatchers("/actuator/health", "/actuator/health/**").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/users/signup-finish").permitAll()
+                // Avatar bytes are served via <img src=> tags which can't
+                // attach an Authorization header. Avatars are not sensitive
+                // (already shown across the app to anyone authenticated) so
+                // we accept enumeration of user IDs as the trade-off.
+                .requestMatchers(org.springframework.http.HttpMethod.GET,
+                    "/api/users/*/avatar").permitAll()
                 // ERROR dispatch path: Spring Security 6 re-authorizes the
                 // forward to /error after a controller throws ResponseStatusException,
                 // so without this match the original 4xx/5xx is masked as a 403.
