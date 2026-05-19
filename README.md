@@ -91,7 +91,7 @@ Conventional Commits (`feat`, `fix`, `chore`, `docs`, `refactor`, `test`, `perf`
 
 ## Integraciones de API
 
-Las funciones de reseñas + IA corren con **fixtures offline** por defecto. Para habilitar datos en vivo, pegar las claves en `API-somerscale-main/.env` y reiniciar el backend.
+Las funciones de reseñas + IA corren con **fixtures offline** por defecto. Para habilitar datos en vivo en desarrollo local, pegar las claves en `API-somerscale-main/.env` y reiniciar el backend. Para producción, ver [Notas para activación en producción](#notas-para-activación-en-producción) más abajo (los secretos van en el dashboard de Hugging Face / Vercel, no en `.env`).
 
 | Integración | Variables de entorno | Dónde obtenerla |
 |---|---|---|
@@ -101,6 +101,23 @@ Las funciones de reseñas + IA corren con **fixtures offline** por defecto. Para
 | Cloudbeds (sync PMS) | `CLOUDBEDS_CLIENT_ID`, `CLOUDBEDS_CLIENT_SECRET`, `CLOUDBEDS_PROPERTY_ID` | Dashboard de Cloudbeds → My Account → API Credentials → *Create a Server-to-Server App*. El `property-id` aparece en la URL `/admin/property/{id}`. Sin estas variables corre el mock de CSV (`tests/huespedes.csv`); con ellas se activa `LiveCloudbedsApiClient` (OAuth2 client-credentials) y el cron domingo 03:00 Santiago trae datos reales. |
 
 Cada integración auto-detecta una clave vacía y degrada con elegancia (fixtures offline, fallback log-only o no-op).
+
+### Notas para activación en producción
+
+Esfuerzo real esperado por integración (más allá de "pegar la clave"):
+
+| Integración | ¿Realmente paste-and-go? | Lo que efectivamente se requiere |
+|---|---|---|
+| Correo (Gmail SMTP) | Ya activo en producción | Ningún paso pendiente. |
+| Cloudbeds | Sí, con matiz | Pegar `CLIENT_ID`/`SECRET`/`PROPERTY_ID` como secretos de HF Space + reiniciar. El primer sync puede requerir 1–2 renombres de `@JsonProperty` en `integrations/cloudbeds/dto/CloudbedsReservation.java` si la respuesta real difiere de la documentación pública v1.2 (build especulativo, declarado en el playbook task033). |
+| Google Places | No | Antes de que la clave funcione: tarjeta de billing habilitada en GCP + Places API (New) activada. ~30 min de clicks en la consola. |
+| TripAdvisor | No | La clave no se emite hasta que TripAdvisor aprueba la solicitud al free tier (1–3 días hábiles). |
+| Gemini | Bloqueador conocido | El proyecto GCP actual está capado a `limit:0` en el free tier; pegar otra key del mismo proyecto no ayuda. Requiere habilitar billing o migrar a un proyecto GCP nuevo. |
+
+Adicionalmente, dos detalles operativos para el despliegue en vivo:
+
+1. **Los secretos van en el dashboard del proveedor, no en `.env` local.** Para el backend en Hugging Face Spaces → *Settings → Variables and secrets*; para el frontend en Vercel → *Project Settings → Environment Variables*. El `.env` local sólo aplica a desarrollo (`./mvnw spring-boot:run`).
+2. **Primera sincronización de Cloudbeds en modo `INCREMENTAL`.** El modo `FULL` borra `huespedes` + `reservas` + `additional_expenses` antes de recargar. Si las credenciales son incorrectas o el `propertyID` está mal, queda el dashboard vacío hasta volver a sembrar. Recomendado: *Settings → Sincronización Cloudbeds → Sincronizar ahora (INCREMENTAL)* en la primera ejecución en vivo; pasar a `FULL` solo después de validar que llegan filas.
 
 ## Licencia
 
