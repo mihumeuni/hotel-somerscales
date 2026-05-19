@@ -35,3 +35,10 @@ yarn-error.log*
 /private/
 reservations*.csv
 reservations*.xlsx
+
+# Planning / personal config — gitignored by policy (see CLAUDE.md §1).
+# These never enter the public remote; defensive ignore against `git add .`.
+/CLAUDE.md
+/.claude/
+/docs/
+/history/
