@@ -14,7 +14,7 @@ Plataforma de gestión interna para Somerscales Hotel — historial de huéspede
 | Frontend | React 19, Vite 8, TypeScript, Tailwind CSS v4, Recharts 3, @tanstack/react-query 5, react-router-dom 7 |
 | Backend | Spring Boot 4.0.6, Java 17, Spring Security + JWT (jjwt 0.11.5), Flyway, Apache POI |
 | Base de datos | PostgreSQL 17 (Supabase) |
-| IA | Google Gemini 2.5 Flash (sentimiento multi-label) |
+| IA | Groq · Llama 3.3 70B (sentimiento multi-label, API compatible con OpenAI) |
 | Reseñas | Google Places API + TripAdvisor Content API |
 | Correo | Gmail SMTP con App Password |
 | Hosting | Vercel (FE) + Hugging Face Spaces (BE Docker) + Supabase (DB) |
@@ -75,7 +75,7 @@ Rotar antes de cualquier despliegue que no sea de desarrollo.
 - **Autenticación y RBAC** — JWT con claim `perms[]`; gates `@PreAuthorize` basados en tabla de permisos; invitaciones tokenizadas de staff (el token raw nunca se persiste).
 - **Cifrado en reposo** — AES-GCM-256 sobre `huespedes.numero_documento` con sidecar HMAC-SHA-256 para búsquedas por igualdad.
 - **Huéspedes y reservas** — CRUD, agregación de historial, gastos adicionales, importación Excel de Cloudbeds, seed con Datafaker (200 huéspedes / 500 reservas).
-- **Pipeline de reseñas** — sync diario de Google Places + TripAdvisor (idempotente, con fixtures offline); clasificación multi-label de sentimiento en 5 buckets + categorías vía Gemini.
+- **Pipeline de reseñas** — sync diario de Google Places + TripAdvisor (idempotente, con fixtures offline); clasificación multi-label de sentimiento en 5 buckets + categorías vía Groq (Llama 3.3 70B).
 - **Dashboard** — widgets Recharts: línea de ocupación, barra de top huéspedes, doughnut de sentimiento multi-label con drill-in.
 - **Settings** — matriz de roles y permisos, categorías, taxonomía de sentimiento, editor de fichas/quick-picks, dark mode + avatar + cambio de contraseña por usuario.
 
@@ -97,7 +97,7 @@ Las funciones de reseñas + IA corren con **fixtures offline** por defecto. Para
 |---|---|---|
 | Google Places (reseñas) | `GOOGLE_PLACES_API_KEY`, `GOOGLE_PLACES_PLACE_ID` | <https://console.cloud.google.com> → habilitar Places API (New) + billing → [Place ID Finder](https://developers.google.com/maps/documentation/places/web-service/place-id) |
 | TripAdvisor (reseñas) | `TRIPADVISOR_API_KEY`, `TRIPADVISOR_LOCATION_ID` | <https://developer-tripadvisor.com> → solicitar Content API (aprobación 1–3 días) |
-| Google Gemini (sentimiento) | `GEMINI_API_KEY` | <https://aistudio.google.com> → "Get API key" (tier gratuito; si aparece `429 limit:0`, habilitar billing en el proyecto GCP) |
+| Groq (sentimiento IA) | `GROQ_API_KEY` (opcional `LLM_BASE_URL`, `LLM_MODEL`) | <https://console.groq.com/keys> → "Create API Key" (gratis, **sin tarjeta**). Endpoint compatible con OpenAI; cambiar a Cerebras/OpenRouter es solo editar `LLM_BASE_URL`+`LLM_MODEL` |
 | Cloudbeds (sync PMS) | `CLOUDBEDS_CLIENT_ID`, `CLOUDBEDS_CLIENT_SECRET`, `CLOUDBEDS_PROPERTY_ID` | Dashboard de Cloudbeds → My Account → API Credentials → *Create a Server-to-Server App*. El `property-id` aparece en la URL `/admin/property/{id}`. Sin estas variables corre el mock de CSV (`tests/huespedes.csv`); con ellas se activa `LiveCloudbedsApiClient` (OAuth2 client-credentials) y el cron domingo 03:00 Santiago trae datos reales. |
 
 Cada integración auto-detecta una clave vacía y degrada con elegancia (fixtures offline, fallback log-only o no-op).
@@ -112,7 +112,7 @@ Esfuerzo real esperado por integración (más allá de "pegar la clave"):
 | Cloudbeds | Sí, con matiz | Pegar `CLIENT_ID`/`SECRET`/`PROPERTY_ID` como secretos de HF Space + reiniciar. El primer sync puede requerir 1–2 renombres de `@JsonProperty` en `integrations/cloudbeds/dto/CloudbedsReservation.java` si la respuesta real difiere de la documentación pública v1.2 (build especulativo, declarado en el playbook task033). |
 | Google Places | No | Antes de que la clave funcione: tarjeta de billing habilitada en GCP + Places API (New) activada. ~30 min de clicks en la consola. |
 | TripAdvisor | No | La clave no se emite hasta que TripAdvisor aprueba la solicitud al free tier (1–3 días hábiles). |
-| Gemini | Bloqueador conocido | El proyecto GCP actual está capado a `limit:0` en el free tier; pegar otra key del mismo proyecto no ayuda. Requiere habilitar billing o migrar a un proyecto GCP nuevo. |
+| Groq (IA) | Resuelto | Migrado de Gemini a Groq (free tier **sin tarjeta**) porque el "free tier" de Gemini en realidad exige tarjeta + depósito en USD. Único paso de prod: pegar `GROQ_API_KEY` como secreto del HF Space. |
 
 Adicionalmente, dos detalles operativos para el despliegue en vivo:
 

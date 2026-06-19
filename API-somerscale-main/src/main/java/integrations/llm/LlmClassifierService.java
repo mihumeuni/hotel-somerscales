@@ -1,8 +1,8 @@
-package integrations.gemini;
+package integrations.llm;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import integrations.gemini.dto.GeminiClassification;
+import integrations.llm.dto.LlmClassification;
 import jakarta.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
 import model.CategoryModel;
@@ -42,18 +42,19 @@ import java.util.concurrent.atomic.AtomicReference;
  *   <li>{@link #scheduledClassify()} — daily {@code @Scheduled} cron.</li>
  *   <li>{@link #classifyOnce()} — admin {@code POST /api/sync/classify}.</li>
  * </ul>
- * Free-tier guardrails (Gemini 2.5 Flash, no card):
+ * Free-tier guardrails (Groq, genuinely card-free):
  * <ul>
- *   <li><b>throttle-ms</b> sleeps between calls so 15 RPM is not exceeded.</li>
- *   <li><b>daily-cap</b> bounds the run to 1500 RPD; once hit, the loop stops
- *       and the remaining backlog is picked up on the next run.</li>
+ *   <li><b>throttle-ms</b> sleeps between calls; Groq's free tier caps tokens
+ *       per minute (~6k TPM), so the default 8s spacing keeps a run under it.</li>
+ *   <li><b>daily-cap</b> bounds the run; once hit, the loop stops and the
+ *       remaining backlog is picked up on the next run.</li>
  * </ul>
  */
 @Slf4j
 @Service
-public class GeminiClassifierService {
+public class LlmClassifierService {
 
-    private final GeminiClient geminiClient;
+    private final LlmClassifierClient llmClient;
     private final ReviewRepository reviewRepository;
     private final ReviewCategoryRepository reviewCategoryRepository;
     private final CategoryRepository categoryRepository;
@@ -66,17 +67,17 @@ public class GeminiClassifierService {
 
     private final AtomicReference<ClassifyResult> lastResult = new AtomicReference<>();
 
-    public GeminiClassifierService(
-            GeminiClient geminiClient,
+    public LlmClassifierService(
+            LlmClassifierClient llmClient,
             ReviewRepository reviewRepository,
             ReviewCategoryRepository reviewCategoryRepository,
             CategoryRepository categoryRepository,
             SentimentLabelRepository sentimentLabelRepository,
             EntityManager entityManager,
-            @Value("${integrations.gemini.batch-size:10}") int batchSize,
-            @Value("${integrations.gemini.throttle-ms:4000}") long throttleMs,
-            @Value("${integrations.gemini.daily-cap:1500}") int dailyCap) {
-        this.geminiClient = geminiClient;
+            @Value("${integrations.llm.batch-size:10}") int batchSize,
+            @Value("${integrations.llm.throttle-ms:8000}") long throttleMs,
+            @Value("${integrations.llm.daily-cap:1500}") int dailyCap) {
+        this.llmClient = llmClient;
         this.reviewRepository = reviewRepository;
         this.reviewCategoryRepository = reviewCategoryRepository;
         this.categoryRepository = categoryRepository;
@@ -88,13 +89,13 @@ public class GeminiClassifierService {
         this.dailyCap = dailyCap;
     }
 
-    @Scheduled(cron = "${integrations.gemini.classify-cron:0 0 5 * * *}")
+    @Scheduled(cron = "${integrations.llm.classify-cron:0 0 5 * * *}")
     public void scheduledClassify() {
         try {
             classifyOnce();
         } catch (Exception e) {
             // Defensive: never let a scheduler thread die.
-            log.error("[GeminiClassifier] scheduled run crashed: {}", e.getMessage(), e);
+            log.error("[LlmClassifier] scheduled run crashed: {}", e.getMessage(), e);
         }
     }
 
@@ -103,7 +104,7 @@ public class GeminiClassifierService {
     }
 
     public boolean isLiveMode() {
-        return geminiClient.isLiveMode();
+        return llmClient.isLiveMode();
     }
 
     /**
@@ -113,8 +114,8 @@ public class GeminiClassifierService {
     public synchronized ClassifyResult classifyOnce() {
         long started = System.currentTimeMillis();
 
-        if (!geminiClient.isLiveMode()) {
-            log.info("[GeminiClassifier] disabled — GEMINI_API_KEY blank, skipping");
+        if (!llmClient.isLiveMode()) {
+            log.info("[LlmClassifier] disabled — integrations.llm.api-key blank, skipping");
             ClassifyResult res = new ClassifyResult(
                     LocalDateTime.now(), "disabled", 0, 0, 0, 0L);
             lastResult.set(res);
@@ -143,7 +144,7 @@ public class GeminiClassifierService {
                     ok++;
                 } catch (Exception e) {
                     errors++;
-                    log.warn("[GeminiClassifier] review id={} failed: {}",
+                    log.warn("[LlmClassifier] review id={} failed: {}",
                             review.getId(), e.getMessage());
                 }
                 throttle();
@@ -151,14 +152,14 @@ public class GeminiClassifierService {
         }
 
         if (dailyCapHit) {
-            log.warn("[GeminiClassifier] daily cap {} hit; backlog deferred to next run", dailyCap);
+            log.warn("[LlmClassifier] daily cap {} hit; backlog deferred to next run", dailyCap);
         }
 
         long elapsedSec = (System.currentTimeMillis() - started) / 1000L;
         ClassifyResult res = new ClassifyResult(
                 LocalDateTime.now(), "live", processed, ok, errors, elapsedSec);
         lastResult.set(res);
-        log.info("[GeminiClassifier] processed={} ok={} errors={} elapsedSec={}",
+        log.info("[LlmClassifier] processed={} ok={} errors={} elapsedSec={}",
                 processed, ok, errors, elapsedSec);
         return res;
     }
@@ -170,14 +171,14 @@ public class GeminiClassifierService {
     // never rolls back the rest of the batch.
     void classifyAndPersist(ReviewModel review) {
         List<String> sentimentCodes = currentSentimentCodes();
-        GeminiClient.Result result = geminiClient.classify(
+        LlmClassifierClient.Result result = llmClient.classify(
                 review.getRawText(), currentCategoryCodes(), sentimentCodes);
-        GeminiClassification c = result.classification();
+        LlmClassification c = result.classification();
 
         Set<String> labels = resolveLabels(c, sentimentCodes);
         if (labels.isEmpty()) {
             throw new IllegalStateException(
-                    "Gemini returned no recognised sentiment labels");
+                    "LLM returned no recognised sentiment labels");
         }
         review.setLabels(labels);
         review.setSummary(truncate(c.summary(), 500));
@@ -186,7 +187,7 @@ public class GeminiClassifierService {
         reviewRepository.save(review);
 
         if (c.categories() != null) {
-            for (GeminiClassification.CategoryHit hit : c.categories()) {
+            for (LlmClassification.CategoryHit hit : c.categories()) {
                 persistCategory(review, hit);
             }
         }
@@ -196,7 +197,7 @@ public class GeminiClassifierService {
     // field so any old fixture or cached response still classifies. Unknown
     // codes are dropped silently — they can't reach the DB anyway because of
     // the FK to sentiment_labels.code.
-    private Set<String> resolveLabels(GeminiClassification c, List<String> validCodes) {
+    private Set<String> resolveLabels(LlmClassification c, List<String> validCodes) {
         Set<String> valid = new LinkedHashSet<>(validCodes);
         Set<String> out = new LinkedHashSet<>();
         if (c.labels() != null) {
@@ -213,17 +214,17 @@ public class GeminiClassifierService {
         return out;
     }
 
-    private void persistCategory(ReviewModel review, GeminiClassification.CategoryHit hit) {
+    private void persistCategory(ReviewModel review, LlmClassification.CategoryHit hit) {
         if (hit == null || hit.code() == null) return;
         Optional<CategoryModel> categoryOpt = categoryRepository.findByCode(hit.code());
         if (categoryOpt.isEmpty()) {
-            log.debug("[GeminiClassifier] unknown category code={} skipped", hit.code());
+            log.debug("[LlmClassifier] unknown category code={} skipped", hit.code());
             return;
         }
         CategoryModel category = categoryOpt.get();
         ReviewCategoryId id = new ReviewCategoryId(review.getId(), category.getId());
         if (reviewCategoryRepository.existsById(id)) {
-            return; // idempotent — Gemini may emit the same code twice
+            return; // idempotent — the model may emit the same code twice
         }
         ReviewCategoryModel rc = ReviewCategoryModel.builder()
                 .id(id)
@@ -280,7 +281,7 @@ public class GeminiClassifierService {
         try {
             return objectMapper.writeValueAsString(phrases);
         } catch (JsonProcessingException e) {
-            log.warn("[GeminiClassifier] keyPhrases serialize failed: {}", e.getMessage());
+            log.warn("[LlmClassifier] keyPhrases serialize failed: {}", e.getMessage());
             return null;
         }
     }

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // One AI-clustered review summary. `count` is the number of underlying reviews
-// the Gemini classifier (task013) grouped under this summary text. task031:
+// the LLM classifier (task013) grouped under this summary text. task031:
 // `labels` is the distinct set of sentiment codes applied to the cluster — a
 // cluster can carry mixed sentiment chips on the FE.
 @Data

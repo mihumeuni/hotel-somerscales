@@ -71,11 +71,11 @@ public class ReviewModel {
     @Column(length = 500)
     private String summary;
 
-    // JSON array of phrases stored as text; Gemini writes here in task 013.
+    // JSON array of phrases stored as text; the LLM writes here in task 013.
     @Column(name = "key_phrases", columnDefinition = "TEXT")
     private String keyPhrases;
 
-    // task031: raw Gemini JSON response, doubles as the "classified yet?"
+    // task031: raw LLM JSON response, doubles as the "classified yet?"
     // marker. NULL → still in the classifier backlog.
     @Column(name = "classification_raw", columnDefinition = "TEXT")
     private String classificationRaw;

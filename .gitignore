@@ -42,3 +42,7 @@ reservations*.xlsx
 /.claude/
 /docs/
 /history/
+
+# Local dev scratch / machine-specific (not portable to collaborators)
+/temp/
+run-mvn.sh

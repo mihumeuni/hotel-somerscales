@@ -2,7 +2,7 @@ package controller;
 
 import dto.CategoryDTO;
 import dto.CategoryUpsertRequest;
-import integrations.gemini.GeminiClassifierService;
+import integrations.llm.LlmClassifierService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import java.util.List;
 public class CategoryController {
 
     private final CategoryService categoryService;
-    private final GeminiClassifierService geminiClassifier;
+    private final LlmClassifierService llmClassifier;
 
     @GetMapping
     public List<CategoryDTO> list() {
@@ -47,7 +47,7 @@ public class CategoryController {
 
     @PostMapping("/reclassify")
     @PreAuthorize("hasAuthority('category.manage')")
-    public ResponseEntity<GeminiClassifierService.ClassifyResult> reclassify() {
-        return ResponseEntity.ok(geminiClassifier.reclassifyAll());
+    public ResponseEntity<LlmClassifierService.ClassifyResult> reclassify() {
+        return ResponseEntity.ok(llmClassifier.reclassifyAll());
     }
 }

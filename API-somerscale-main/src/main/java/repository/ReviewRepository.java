@@ -20,7 +20,7 @@ public interface ReviewRepository extends JpaRepository<ReviewModel, Long> {
     List<ReviewModel> findByPostedAtBetween(LocalDateTime start, LocalDateTime end);
 
     // task031: classifier backlog. classification_raw IS NULL is the single
-    // source of truth for "Gemini has not seen this row yet" — replaces the
+    // source of truth for "the classifier has not seen this row yet" — replaces the
     // sentiment IS NULL filter used before the multi-label migration.
     Page<ReviewModel> findByClassificationRawIsNull(Pageable pageable);
 
@@ -99,7 +99,7 @@ public interface ReviewRepository extends JpaRepository<ReviewModel, Long> {
     List<Object[]> categoryCounts(@Param("from") LocalDateTime from,
                                   @Param("to") LocalDateTime to);
 
-    // Clusters Gemini-summarized reviews by summary text so each cluster row
+    // Clusters LLM-summarized reviews by summary text so each cluster row
     // carries the count of underlying source reviews. task031: a string-agg
     // of the distinct labels per cluster lets the FE render mixed-sentiment
     // chips without a follow-up query.

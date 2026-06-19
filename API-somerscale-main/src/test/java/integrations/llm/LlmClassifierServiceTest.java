@@ -1,8 +1,8 @@
-package integrations.gemini;
+package integrations.llm;
 
-import integrations.gemini.GeminiClassifierService.ClassifyResult;
-import integrations.gemini.dto.GeminiClassification;
-import integrations.gemini.dto.GeminiClassification.CategoryHit;
+import integrations.llm.LlmClassifierService.ClassifyResult;
+import integrations.llm.dto.LlmClassification;
+import integrations.llm.dto.LlmClassification.CategoryHit;
 import jakarta.persistence.EntityManager;
 import model.CategoryModel;
 import model.ReviewCategoryModel;
@@ -37,7 +37,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-class GeminiClassifierServiceTest {
+class LlmClassifierServiceTest {
 
     private static final List<SentimentLabelModel> TAXONOMY = List.of(
             label("positive", "Positivo", "😊", (short) 0),
@@ -61,30 +61,30 @@ class GeminiClassifierServiceTest {
                 .build();
     }
 
-    private static GeminiClient.Result resultOf(List<String> labels, String code) {
-        GeminiClassification c = new GeminiClassification(
+    private static LlmClassifierClient.Result resultOf(List<String> labels, String code) {
+        LlmClassification c = new LlmClassification(
                 labels,
                 null,
                 "Resumen breve en español.",
                 List.of(new CategoryHit(code, new BigDecimal("0.9"))),
                 List.of("limpio", "amable", "comoda")
         );
-        return new GeminiClient.Result(c, "{\"labels\":" + labels + "}");
+        return new LlmClassifierClient.Result(c, "{\"labels\":" + labels + "}");
     }
 
-    private GeminiClassifierService build(
-            GeminiClient client, ReviewRepository repo,
+    private LlmClassifierService build(
+            LlmClassifierClient client, ReviewRepository repo,
             ReviewCategoryRepository rcRepo, CategoryRepository catRepo,
             SentimentLabelRepository slRepo, EntityManager em,
             int batch, long throttle, int dailyCap) {
         when(slRepo.findAllByOrderByOrdinalAsc()).thenReturn(TAXONOMY);
-        return new GeminiClassifierService(client, repo, rcRepo, catRepo, slRepo, em,
+        return new LlmClassifierService(client, repo, rcRepo, catRepo, slRepo, em,
                 batch, throttle, dailyCap);
     }
 
     @Test
     void classifyOnce_returnsDisabledWhenApiKeyMissing() {
-        GeminiClient client = mock(GeminiClient.class);
+        LlmClassifierClient client = mock(LlmClassifierClient.class);
         when(client.isLiveMode()).thenReturn(false);
 
         ReviewRepository repo = mock(ReviewRepository.class);
@@ -103,7 +103,7 @@ class GeminiClassifierServiceTest {
 
     @Test
     void classifyOnce_writesLabelsSummaryKeyPhrasesCategoryAndRawJson() {
-        GeminiClient client = mock(GeminiClient.class);
+        LlmClassifierClient client = mock(LlmClassifierClient.class);
         when(client.isLiveMode()).thenReturn(true);
         when(client.classify(anyString(), anyList(), anyList()))
                 .thenReturn(resultOf(List.of("positive", "improvement"), "cleanliness"));
@@ -144,7 +144,7 @@ class GeminiClassifierServiceTest {
         assertEquals("Resumen breve en español.", saved.getSummary());
         assertTrue(saved.getKeyPhrases().startsWith("[\"limpio\""),
                 "keyPhrases must be Jackson-serialized JSON array, got " + saved.getKeyPhrases());
-        assertNotNull(saved.getClassificationRaw(), "raw Gemini JSON must be persisted for audit");
+        assertNotNull(saved.getClassificationRaw(), "raw LLM JSON must be persisted for audit");
 
         // review_categories row inserted with clamped confidence.
         ArgumentCaptor<ReviewCategoryModel> savedRc = ArgumentCaptor.forClass(ReviewCategoryModel.class);
@@ -157,7 +157,7 @@ class GeminiClassifierServiceTest {
 
     @Test
     void classifyOnce_dropsUnknownLabelCodes() {
-        GeminiClient client = mock(GeminiClient.class);
+        LlmClassifierClient client = mock(LlmClassifierClient.class);
         when(client.isLiveMode()).thenReturn(true);
         // "outrageous" is not in the taxonomy → must be dropped; "negative" stays.
         when(client.classify(anyString(), anyList(), anyList()))
@@ -185,7 +185,7 @@ class GeminiClassifierServiceTest {
 
     @Test
     void classifyOnce_skipsUnknownCategoryCodes() {
-        GeminiClient client = mock(GeminiClient.class);
+        LlmClassifierClient client = mock(LlmClassifierClient.class);
         when(client.isLiveMode()).thenReturn(true);
         when(client.classify(anyString(), anyList(), anyList()))
                 .thenReturn(resultOf(List.of("neutral"), "definitely-not-a-real-code"));
@@ -210,8 +210,8 @@ class GeminiClassifierServiceTest {
     }
 
     @Test
-    void classifyOnce_countsErrorsWhenGeminiThrows() {
-        GeminiClient client = mock(GeminiClient.class);
+    void classifyOnce_countsErrorsWhenClientThrows() {
+        LlmClassifierClient client = mock(LlmClassifierClient.class);
         when(client.isLiveMode()).thenReturn(true);
         when(client.classify(anyString(), anyList(), anyList()))
                 .thenThrow(new IllegalStateException("transport error"));
@@ -236,7 +236,7 @@ class GeminiClassifierServiceTest {
 
     @Test
     void classifyOnce_stopsAtDailyCap() {
-        GeminiClient client = mock(GeminiClient.class);
+        LlmClassifierClient client = mock(LlmClassifierClient.class);
         when(client.isLiveMode()).thenReturn(true);
         when(client.classify(anyString(), anyList(), anyList()))
                 .thenReturn(resultOf(List.of("positive"), "service"));
@@ -263,7 +263,7 @@ class GeminiClassifierServiceTest {
 
     @Test
     void classifyOnce_treatsZeroValidLabelsAsError() {
-        GeminiClient client = mock(GeminiClient.class);
+        LlmClassifierClient client = mock(LlmClassifierClient.class);
         when(client.isLiveMode()).thenReturn(true);
         // Every label unknown → service must error out, leaving the row to retry.
         when(client.classify(anyString(), anyList(), anyList()))
