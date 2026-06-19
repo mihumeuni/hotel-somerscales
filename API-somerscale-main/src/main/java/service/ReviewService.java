@@ -19,7 +19,7 @@ public class ReviewService {
     /**
      * Idempotent insert/refresh keyed by (source, externalId).
      * sentiment/summary/keyPhrases are deliberately preserved — those are
-     * written by the Gemini classifier (task 013), not by the fetch path.
+     * written by the LLM classifier (task 013), not by the fetch path.
      */
     @Transactional
     public ReviewModel upsertReview(
