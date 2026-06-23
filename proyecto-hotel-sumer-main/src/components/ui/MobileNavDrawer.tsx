@@ -15,7 +15,7 @@ type MobileNavDrawerProps = {
   open: boolean;
   onClose: () => void;
   primary: NavDestination[];
-  isAdmin: boolean;
+  canGlobalSettings: boolean;
 };
 
 const initialsFromEmail = (email: string | undefined) => {
@@ -32,7 +32,7 @@ export const MobileNavDrawer = ({
   open,
   onClose,
   primary,
-  isAdmin,
+  canGlobalSettings,
 }: MobileNavDrawerProps) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -144,6 +144,7 @@ export const MobileNavDrawer = ({
           </div>
         </div>
 
+        {primary.length > 0 && (
         <nav className="px-3 py-3 space-y-1">
           <p className="px-2 pb-1 text-[10px] uppercase tracking-widest text-slate-400 font-bold">
             Navegación
@@ -168,6 +169,7 @@ export const MobileNavDrawer = ({
             </NavLink>
           ))}
         </nav>
+        )}
 
         <nav className="px-3 py-3 space-y-1 border-t border-slate-100">
           <p className="px-2 pb-1 text-[10px] uppercase tracking-widest text-slate-400 font-bold">
@@ -194,7 +196,7 @@ export const MobileNavDrawer = ({
             </svg>
             <span className="font-semibold flex-1">Mi perfil</span>
           </Link>
-          {isAdmin && (
+          {canGlobalSettings && (
             <Link
               to="/settings/global"
               onClick={onClose}
