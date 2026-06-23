@@ -11,6 +11,26 @@ import { formatDayMonth } from "../lib/relativeDate";
 const WINDOW_OPTIONS = [7, 14, 30] as const;
 type WindowOption = (typeof WINDOW_OPTIONS)[number];
 
+// Fetch the widest selectable window once; the chips narrow it client-side.
+const MAX_WINDOW = Math.max(...WINDOW_OPTIONS);
+
+function toIsoDate(d: Date): string {
+  return d.toISOString().slice(0, 10);
+}
+
+// Forward window for the /calendario feed, padded one day each side so the
+// precise client-side [now, now+N] filter is always covered regardless of
+// UTC/local date skew. Day granularity keeps the React Query key stable across
+// remounts/refocus within the same day, so we serve cache instead of refetching.
+function calendarWindow(days: number): { from: string; to: string } {
+  const today = new Date();
+  const from = new Date(today);
+  from.setDate(from.getDate() - 1);
+  const to = new Date(today);
+  to.setDate(to.getDate() + days + 1);
+  return { from: toIsoDate(from), to: toIsoDate(to) };
+}
+
 function rangeLabel(start: Date, days: number): string {
   const end = new Date(start);
   end.setDate(end.getDate() + days - 1);
@@ -20,13 +40,17 @@ function rangeLabel(start: Date, days: number): string {
 const Calendario = () => {
   const [windowDays, setWindowDays] = useState<WindowOption>(7);
 
+  const fetchWindow = useMemo(() => calendarWindow(MAX_WINDOW), []);
   const {
     data: reservas = [],
     isLoading: loading,
     isError,
   } = useQuery({
-    queryKey: ["reservas"],
-    queryFn: () => api.get<ReservaCalendarDTO[]>("/api/reservas"),
+    queryKey: ["reservas-calendar", fetchWindow.from, fetchWindow.to],
+    queryFn: () =>
+      api.get<ReservaCalendarDTO[]>(
+        `/api/reservas/calendario?from=${fetchWindow.from}&to=${fetchWindow.to}`
+      ),
   });
   const error = isError ? "No se pudieron cargar las reservas." : null;
 

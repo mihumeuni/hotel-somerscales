@@ -66,6 +66,39 @@ public interface ReservaRepository extends JpaRepository<ReservaModel, Long> {
             """, nativeQuery = true)
     List<Object[]> findCurrentGuests(@Param("now") LocalDateTime now);
 
+    // Room-calendar window: every reservation whose stay overlaps [fromTs, toTs),
+    // projected to the columns the FE grid/KPIs actually read. The LEFT JOIN
+    // LATERAL pulls a single representative guest name per reservation (lowest
+    // huesped_id, deterministic) without loading HuespedModel — so no @ManyToMany
+    // N+1 and no AES-GCM decryption of numero_documento. Rooms-less and
+    // cancelled/no-show rows are dropped here since the grid hides them anyway.
+    @Query(value = """
+            SELECT r.id                AS id,
+                   r.fecha_entrada     AS fecha_entrada,
+                   r.fecha_salida      AS fecha_salida,
+                   r.numero_habitacion AS numero_habitacion,
+                   r.estado_reserva    AS estado_reserva,
+                   g.hid               AS huesped_id,
+                   g.hname             AS nombre_completo
+            FROM reservas r
+            LEFT JOIN LATERAL (
+                SELECT h.id AS hid, h.nombre_completo AS hname
+                FROM huespedes h
+                JOIN reserva_huespedes rh ON rh.huesped_id = h.id
+                WHERE rh.reserva_id = r.id
+                ORDER BY h.id ASC
+                LIMIT 1
+            ) g ON true
+            WHERE r.numero_habitacion IS NOT NULL
+              AND r.fecha_entrada < :toTs
+              AND (r.fecha_salida >= :fromTs
+                   OR (r.fecha_salida IS NULL AND r.fecha_entrada >= :fromTs))
+              AND (r.estado_reserva IS NULL OR r.estado_reserva NOT IN ('CANCELADA','NO_SHOW'))
+            ORDER BY r.fecha_entrada ASC
+            """, nativeQuery = true)
+    List<Object[]> findCalendarWindow(@Param("fromTs") LocalDateTime fromTs,
+                                      @Param("toTs") LocalDateTime toTs);
+
     // Recent checkouts grouped the same way. `since` clips the window to keep
     // the result bounded; the controller still applies LIMIT via Pageable.
     @Query(value = """
