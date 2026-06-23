@@ -4,14 +4,14 @@
       "id": 988200001,
       "lang": "en",
       "location_id": 1234567,
-      "published_date": "2026-04-12T16:30:00Z",
+      "published_date": "2026-04-18T16:30:00Z",
       "rating": 5,
-      "helpful_votes": 9,
+      "helpful_votes": 11,
       "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988200001",
       "trip_type": "COUPLES",
       "travel_date": "2026-04",
-      "title": "A Victorian gem on Cerro Alegre",
-      "text": "Stunning heritage hotel with attentive staff. Olivia at the front desk gave us the best restaurant tips for Valparaíso. Breakfast with local produce was a highlight.",
+      "title": "A magical heritage stay above Valparaíso",
+      "text": "Hotel Somerscales is tucked into a beautifully restored Victorian building on Cerro Alegre and every detail feels considered. We had sweeping views over the port from our room and the English decor is gorgeous. Camila at reception made our anniversary unforgettable with a little surprise on arrival.",
       "user": {
         "username": "OliviaCarter_UK",
         "user_location": { "id": "186338", "name": "London, United Kingdom" }
@@ -21,159 +21,325 @@
       "id": 988200002,
       "lang": "en",
       "location_id": 1234567,
-      "published_date": "2025-12-04T09:15:00Z",
+      "published_date": "2025-07-09T10:15:00Z",
       "rating": 4,
-      "helpful_votes": 3,
+      "helpful_votes": 6,
       "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988200002",
-      "trip_type": "FAMILY",
-      "travel_date": "2025-11",
-      "title": "Lovely heritage building, patchy wifi upstairs",
-      "text": "Beautiful boutique hotel with character. WiFi was a bit patchy on the upper floors but the staff fixed it within a few hours. Breakfast was excellent.",
+      "trip_type": "SOLO",
+      "travel_date": "2025-07",
+      "title": "Charming location, watch the stairs",
+      "text": "The setting near the funiculars and the street-art murals is unbeatable and the room was spotless. Just be prepared for the steep cerro stairs with luggage if you arrive on foot.",
       "user": {
         "username": "JamesOBrien_NZ",
-        "user_location": { "id": "255104", "name": "Auckland, New Zealand" }
+        "user_location": { "id": "255101", "name": "Auckland, New Zealand" }
       }
     },
     {
       "id": 988200003,
       "lang": "en",
       "location_id": 1234567,
-      "published_date": "2026-04-28T17:48:00Z",
+      "published_date": "2026-02-22T19:45:00Z",
       "rating": 5,
-      "helpful_votes": 6,
+      "helpful_votes": 14,
       "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988200003",
       "trip_type": "COUPLES",
-      "travel_date": "2026-04",
-      "title": "Sunset terrace is worth the trip",
-      "text": "Cozy boutique with character. The view from the rooftop terrace at sunset is worth the trip alone. Cleanliness top-notch and concierge service excellent.",
+      "travel_date": "2026-02",
+      "title": "Best seafood dinner in Valparaíso",
+      "text": "The hotel restaurant blew us away with the freshest seafood and a fantastic list of Chilean wines. Tomás recommended a crisp Casablanca white that paired perfectly with the catch of the day. We came for one night and stayed three.",
       "user": {
-        "username": "HannahLiu_TO",
-        "user_location": { "id": "155019", "name": "Toronto, Canada" }
+        "username": "EmmaLarssonSWE",
+        "user_location": { "id": "189852", "name": "Stockholm, Sweden" }
       }
     },
     {
       "id": 988200004,
       "lang": "en",
       "location_id": 1234567,
-      "published_date": "2026-02-12T20:00:00Z",
-      "rating": 2,
-      "helpful_votes": 1,
+      "published_date": "2025-09-14T08:20:00Z",
+      "rating": 3,
+      "helpful_votes": 8,
       "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988200004",
-      "trip_type": "SOLO",
-      "travel_date": "2026-02",
-      "title": "Beautiful but smaller than photos",
-      "text": "Beautiful location but the room was smaller than the photos suggested and the heater was loud. Front desk was apologetic and offered a free breakfast.",
+      "trip_type": "FAMILY",
+      "travel_date": "2025-09",
+      "title": "Lovely building but thin walls",
+      "text": "The heritage architecture is stunning and breakfast with local produce was a highlight for the kids. Unfortunately our room picked up a lot of street noise at night and the heating struggled to keep up, so we didn't sleep well. Staff did offer to move us, which we appreciated.",
       "user": {
-        "username": "MarkDonovan_DUB",
-        "user_location": { "id": "186605", "name": "Dublin, Ireland" }
+        "username": "DanielMeyer_DE",
+        "user_location": { "id": "187323", "name": "Berlin, Germany" }
       }
     },
     {
       "id": 988200005,
       "lang": "en",
       "location_id": 1234567,
-      "published_date": "2025-09-19T11:30:00Z",
+      "published_date": "2026-05-30T14:05:00Z",
       "rating": 5,
       "helpful_votes": 10,
       "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988200005",
-      "trip_type": "COUPLES",
-      "travel_date": "2025-09",
-      "title": "Best seafood we had in Chile",
-      "text": "Exceptional service from the moment we arrived. The restaurant has the best seafood we tried in Chile. We will return on our next trip to Valparaíso.",
+      "trip_type": "FRIENDS",
+      "travel_date": "2026-05",
+      "title": "Rooftop sunsets you won't forget",
+      "text": "We spent every evening on the terrace watching the sun drop over the Pacific with a glass of wine in hand. The whole team was warm and genuinely helpful with restaurant tips around the cerro.",
       "user": {
-        "username": "SofiaAndersen_OS",
-        "user_location": { "id": "190479", "name": "Oslo, Norway" }
+        "username": "SophieDubois_FR",
+        "user_location": { "id": "187147", "name": "Paris, France" }
       }
     },
     {
       "id": 988200006,
       "lang": "en",
       "location_id": 1234567,
-      "published_date": "2026-01-22T08:50:00Z",
-      "rating": 4,
-      "helpful_votes": 2,
+      "published_date": "2025-11-03T21:30:00Z",
+      "rating": 2,
+      "helpful_votes": 13,
       "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988200006",
       "trip_type": "BUSINESS",
-      "travel_date": "2026-01",
-      "title": "Great workspace for a short business trip",
-      "text": "Stayed two nights for work. Desk was comfortable, room was quiet, breakfast was hot and quick. WiFi held up for video calls. Highly recommended for solo business travelers.",
+      "travel_date": "2025-10",
+      "title": "Disappointing hot water and slow wifi",
+      "text": "I really wanted to love this place given the gorgeous Victorian interiors, but the shower ran lukewarm both mornings and the wifi was too slow for a single video call. Olivia at the desk was apologetic and knocked something off the bill, which softened the blow, but it shouldn't have happened on a business stay.",
       "user": {
-        "username": "TomKowalski_WAW",
-        "user_location": { "id": "274856", "name": "Warsaw, Poland" }
+        "username": "MichaelTanaka_US",
+        "user_location": { "id": "60763", "name": "New York City, New York" }
       }
     },
     {
       "id": 988200007,
       "lang": "en",
       "location_id": 1234567,
-      "published_date": "2026-03-05T14:00:00Z",
+      "published_date": "2026-01-19T12:50:00Z",
       "rating": 5,
-      "helpful_votes": 5,
+      "helpful_votes": 9,
       "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988200007",
-      "trip_type": "FRIENDS",
-      "travel_date": "2026-02",
-      "title": "Birthday celebration done right",
-      "text": "They surprised my friend with a cake and a hand-drawn postcard of the hill, signed by the team. Such a thoughtful touch. Spacious room with high ceilings.",
+      "trip_type": "COUPLES",
+      "travel_date": "2026-01",
+      "title": "Spotless rooms and incredible service",
+      "text": "Housekeeping was immaculate and our room was refreshed beautifully every day. Every member of staff greeted us by name by the second morning. This is hospitality done right.",
       "user": {
-        "username": "EmmaJohansson_GO",
-        "user_location": { "id": "189894", "name": "Gothenburg, Sweden" }
+        "username": "GraceOConnor_IE",
+        "user_location": { "id": "186605", "name": "Dublin, Ireland" }
       }
     },
     {
       "id": 988200008,
       "lang": "en",
       "location_id": 1234567,
-      "published_date": "2025-08-30T19:10:00Z",
-      "rating": 3,
-      "helpful_votes": 0,
+      "published_date": "2025-08-27T17:10:00Z",
+      "rating": 4,
+      "helpful_votes": 5,
       "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988200008",
-      "trip_type": "COUPLES",
+      "trip_type": "SOLO",
       "travel_date": "2025-08",
-      "title": "Charming but maintenance is patchy",
-      "text": "The shower was lukewarm on the first morning. Maintenance team responded the same day but the confirmation took a while. They offered breakfast credit as compensation.",
+      "title": "Comfortable bed, compact room",
+      "text": "The bed was one of the most comfortable I've slept in while travelling and the bathroom was modern with great water pressure. The room itself is on the smaller side, which is typical for a heritage building, but it was well laid out and never felt cramped.",
       "user": {
-        "username": "PhilipReed_LA",
-        "user_location": { "id": "32655", "name": "Los Angeles, California" }
+        "username": "LiamWalsh_AU",
+        "user_location": { "id": "255060", "name": "Sydney, Australia" }
       }
     },
     {
       "id": 988200009,
       "lang": "en",
       "location_id": 1234567,
-      "published_date": "2026-03-25T09:40:00Z",
+      "published_date": "2026-03-11T09:40:00Z",
       "rating": 5,
-      "helpful_votes": 4,
+      "helpful_votes": 12,
       "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988200009",
       "trip_type": "FAMILY",
       "travel_date": "2026-03",
-      "title": "Perfect for exploring Valparaíso",
-      "text": "Close to the funiculars and to all the famous murals. Generous breakfast with homemade preserves. Bilingual staff handled our kid's allergy without missing a beat.",
+      "title": "Great value for such a special place",
+      "text": "Honestly the rate felt like a bargain for the location, the views and the quality of the breakfast. We'd happily pay more and will be back next year.",
       "user": {
-        "username": "BarbaraSilva_NYC",
-        "user_location": { "id": "60763", "name": "New York City, New York" }
+        "username": "IsabelaRossi_IT",
+        "user_location": { "id": "187791", "name": "Rome, Italy" }
       }
     },
     {
       "id": 988200010,
       "lang": "en",
       "location_id": 1234567,
-      "published_date": "2025-11-02T10:25:00Z",
-      "rating": 4,
-      "helpful_votes": 2,
+      "published_date": "2025-06-21T15:25:00Z",
+      "rating": 1,
+      "helpful_votes": 15,
       "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988200010",
       "trip_type": "COUPLES",
-      "travel_date": "2025-10",
-      "title": "Quiet retreat with a view",
-      "text": "Weekend escape from Santiago. They asked about preferences ahead of arrival and respected a gluten-free request at breakfast. Personalized service throughout.",
+      "travel_date": "2025-06",
+      "title": "Check-in chaos ruined our arrival",
+      "text": "Our reservation couldn't be found at check-in and we waited over an hour while it was sorted, with no clear explanation. To make matters worse the room hadn't been cleaned properly and there was a lingering smell. The manager eventually moved us and offered a partial refund, but the first impression was badly damaged.",
       "user": {
-        "username": "AlexanderMurphy_SCL",
-        "user_location": { "id": "294291", "name": "Santiago, Chile" }
+        "username": "HenrikJohansen_NO",
+        "user_location": { "id": "190479", "name": "Oslo, Norway" }
+      }
+    },
+    {
+      "id": 988200011,
+      "lang": "en",
+      "location_id": 1234567,
+      "published_date": "2026-06-05T11:00:00Z",
+      "rating": 5,
+      "helpful_votes": 8,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988200011",
+      "trip_type": "COUPLES",
+      "travel_date": "2026-06",
+      "title": "Victorian charm with ocean views",
+      "text": "Waking up to the port view through the original sash windows was a daily treat. The antique furnishings and the painter's heritage give the place real soul. Camila could not have been more gracious.",
+      "user": {
+        "username": "CharlotteReid_CA",
+        "user_location": { "id": "155019", "name": "Toronto, Canada" }
+      }
+    },
+    {
+      "id": 988200012,
+      "lang": "en",
+      "location_id": 1234567,
+      "published_date": "2025-10-16T18:35:00Z",
+      "rating": 4,
+      "helpful_votes": 7,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988200012",
+      "trip_type": "FRIENDS",
+      "travel_date": "2025-10",
+      "title": "Breakfast is the star",
+      "text": "The breakfast spread of local produce, fresh bread and good coffee was genuinely excellent and set us up for a day of exploring the hills. Only minor gripe is that the lone lift is small, so getting bags up took a couple of trips.",
+      "user": {
+        "username": "NoahVisser_NL",
+        "user_location": { "id": "188590", "name": "Amsterdam, Netherlands" }
+      }
+    },
+    {
+      "id": 988200013,
+      "lang": "en",
+      "location_id": 1234567,
+      "published_date": "2026-04-02T13:15:00Z",
+      "rating": 5,
+      "helpful_votes": 10,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988200013",
+      "trip_type": "SOLO",
+      "travel_date": "2026-03",
+      "title": "Perfect base for the murals",
+      "text": "Steps from the funiculars and right in the heart of the street-art district, you cannot beat this location for exploring Valparaíso on foot. Staff loaded me up with a map and their favourite cafe recommendations.",
+      "user": {
+        "username": "AvaThompson_LA",
+        "user_location": { "id": "32655", "name": "Los Angeles, California" }
+      }
+    },
+    {
+      "id": 988200014,
+      "lang": "en",
+      "location_id": 1234567,
+      "published_date": "2025-12-08T20:05:00Z",
+      "rating": 3,
+      "helpful_votes": 6,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988200014",
+      "trip_type": "FAMILY",
+      "travel_date": "2025-12",
+      "title": "Beautiful but not very accessible",
+      "text": "The hotel is lovely and the staff kind, but with my mother using a walker the steep approach and the stairs inside the old building were a real challenge. Reception tried hard to help carry things, yet the heritage layout simply isn't built for limited mobility.",
+      "user": {
+        "username": "WilliamWright_UK",
+        "user_location": { "id": "186356", "name": "Edinburgh, United Kingdom" }
+      }
+    },
+    {
+      "id": 988200015,
+      "lang": "en",
+      "location_id": 1234567,
+      "published_date": "2026-05-12T16:45:00Z",
+      "rating": 5,
+      "helpful_votes": 11,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988200015",
+      "trip_type": "COUPLES",
+      "travel_date": "2026-05",
+      "title": "Warm welcome and a cosy room",
+      "text": "From the moment Tomás opened the door we felt looked after. The room was warm even in the autumn chill, the bed was plush and the whole place smelled of fresh flowers. A real home from home.",
+      "user": {
+        "username": "MiaAndersson_DK",
+        "user_location": { "id": "189541", "name": "Copenhagen, Denmark" }
+      }
+    },
+    {
+      "id": 988200016,
+      "lang": "en",
+      "location_id": 1234567,
+      "published_date": "2025-07-29T10:55:00Z",
+      "rating": 4,
+      "helpful_votes": 4,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988200016",
+      "trip_type": "BUSINESS",
+      "travel_date": "2025-07",
+      "title": "Solid wifi and quiet workspace",
+      "text": "Pleasantly surprised that the wifi held up for back-to-back calls and the room had a proper desk by the window. Only reason it's not five stars is that the restaurant was fully booked both nights, so plan ahead.",
+      "user": {
+        "username": "BenjaminFoster_ZA",
+        "user_location": { "id": "312610", "name": "Cape Town, South Africa" }
+      }
+    },
+    {
+      "id": 988200017,
+      "lang": "en",
+      "location_id": 1234567,
+      "published_date": "2026-02-04T22:10:00Z",
+      "rating": 5,
+      "helpful_votes": 9,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988200017",
+      "trip_type": "FRIENDS",
+      "travel_date": "2026-01",
+      "title": "Impeccably clean and full of character",
+      "text": "Every corner of this old house gleamed and the staff clearly take huge pride in it. Add in the terrace views and the wine list and you have a stay we're still raving about.",
+      "user": {
+        "username": "ZoeMartin_AU",
+        "user_location": { "id": "255100", "name": "Melbourne, Australia" }
+      }
+    },
+    {
+      "id": 988200018,
+      "lang": "en",
+      "location_id": 1234567,
+      "published_date": "2025-11-26T14:30:00Z",
+      "rating": 5,
+      "helpful_votes": 13,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988200018",
+      "trip_type": "COUPLES",
+      "travel_date": "2025-11",
+      "title": "Romantic and effortlessly elegant",
+      "text": "The Victorian styling, the port views and the candlelit restaurant made for the most romantic few days. Olivia arranged a late checkout without us even asking. Faultless.",
+      "user": {
+        "username": "LucasSilva_BR",
+        "user_location": { "id": "303506", "name": "São Paulo, Brazil" }
+      }
+    },
+    {
+      "id": 988200019,
+      "lang": "en",
+      "location_id": 1234567,
+      "published_date": "2026-03-23T09:05:00Z",
+      "rating": 4,
+      "helpful_votes": 7,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988200019",
+      "trip_type": "SOLO",
+      "travel_date": "2026-03",
+      "title": "Great stay, minor heating quirk",
+      "text": "Comfortable, characterful and brilliantly located near the funiculars. The only hiccup was that the room heater took a while to warm up on the first night, but once it did everything was perfect and the bathroom had endless hot water.",
+      "user": {
+        "username": "HannahKim_KR",
+        "user_location": { "id": "294197", "name": "Seoul, South Korea" }
+      }
+    },
+    {
+      "id": 988200020,
+      "lang": "en",
+      "location_id": 1234567,
+      "published_date": "2026-06-15T17:50:00Z",
+      "rating": 5,
+      "helpful_votes": 8,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988200020",
+      "trip_type": "FAMILY",
+      "travel_date": "2026-06",
+      "title": "We'll be back without a doubt",
+      "text": "Spacious enough for the three of us, spotless throughout and the friendliest team in Valparaíso. The kids loved the funicular rides and we loved the sunset from the rooftop terrace. Wonderful value too.",
+      "user": {
+        "username": "EthanMurphy_CA",
+        "user_location": { "id": "154913", "name": "Vancouver, Canada" }
       }
     }
   ],
-  "paging": {
-    "results": "10",
-    "total_results": "10",
-    "skipped": "0"
-  }
+  "paging": { "results": "20", "total_results": "20", "skipped": "0" }
 }

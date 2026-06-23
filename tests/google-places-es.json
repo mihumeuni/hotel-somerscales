@@ -5,77 +5,1123 @@
   "reviews": [
     {
       "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES001",
-      "relativePublishTimeDescription": "hace 3 semanas",
+      "relativePublishTimeDescription": "hace 5 días",
       "rating": 5,
       "text": {
-        "text": "Hotel boutique encantador en el corazón de Valparaíso. Habitaciones impecables, desayuno abundante y atención cálida. Volveríamos sin dudarlo.",
-        "languageCode": "es"
-      },
-      "originalText": {
-        "text": "Hotel boutique encantador en el corazón de Valparaíso. Habitaciones impecables, desayuno abundante y atención cálida. Volveríamos sin dudarlo.",
+        "text": "Hotel boutique encantador en pleno Cerro Alegre. Las habitaciones impecables y el desayuno con productos locales fue una delicia. Volveríamos sin dudarlo.",
         "languageCode": "es"
       },
       "authorAttribution": {
         "displayName": "María Fernández",
         "uri": "https://www.google.com/maps/contrib/dummy001"
       },
-      "publishTime": "2026-04-22T14:08:00Z"
+      "publishTime": "2026-06-18T14:08:00Z"
     },
     {
       "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES002",
-      "relativePublishTimeDescription": "hace 2 meses",
+      "relativePublishTimeDescription": "hace 2 semanas",
       "rating": 4,
       "text": {
-        "text": "Excelente ubicación, vista al mar increíble. Las escaleras del cerro son un desafío pero parte del encanto. La cama un poco firme.",
+        "text": "Excelente ubicación y una vista al puerto increíble desde la terraza. Las escaleras del cerro son un desafío, pero parte del encanto. La cama nos resultó algo firme.",
         "languageCode": "es"
       },
       "authorAttribution": {
         "displayName": "Diego Salazar",
         "uri": "https://www.google.com/maps/contrib/dummy002"
       },
-      "publishTime": "2026-03-12T09:30:00Z"
+      "publishTime": "2026-06-09T09:30:00Z"
     },
     {
       "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES003",
-      "relativePublishTimeDescription": "hace 1 mes",
+      "relativePublishTimeDescription": "hace 3 semanas",
       "rating": 5,
       "text": {
-        "text": "El restaurante del hotel es una joya. Pescado fresco del día y vinos chilenos seleccionados. Servicio impecable de Camila y Tomás.",
+        "text": "El restaurante del hotel es una joya escondida. Pescado fresco del día y una carta de vinos chilenos muy bien seleccionada. Camila nos atendió de maravilla.",
         "languageCode": "es"
       },
       "authorAttribution": {
         "displayName": "Patricia Rojas",
         "uri": "https://www.google.com/maps/contrib/dummy003"
       },
-      "publishTime": "2026-04-04T20:15:00Z"
+      "publishTime": "2026-05-31T20:15:00Z"
     },
     {
       "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES004",
-      "relativePublishTimeDescription": "hace 6 días",
+      "relativePublishTimeDescription": "hace 1 mes",
       "rating": 3,
       "text": {
-        "text": "Lugar histórico precioso pero el ruido nocturno del cerro se filtra mucho. Pedí cambio de habitación y respondieron rápido. Limpieza muy buena.",
+        "text": "Edificio histórico precioso, pero el ruido nocturno de la calle del cerro se filtra bastante. Pedí cambio de habitación y respondieron rápido. La limpieza, muy buena.",
         "languageCode": "es"
       },
       "authorAttribution": {
         "displayName": "Joaquín Pérez",
         "uri": "https://www.google.com/maps/contrib/dummy004"
       },
-      "publishTime": "2026-05-07T11:42:00Z"
+      "publishTime": "2026-05-22T11:42:00Z"
     },
     {
       "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES005",
-      "relativePublishTimeDescription": "hace 4 meses",
+      "relativePublishTimeDescription": "hace 1 mes",
       "rating": 5,
       "text": {
-        "text": "Pasamos nuestra luna de miel acá. La decoración inglesa y el detalle del champagne en la habitación fueron mágicos. Recomendadísimo.",
+        "text": "Pasamos nuestra luna de miel acá y fue mágico. La decoración victoriana y el detalle de una copa de espumante en la habitación nos enamoraron. Recomendadísimo.",
         "languageCode": "es"
       },
       "authorAttribution": {
         "displayName": "Catalina Méndez",
         "uri": "https://www.google.com/maps/contrib/dummy005"
       },
-      "publishTime": "2026-01-18T16:00:00Z"
+      "publishTime": "2026-05-19T16:00:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES006",
+      "relativePublishTimeDescription": "hace 3 días",
+      "rating": 5,
+      "text": {
+        "text": "Una estadía redonda. La habitación amplia y bien calefaccionada, el baño con excelente agua caliente y un personal pendiente de cada detalle. Tomás nos atendió de maravilla.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Rodrigo Bustamante",
+        "uri": "https://www.google.com/maps/contrib/dummy006"
+      },
+      "publishTime": "2026-06-20T08:20:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES007",
+      "relativePublishTimeDescription": "hace 4 días",
+      "rating": 5,
+      "text": {
+        "text": "Despertar con vista al océano y a los techos coloridos de Valparaíso no tiene precio. El personal te hace sentir como en casa.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Valentina Cáceres",
+        "uri": "https://www.google.com/maps/contrib/dummy007"
+      },
+      "publishTime": "2026-06-19T07:55:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES008",
+      "relativePublishTimeDescription": "hace 1 semana",
+      "rating": 4,
+      "text": {
+        "text": "Muy buena relación precio-calidad para un hotel patrimonial. El wifi en la pieza del último piso iba algo lento, pero en el lobby funcionaba perfecto.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Sebastián Aravena",
+        "uri": "https://www.google.com/maps/contrib/dummy008"
+      },
+      "publishTime": "2026-06-15T13:10:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES009",
+      "relativePublishTimeDescription": "hace 1 semana",
+      "rating": 5,
+      "text": {
+        "text": "La cercanía a los ascensores y a los murales de arte callejero es perfecta para recorrer el cerro a pie. Olivia nos dio excelentes recomendaciones de paseos.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Francisca Vergara",
+        "uri": "https://www.google.com/maps/contrib/dummy009"
+      },
+      "publishTime": "2026-06-14T18:40:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES010",
+      "relativePublishTimeDescription": "hace 2 semanas",
+      "rating": 1,
+      "text": {
+        "text": "Reservamos una habitación con vista al mar y nos dieron una interior sin ventana. La calefacción no funcionaba y tardaron dos días en repararla. Muy decepcionados.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Andrés Maldonado",
+        "uri": "https://www.google.com/maps/contrib/dummy010"
+      },
+      "publishTime": "2026-06-08T10:05:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES011",
+      "relativePublishTimeDescription": "hace 2 semanas",
+      "rating": 5,
+      "text": {
+        "text": "Un encanto de hotel. La arquitectura inglesa de la época victoriana se mantiene intacta y el servicio es de primera categoría.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Javiera Contreras",
+        "uri": "https://www.google.com/maps/contrib/dummy011"
+      },
+      "publishTime": "2026-06-07T15:25:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES012",
+      "relativePublishTimeDescription": "hace 3 semanas",
+      "rating": 4,
+      "text": {
+        "text": "El desayuno con mermeladas caseras y fruta de la zona fue lo mejor de la estadía. El baño un poco justo de espacio, pero la presión de la ducha excelente.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Matías Figueroa",
+        "uri": "https://www.google.com/maps/contrib/dummy012"
+      },
+      "publishTime": "2026-06-02T09:00:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES013",
+      "relativePublishTimeDescription": "hace 3 semanas",
+      "rating": 5,
+      "text": {
+        "text": "El check-in fue rapidísimo y nos recibieron con un café mientras preparaban la habitación. Detalles que marcan la diferencia.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Antonia Riquelme",
+        "uri": "https://www.google.com/maps/contrib/dummy013"
+      },
+      "publishTime": "2026-05-30T12:30:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES014",
+      "relativePublishTimeDescription": "hace 4 semanas",
+      "rating": 3,
+      "text": {
+        "text": "La ubicación es inmejorable, pero subir las escaleras del cerro con maletas pesadas fue agotador y no hay ascensor en el edificio. Para personas con movilidad reducida puede ser complicado.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Gonzalo Tapia",
+        "uri": "https://www.google.com/maps/contrib/dummy014"
+      },
+      "publishTime": "2026-05-26T17:15:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES015",
+      "relativePublishTimeDescription": "hace 1 mes",
+      "rating": 5,
+      "text": {
+        "text": "Habitación amplia, cómoda y muy bien decorada con muebles de época. La cama king fue de lo más confortable que he probado.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Daniela Sepúlveda",
+        "uri": "https://www.google.com/maps/contrib/dummy015"
+      },
+      "publishTime": "2026-05-21T21:00:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES016",
+      "relativePublishTimeDescription": "hace 1 mes",
+      "rating": 4,
+      "text": {
+        "text": "Atardeceres espectaculares desde la terraza con una copa de vino. Solo eché en falta más enchufes cerca de la cama.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Ignacio Lagos",
+        "uri": "https://www.google.com/maps/contrib/dummy016"
+      },
+      "publishTime": "2026-05-18T19:45:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES017",
+      "relativePublishTimeDescription": "hace 1 mes",
+      "rating": 5,
+      "text": {
+        "text": "Limpieza impecable en todo momento. El personal de aseo era muy discreto y dejaba la habitación perfecta cada día.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Camila Henríquez",
+        "uri": "https://www.google.com/maps/contrib/dummy017"
+      },
+      "publishTime": "2026-05-16T11:20:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES018",
+      "relativePublishTimeDescription": "hace 1 mes",
+      "rating": 2,
+      "text": {
+        "text": "El precio me pareció elevado para lo que ofrecen. La habitación necesita mantención: la llave de la ducha goteaba y una persiana estaba rota.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Felipe Navarrete",
+        "uri": "https://www.google.com/maps/contrib/dummy018"
+      },
+      "publishTime": "2026-05-14T14:50:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES019",
+      "relativePublishTimeDescription": "hace 2 meses",
+      "rating": 5,
+      "text": {
+        "text": "Una experiencia inolvidable. El edificio respira historia y el cariño con que Tomás nos contó sobre el pintor Somerscales fue un plus encantador.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Constanza Miranda",
+        "uri": "https://www.google.com/maps/contrib/dummy019"
+      },
+      "publishTime": "2026-04-28T16:30:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES020",
+      "relativePublishTimeDescription": "hace 2 meses",
+      "rating": 4,
+      "text": {
+        "text": "Muy buen hotel en general. La comida del restaurante deliciosa, aunque el servicio en la cena estuvo algo lento por estar lleno.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Cristóbal Fuentes",
+        "uri": "https://www.google.com/maps/contrib/dummy020"
+      },
+      "publishTime": "2026-04-24T20:40:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES021",
+      "relativePublishTimeDescription": "hace 2 meses",
+      "rating": 5,
+      "text": {
+        "text": "La vista al puerto desde nuestra ventana era de postal. Nos quedamos horas mirando los barcos. Servicio cálido y profesional.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Paula Cárdenas",
+        "uri": "https://www.google.com/maps/contrib/dummy021"
+      },
+      "publishTime": "2026-04-20T08:10:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES022",
+      "relativePublishTimeDescription": "hace 2 meses",
+      "rating": 3,
+      "text": {
+        "text": "El hotel es bonito, pero el wifi se cortaba constantemente y no pude trabajar tranquilo. La habitación cómoda y limpia, eso sí.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Nicolás Vega",
+        "uri": "https://www.google.com/maps/contrib/dummy022"
+      },
+      "publishTime": "2026-04-16T10:25:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES023",
+      "relativePublishTimeDescription": "hace 2 meses",
+      "rating": 5,
+      "text": {
+        "text": "Atención de diez. Olivia nos consiguió reserva en un restaurante difícil y nos organizó el traslado al aeropuerto sin problemas. Gente encantadora.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Macarena Soto",
+        "uri": "https://www.google.com/maps/contrib/dummy023"
+      },
+      "publishTime": "2026-04-12T17:50:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES024",
+      "relativePublishTimeDescription": "hace 3 meses",
+      "rating": 4,
+      "text": {
+        "text": "Encantador y muy bien ubicado cerca del ascensor. La habitación con vista al mar valió cada peso, aunque el aislamiento de ruido podría mejorar.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Esteban Cortés",
+        "uri": "https://www.google.com/maps/contrib/dummy024"
+      },
+      "publishTime": "2026-04-05T13:35:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES025",
+      "relativePublishTimeDescription": "hace 3 meses",
+      "rating": 5,
+      "text": {
+        "text": "El desayuno es un festín: huevos al gusto, pan amasado, fruta fresca y jugos naturales. Empezar el día así en esa terraza no tiene comparación.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Trinidad Espinoza",
+        "uri": "https://www.google.com/maps/contrib/dummy025"
+      },
+      "publishTime": "2026-04-01T09:15:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES026",
+      "relativePublishTimeDescription": "hace 3 meses",
+      "rating": 1,
+      "text": {
+        "text": "Pésima experiencia con el agua caliente: estuvo intermitente toda la estadía. Para lo que cobran, esto es inaceptable. La recepción se disculpó pero nunca lo solucionaron.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Mauricio Garrido",
+        "uri": "https://www.google.com/maps/contrib/dummy026"
+      },
+      "publishTime": "2026-03-28T18:05:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES027",
+      "relativePublishTimeDescription": "hace 3 meses",
+      "rating": 5,
+      "text": {
+        "text": "Todo perfecto: habitación limpia, cama comodísima, baño moderno y un personal atentísimo. El mejor hotel en el que me he alojado en Valparaíso.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Fernanda Ulloa",
+        "uri": "https://www.google.com/maps/contrib/dummy027"
+      },
+      "publishTime": "2026-03-24T14:20:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES028",
+      "relativePublishTimeDescription": "hace 3 meses",
+      "rating": 4,
+      "text": {
+        "text": "Hotel con mucho carácter y una decoración victoriana preciosa. El único pero es que la habitación era un poco pequeña para dos maletas grandes.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Álvaro Reyes",
+        "uri": "https://www.google.com/maps/contrib/dummy028"
+      },
+      "publishTime": "2026-03-20T11:40:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES029",
+      "relativePublishTimeDescription": "hace 3 meses",
+      "rating": 5,
+      "text": {
+        "text": "Volvimos por tercera vez y nos reconocieron de inmediato. Ese trato personalizado y la calidez del equipo nos hacen sentir parte de la familia.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Carolina Pizarro",
+        "uri": "https://www.google.com/maps/contrib/dummy029"
+      },
+      "publishTime": "2026-03-16T16:55:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES030",
+      "relativePublishTimeDescription": "hace 4 meses",
+      "rating": 3,
+      "text": {
+        "text": "El restaurante prometía mucho, pero el plato de pescado llegó frío. Lo cambiaron sin problema y el postre fue cortesía de la casa, gesto que agradecemos.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Rubén Castillo",
+        "uri": "https://www.google.com/maps/contrib/dummy030"
+      },
+      "publishTime": "2026-03-08T21:10:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES031",
+      "relativePublishTimeDescription": "hace 4 meses",
+      "rating": 5,
+      "text": {
+        "text": "Una verdadera escapada romántica. La ambientación, las vistas al océano y la atención de Camila hicieron de nuestro aniversario algo especial.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Josefa Moya",
+        "uri": "https://www.google.com/maps/contrib/dummy031"
+      },
+      "publishTime": "2026-03-04T17:30:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES032",
+      "relativePublishTimeDescription": "hace 4 meses",
+      "rating": 4,
+      "text": {
+        "text": "Muy buena estadía. El check-out fue ágil y nos guardaron el equipaje hasta la tarde sin costo. La calefacción tardaba un poco en calentar la pieza.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Tomás Bravo",
+        "uri": "https://www.google.com/maps/contrib/dummy032"
+      },
+      "publishTime": "2026-02-28T10:45:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES033",
+      "relativePublishTimeDescription": "hace 4 meses",
+      "rating": 5,
+      "text": {
+        "text": "El emplazamiento en Cerro Alegre es ideal: a pasos de cafés, galerías y los murales más famosos del puerto. Volvería solo por la ubicación.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Renata Olivares",
+        "uri": "https://www.google.com/maps/contrib/dummy033"
+      },
+      "publishTime": "2026-02-24T15:00:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES034",
+      "relativePublishTimeDescription": "hace 4 meses",
+      "rating": 2,
+      "text": {
+        "text": "La habitación daba a la calle y el ruido de los autos subiendo el cerro no nos dejó dormir. Pedimos cambio pero estaba todo ocupado. Una lástima porque el hotel es lindo.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Hernán Lobos",
+        "uri": "https://www.google.com/maps/contrib/dummy034"
+      },
+      "publishTime": "2026-02-20T22:25:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES035",
+      "relativePublishTimeDescription": "hace 4 meses",
+      "rating": 5,
+      "text": {
+        "text": "Servicio impecable de principio a fin. Atentos a cada detalle sin ser invasivos. La limpieza diaria, perfecta. Cinco estrellas merecidas.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Bárbara Alarcón",
+        "uri": "https://www.google.com/maps/contrib/dummy035"
+      },
+      "publishTime": "2026-02-16T12:10:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES036",
+      "relativePublishTimeDescription": "hace 5 meses",
+      "rating": 5,
+      "text": {
+        "text": "Desayuno espectacular y vistas de ensueño al mar. El equipo siempre con una sonrisa. Una joyita patrimonial en Valparaíso.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Vicente Saavedra",
+        "uri": "https://www.google.com/maps/contrib/dummy036"
+      },
+      "publishTime": "2026-02-08T09:35:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES037",
+      "relativePublishTimeDescription": "hace 5 meses",
+      "rating": 4,
+      "text": {
+        "text": "Hotel acogedor y bien mantenido. La habitación cómoda y el baño con buena agua caliente. Le faltó algo de insonorización hacia el pasillo.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Pilar Donoso",
+        "uri": "https://www.google.com/maps/contrib/dummy037"
+      },
+      "publishTime": "2026-02-04T16:20:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES038",
+      "relativePublishTimeDescription": "hace 5 meses",
+      "rating": 5,
+      "text": {
+        "text": "El restaurante es razón suficiente para hospedarse aquí. El congrio estaba sublime y el maridaje con vino del valle de Casablanca, perfecto.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Gabriel Maturana",
+        "uri": "https://www.google.com/maps/contrib/dummy038"
+      },
+      "publishTime": "2026-01-31T20:50:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES039",
+      "relativePublishTimeDescription": "hace 5 meses",
+      "rating": 3,
+      "text": {
+        "text": "La estadía fue correcta, pero esperaba más por el precio. El desayuno algo repetitivo y la habitación, aunque limpia, se sentía un poco fría por las mañanas.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Marcela Ibáñez",
+        "uri": "https://www.google.com/maps/contrib/dummy039"
+      },
+      "publishTime": "2026-01-27T11:15:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES040",
+      "relativePublishTimeDescription": "hace 5 meses",
+      "rating": 5,
+      "text": {
+        "text": "Increíble. La decoración inglesa, la madera noble y los detalles de época te transportan a otra era. Una experiencia que recomiendo cien por ciento.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Emilia Carrasco",
+        "uri": "https://www.google.com/maps/contrib/dummy040"
+      },
+      "publishTime": "2026-01-23T15:40:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES041",
+      "relativePublishTimeDescription": "hace 5 meses",
+      "rating": 4,
+      "text": {
+        "text": "Muy lindo lugar y trato excelente. Las escaleras para llegar son pesadas, pero la recompensa de la vista al puerto lo vale completamente.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Lucas Venegas",
+        "uri": "https://www.google.com/maps/contrib/dummy041"
+      },
+      "publishTime": "2026-01-19T13:25:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES042",
+      "relativePublishTimeDescription": "hace 6 meses",
+      "rating": 5,
+      "text": {
+        "text": "La habitación más bonita en la que me he quedado: amplia, luminosa y con una bañera de época preciosa. El servicio, impecable.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Isidora Fuentealba",
+        "uri": "https://www.google.com/maps/contrib/dummy042"
+      },
+      "publishTime": "2026-01-15T17:05:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES043",
+      "relativePublishTimeDescription": "hace 6 meses",
+      "rating": 5,
+      "text": {
+        "text": "Atención personalizada de principio a fin. Tomás recordó que era mi cumpleaños y me sorprendió con un postre. Detalles que enamoran.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Agustín Salinas",
+        "uri": "https://www.google.com/maps/contrib/dummy043"
+      },
+      "publishTime": "2026-01-11T16:30:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES044",
+      "relativePublishTimeDescription": "hace 6 meses",
+      "rating": 4,
+      "text": {
+        "text": "Hotel con encanto y desayuno muy completo. La conexión wifi mejoró respecto a comentarios antiguos, funcionó bien todo el viaje.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Romina Tobar",
+        "uri": "https://www.google.com/maps/contrib/dummy044"
+      },
+      "publishTime": "2026-01-07T10:50:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES045",
+      "relativePublishTimeDescription": "hace 6 meses",
+      "rating": 1,
+      "text": {
+        "text": "Llegamos y la habitación no estaba lista pese a hacer el check-in a la hora indicada. Esperamos casi dos horas en el lobby sin una disculpa clara. Mala organización.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Patricio Núñez",
+        "uri": "https://www.google.com/maps/contrib/dummy045"
+      },
+      "publishTime": "2026-01-03T19:20:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES046",
+      "relativePublishTimeDescription": "hace 6 meses",
+      "rating": 5,
+      "text": {
+        "text": "Un oasis de tranquilidad con vistas al océano. La cama era una nube y dormimos como nunca. Volveremos sin falta.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Florencia Aguilera",
+        "uri": "https://www.google.com/maps/contrib/dummy046"
+      },
+      "publishTime": "2025-12-30T16:10:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES047",
+      "relativePublishTimeDescription": "hace 6 meses",
+      "rating": 4,
+      "text": {
+        "text": "Muy buena experiencia. El restaurante con pescados frescos y vinos chilenos es un acierto. El precio acorde a la calidad del servicio.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Maximiliano Paredes",
+        "uri": "https://www.google.com/maps/contrib/dummy047"
+      },
+      "publishTime": "2025-12-26T20:35:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES048",
+      "relativePublishTimeDescription": "hace 6 meses",
+      "rating": 5,
+      "text": {
+        "text": "Limpieza de hotel cinco estrellas. Todo relucía y olía a limpio. El baño, impecable y con excelente presión de agua caliente.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Antonella Guzmán",
+        "uri": "https://www.google.com/maps/contrib/dummy048"
+      },
+      "publishTime": "2025-12-22T12:00:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES049",
+      "relativePublishTimeDescription": "hace 7 meses",
+      "rating": 3,
+      "text": {
+        "text": "El hotel es precioso, pero la falta de ascensor en el edificio nos complicó con mi madre mayor. El personal ayudó con las maletas, eso sí, muy amables.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Claudio Riveros",
+        "uri": "https://www.google.com/maps/contrib/dummy049"
+      },
+      "publishTime": "2025-12-15T15:45:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES050",
+      "relativePublishTimeDescription": "hace 7 meses",
+      "rating": 5,
+      "text": {
+        "text": "El mejor desayuno de todo el viaje por Chile. Productos locales, café de verdad y una atención de Olivia que da gusto. Cinco estrellas.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Catalina Bravo",
+        "uri": "https://www.google.com/maps/contrib/dummy050"
+      },
+      "publishTime": "2025-12-11T09:25:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES051",
+      "relativePublishTimeDescription": "hace 7 meses",
+      "rating": 4,
+      "text": {
+        "text": "Estadía muy agradable en un edificio lleno de historia. La habitación cómoda, aunque el armario era pequeño para una estadía larga.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Benjamín Cifuentes",
+        "uri": "https://www.google.com/maps/contrib/dummy051"
+      },
+      "publishTime": "2025-12-07T13:15:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES052",
+      "relativePublishTimeDescription": "hace 7 meses",
+      "rating": 5,
+      "text": {
+        "text": "Ubicación perfecta para explorar los cerros a pie y muy cerca del ascensor El Peral. La terraza al atardecer es imperdible.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Martina Poblete",
+        "uri": "https://www.google.com/maps/contrib/dummy052"
+      },
+      "publishTime": "2025-12-03T18:50:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES053",
+      "relativePublishTimeDescription": "hace 7 meses",
+      "rating": 2,
+      "text": {
+        "text": "Esperaba mucho más por lo que pagué. La habitación pequeña, el wifi lento y la ducha tardaba una eternidad en calentar. El personal amable, pero eso no compensa.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Óscar Mella",
+        "uri": "https://www.google.com/maps/contrib/dummy053"
+      },
+      "publishTime": "2025-11-29T22:05:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES054",
+      "relativePublishTimeDescription": "hace 7 meses",
+      "rating": 5,
+      "text": {
+        "text": "Hotel boutique de ensueño. Cada rincón tiene una historia y la atención del equipo es excepcional. Salimos enamorados de Valparaíso.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Javier Toledo",
+        "uri": "https://www.google.com/maps/contrib/dummy054"
+      },
+      "publishTime": "2025-11-25T16:40:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES055",
+      "relativePublishTimeDescription": "hace 8 meses",
+      "rating": 4,
+      "text": {
+        "text": "Muy buen hotel con carácter propio. El desayuno variado y la vista al puerto preciosa. Solo mejoraría la señal de wifi en las piezas altas.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Sofía Miranda",
+        "uri": "https://www.google.com/maps/contrib/dummy055"
+      },
+      "publishTime": "2025-11-18T11:30:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES056",
+      "relativePublishTimeDescription": "hace 8 meses",
+      "rating": 5,
+      "text": {
+        "text": "Servicio de lujo en un ambiente íntimo. Nos sentimos consentidos toda la estadía. La cama y la ropa de cama, de primera calidad.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Tomás Escobar",
+        "uri": "https://www.google.com/maps/contrib/dummy056"
+      },
+      "publishTime": "2025-11-14T17:20:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES057",
+      "relativePublishTimeDescription": "hace 8 meses",
+      "rating": 3,
+      "text": {
+        "text": "El lugar es lindo pero la noche del sábado había mucho ruido de un bar cercano en el cerro. Costó dormir. La habitación, limpia y cómoda por lo demás.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Daniel Aguirre",
+        "uri": "https://www.google.com/maps/contrib/dummy057"
+      },
+      "publishTime": "2025-11-10T23:10:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES058",
+      "relativePublishTimeDescription": "hace 8 meses",
+      "rating": 5,
+      "text": {
+        "text": "Una experiencia patrimonial única. La restauración del edificio victoriano es magnífica y se nota el cuidado por cada detalle histórico.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Amanda Carvajal",
+        "uri": "https://www.google.com/maps/contrib/dummy058"
+      },
+      "publishTime": "2025-11-06T15:00:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES059",
+      "relativePublishTimeDescription": "hace 8 meses",
+      "rating": 4,
+      "text": {
+        "text": "Nos encantó la terraza con vista al océano para ver el atardecer. El check-in fue rápido y amable. La habitación algo pequeña, pero acogedora.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Rodrigo Fuentes",
+        "uri": "https://www.google.com/maps/contrib/dummy059"
+      },
+      "publishTime": "2025-11-02T18:35:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES060",
+      "relativePublishTimeDescription": "hace 9 meses",
+      "rating": 5,
+      "text": {
+        "text": "Impecable en todo sentido. Limpieza, servicio, comida y ubicación de primer nivel. El restaurante con mariscos frescos es un imperdible.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Valeria Sandoval",
+        "uri": "https://www.google.com/maps/contrib/dummy060"
+      },
+      "publishTime": "2025-10-26T20:25:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES061",
+      "relativePublishTimeDescription": "hace 9 meses",
+      "rating": 5,
+      "text": {
+        "text": "Atención de primera de parte de Camila y todo el equipo. Nos hicieron sentir bienvenidos desde el primer minuto. Volveremos seguro.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Felipe Araya",
+        "uri": "https://www.google.com/maps/contrib/dummy061"
+      },
+      "publishTime": "2025-10-22T16:15:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES062",
+      "relativePublishTimeDescription": "hace 9 meses",
+      "rating": 4,
+      "text": {
+        "text": "Buen hotel, cómodo y limpio. La calefacción funcionaba bien y el agua caliente nunca falló. Eché de menos un minibar en la habitación.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Natalia Yáñez",
+        "uri": "https://www.google.com/maps/contrib/dummy062"
+      },
+      "publishTime": "2025-10-18T11:45:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES063",
+      "relativePublishTimeDescription": "hace 9 meses",
+      "rating": 5,
+      "text": {
+        "text": "Las vistas al puerto desde la habitación son simplemente espectaculares. Despertar con ese paisaje cada mañana fue un regalo. Volveré sin dudas.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Cristián Muñoz",
+        "uri": "https://www.google.com/maps/contrib/dummy063"
+      },
+      "publishTime": "2025-10-14T17:55:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES064",
+      "relativePublishTimeDescription": "hace 9 meses",
+      "rating": 3,
+      "text": {
+        "text": "Ubicación y decoración geniales, pero la habitación necesita mantención: una lámpara no encendía y la puerta del baño costaba cerrar. Lo reportamos y prometieron arreglarlo.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Paulina Herrera",
+        "uri": "https://www.google.com/maps/contrib/dummy064"
+      },
+      "publishTime": "2025-10-10T13:30:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES065",
+      "relativePublishTimeDescription": "hace 9 meses",
+      "rating": 5,
+      "text": {
+        "text": "Un lugar mágico para desconectar. La combinación de historia, vistas al mar y un servicio cálido lo hacen inolvidable. Cien por ciento recomendado.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Sebastián Morales",
+        "uri": "https://www.google.com/maps/contrib/dummy065"
+      },
+      "publishTime": "2025-10-06T16:20:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES066",
+      "relativePublishTimeDescription": "hace 10 meses",
+      "rating": 4,
+      "text": {
+        "text": "Estadía muy placentera. El desayuno casero es un punto altísimo. La habitación cómoda, aunque el ruido de la calle se escuchaba un poco de madrugada.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Carla Espinoza",
+        "uri": "https://www.google.com/maps/contrib/dummy066"
+      },
+      "publishTime": "2025-09-28T11:10:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES067",
+      "relativePublishTimeDescription": "hace 10 meses",
+      "rating": 5,
+      "text": {
+        "text": "Hotel con alma. La decoración victoriana, los pisos de madera que crujen y la vista al puerto lo hacen único en Valparaíso. Encantados.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Jorge Cuevas",
+        "uri": "https://www.google.com/maps/contrib/dummy067"
+      },
+      "publishTime": "2025-09-24T17:40:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES068",
+      "relativePublishTimeDescription": "hace 10 meses",
+      "rating": 5,
+      "text": {
+        "text": "Servicio excepcional y habitaciones impecables. Tomás nos recomendó los mejores lugares para comer en el cerro. Una atención que se agradece muchísimo.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Daniela Reyes",
+        "uri": "https://www.google.com/maps/contrib/dummy068"
+      },
+      "publishTime": "2025-09-20T16:05:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES069",
+      "relativePublishTimeDescription": "hace 10 meses",
+      "rating": 2,
+      "text": {
+        "text": "La relación calidad-precio no me convenció. Por el valor de la noche esperaba una habitación más grande y mejor insonorizada. El desayuno sí estuvo muy bueno.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Manuel Cáceres",
+        "uri": "https://www.google.com/maps/contrib/dummy069"
+      },
+      "publishTime": "2025-09-16T13:25:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES070",
+      "relativePublishTimeDescription": "hace 10 meses",
+      "rating": 5,
+      "text": {
+        "text": "Una maravilla de hotel boutique. El restaurante con productos del mar frescos y vinos locales fue de lo mejor que comimos en el viaje. Imperdible.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Antonia Flores",
+        "uri": "https://www.google.com/maps/contrib/dummy070"
+      },
+      "publishTime": "2025-09-12T20:30:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES071",
+      "relativePublishTimeDescription": "hace 11 meses",
+      "rating": 4,
+      "text": {
+        "text": "Muy buen hotel, limpio y bien ubicado a pasos de los murales. El personal atento y resolutivo. La ducha algo lenta para calentar al inicio.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Ricardo Palma",
+        "uri": "https://www.google.com/maps/contrib/dummy071"
+      },
+      "publishTime": "2025-09-04T11:20:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES072",
+      "relativePublishTimeDescription": "hace 11 meses",
+      "rating": 5,
+      "text": {
+        "text": "Estadía perfecta para celebrar nuestro aniversario. La habitación con vista al océano y la atención de Olivia hicieron todo aún más especial.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Camila Saldías",
+        "uri": "https://www.google.com/maps/contrib/dummy072"
+      },
+      "publishTime": "2025-08-28T17:15:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES073",
+      "relativePublishTimeDescription": "hace 11 meses",
+      "rating": 3,
+      "text": {
+        "text": "El hotel cumple, pero el wifi inestable fue un problema para teletrabajar. Lo conversé en recepción y me ofrecieron usar el lobby, donde la señal era mejor.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Eduardo Lillo",
+        "uri": "https://www.google.com/maps/contrib/dummy073"
+      },
+      "publishTime": "2025-08-20T13:45:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES074",
+      "relativePublishTimeDescription": "hace 11 meses",
+      "rating": 5,
+      "text": {
+        "text": "Limpieza impecable y un equipo siempre dispuesto a ayudar. La ubicación en Cerro Alegre es ideal para caminar y perderse entre el arte callejero.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Fernanda Lagos",
+        "uri": "https://www.google.com/maps/contrib/dummy074"
+      },
+      "publishTime": "2025-08-12T16:30:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES075",
+      "relativePublishTimeDescription": "hace 11 meses",
+      "rating": 4,
+      "text": {
+        "text": "Hotel encantador con mucha personalidad. La cama comodísima y el desayuno rico. Subir el cerro cansa, pero la vista al puerto lo compensa todo.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Héctor Valdés",
+        "uri": "https://www.google.com/maps/contrib/dummy075"
+      },
+      "publishTime": "2025-08-04T11:55:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES076",
+      "relativePublishTimeDescription": "hace 1 año",
+      "rating": 5,
+      "text": {
+        "text": "Un hotel que combina historia, confort y una atención humana excepcional. Las vistas al océano desde la terraza son inolvidables. Volveremos pronto.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Andrea Maldonado",
+        "uri": "https://www.google.com/maps/contrib/dummy076"
+      },
+      "publishTime": "2025-07-26T17:20:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES077",
+      "relativePublishTimeDescription": "hace 1 año",
+      "rating": 4,
+      "text": {
+        "text": "Muy buena estadía en un edificio patrimonial precioso. El servicio cálido y el desayuno completo. Una mejora pendiente sería la insonorización de las ventanas.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Pablo Sepúlveda",
+        "uri": "https://www.google.com/maps/contrib/dummy077"
+      },
+      "publishTime": "2025-07-18T13:10:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES078",
+      "relativePublishTimeDescription": "hace 1 año",
+      "rating": 5,
+      "text": {
+        "text": "El restaurante es un lujo: mariscos fresquísimos, vinos chilenos bien elegidos y un servicio impecable. Comer ahí con vista al puerto fue inolvidable.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Loreto Vásquez",
+        "uri": "https://www.google.com/maps/contrib/dummy078"
+      },
+      "publishTime": "2025-07-10T20:40:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES079",
+      "relativePublishTimeDescription": "hace 1 año",
+      "rating": 5,
+      "text": {
+        "text": "Boutique, acogedor y con muchísimo encanto. La decoración inglesa y la calidez del equipo lo hacen un lugar al que querrás volver. Totalmente recomendado.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Ignacio Bustos",
+        "uri": "https://www.google.com/maps/contrib/dummy079"
+      },
+      "publishTime": "2025-07-02T16:25:00Z"
+    },
+    {
+      "name": "places/ChIJSomerscalesDummy/reviews/AbFvOqkES080",
+      "relativePublishTimeDescription": "hace 1 año",
+      "rating": 5,
+      "text": {
+        "text": "Una joya en Cerro Alegre. Habitación limpia y cómoda, desayuno delicioso con productos locales y una vista al océano de ensueño. Repetiremos sin dudarlo.",
+        "languageCode": "es"
+      },
+      "authorAttribution": {
+        "displayName": "Mónica Zúñiga",
+        "uri": "https://www.google.com/maps/contrib/dummy080"
+      },
+      "publishTime": "2025-06-24T09:50:00Z"
     }
   ]
 }
