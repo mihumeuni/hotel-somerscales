@@ -13,6 +13,8 @@ import { LogoWordmark } from "./LogoWordmark";
 import { MobileNavDrawer, type NavDestination } from "./MobileNavDrawer";
 import { searchGuests, type GuestSearchHit } from "../../types/user";
 import { UserAvatar } from "../UserAvatar";
+import { canAccessPath, PRIMARY_NAV } from "../../routes/access";
+import NoAccess from "../../pages/NoAccess";
 
 const HouseIcon = (
   <svg
@@ -156,13 +158,20 @@ const HamburgerIcon = (
   </svg>
 );
 
-const NAV_ITEMS: NavDestination[] = [
-  { to: "/dashboard", label: "Dashboard", icon: HouseIcon },
-  { to: "/calendario", label: "Calendario", icon: CalendarIcon },
-  { to: "/admin/roles", label: "Roles & Permisos", icon: ShieldIcon },
-  { to: "/admin/perfiles", label: "Perfiles", icon: UsersIcon },
-  { to: "/fichas", label: "Fichas", icon: SheetIcon },
-];
+// Icons are presentation-only; paths/labels/order live in routes/access.ts so
+// the nav menu and the route guard share one source of truth.
+const ICON_BY_PATH: Record<string, ReactNode> = {
+  "/dashboard": HouseIcon,
+  "/calendario": CalendarIcon,
+  "/admin/roles": ShieldIcon,
+  "/admin/perfiles": UsersIcon,
+  "/fichas": SheetIcon,
+};
+
+const NAV_ITEMS: NavDestination[] = PRIMARY_NAV.map((dest) => ({
+  ...dest,
+  icon: ICON_BY_PATH[dest.to] ?? null,
+}));
 
 const initialsFromEmail = (email: string | undefined) => {
   if (!email) return "?";
@@ -211,8 +220,11 @@ export const AppShell = () => {
   const [searchLoading, setSearchLoading] = useState(false);
   const searchRef = useRef<HTMLDivElement | null>(null);
 
-  const isAdmin = user?.role === "ADMIN";
+  const canGlobalSettings = has("category.manage");
   const canSearchGuests = has("guest.read");
+
+  // Hide nav links the user can't reach; the same map guards the routes below.
+  const visibleNav = NAV_ITEMS.filter((item) => canAccessPath(item.to, has));
 
   const openDrawer = useCallback(() => setDrawerOpen(true), []);
   const closeDrawer = useCallback(() => setDrawerOpen(false), []);
@@ -310,7 +322,7 @@ export const AppShell = () => {
               className="hidden md:flex items-center gap-5 lg:gap-7 text-xs font-bold uppercase tracking-widest"
               aria-label="Navegación principal"
             >
-              {NAV_ITEMS.map((item) => (
+              {visibleNav.map((item) => (
                 <DesktopNavLink key={item.to} to={item.to}>
                   {item.label}
                 </DesktopNavLink>
@@ -376,7 +388,7 @@ export const AppShell = () => {
               </div>
             )}
 
-            {isAdmin && (
+            {canGlobalSettings && (
               <Link
                 to="/settings/global"
                 className="inline-flex h-11 w-11 items-center justify-center text-slate-500 hover:text-marine transition-colors md:h-10 md:w-10"
@@ -446,14 +458,14 @@ export const AppShell = () => {
       </header>
 
       <main className="mx-auto w-full max-w-[1400px] flex-1 px-4 py-4 sm:px-6 md:py-6 lg:px-8 pb-8">
-        <Outlet />
+        {canAccessPath(location.pathname, has) ? <Outlet /> : <NoAccess />}
       </main>
 
       <MobileNavDrawer
         open={drawerOpen}
         onClose={closeDrawer}
-        primary={NAV_ITEMS}
-        isAdmin={isAdmin}
+        primary={visibleNav}
+        canGlobalSettings={canGlobalSettings}
       />
     </div>
   );
