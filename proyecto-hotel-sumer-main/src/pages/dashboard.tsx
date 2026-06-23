@@ -35,6 +35,17 @@ function lastNDays(days: number): { from: string; to: string } {
   return { from: toIsoDate(from), to: toIsoDate(to) };
 }
 
+// Forward window for the room-calendar widget, padded one day each side so the
+// client-side [now, now+days] filter is fully covered despite UTC/local skew.
+function nextNDays(days: number): { from: string; to: string } {
+  const today = new Date();
+  const from = new Date(today);
+  from.setDate(from.getDate() - 1);
+  const to = new Date(today);
+  to.setDate(to.getDate() + days + 1);
+  return { from: toIsoDate(from), to: toIsoDate(to) };
+}
+
 const Dashboard = () => {
   const navigate = useNavigate();
 
@@ -68,6 +79,7 @@ const Dashboard = () => {
     async function load() {
       const window = lastNDays(REVIEW_WINDOW_DAYS);
       const visitsWindow = lastNDays(365);
+      const calWindow = nextNDays(CALENDAR_WINDOW_DAYS);
 
       const tasks: Array<Promise<unknown>> = [
         api
@@ -95,7 +107,9 @@ const Dashboard = () => {
           .get<NormalizedReviewDTO[]>(`/api/dashboard/normalized-reviews?from=${window.from}&to=${window.to}&limit=5`)
           .then((d) => !cancelled && (setNormalized(d), markDone("normalized"))),
         api
-          .get<ReservaCalendarDTO[]>("/api/reservas")
+          .get<ReservaCalendarDTO[]>(
+            `/api/reservas/calendario?from=${calWindow.from}&to=${calWindow.to}`
+          )
           .then((d) => !cancelled && (setReservas(d), markDone("reservas"))),
       ];
 
