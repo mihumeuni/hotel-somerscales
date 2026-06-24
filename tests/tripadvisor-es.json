@@ -6,174 +6,1360 @@
       "location_id": 1234567,
       "published_date": "2026-04-18T10:14:00Z",
       "rating": 5,
-      "helpful_votes": 4,
+      "helpful_votes": 7,
       "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100001",
       "trip_type": "COUPLES",
       "travel_date": "2026-04",
-      "title": "Joya patrimonial en Valparaíso",
-      "text": "Hotel boutique de tradición inglesa en Cerro Alegre. La atención de Tomás y Camila marcó la diferencia. Habitaciones impecables y desayuno con productos locales. Repetiremos sin dudar.",
+      "title": "Un refugio victoriano sobre el cerro",
+      "text": "Nos alojamos en este hotel patrimonial del Cerro Alegre y quedamos encantados con la decoración inglesa. La vista al puerto desde la terraza al atardecer fue inolvidable. Tomás nos recibió con una amabilidad enorme.",
       "user": {
         "username": "MariaFernandez_VP",
-        "user_location": { "id": "294291", "name": "Santiago, Chile" }
+        "user_location": { "id": "294305", "name": "Viña del Mar, Chile" }
       }
     },
     {
       "id": 988100002,
       "lang": "es",
       "location_id": 1234567,
-      "published_date": "2026-03-09T18:42:00Z",
+      "published_date": "2025-11-09T16:42:00Z",
       "rating": 4,
-      "helpful_votes": 2,
+      "helpful_votes": 3,
       "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100002",
       "trip_type": "FAMILY",
-      "travel_date": "2026-02",
-      "title": "Ubicación inmejorable, cuidado con las escaleras",
-      "text": "Vista al puerto desde el balcón es impagable. Las escaleras del cerro pueden ser un desafío con maletas pero el bellboy ayudó sin demora. Cama un poco firme.",
+      "travel_date": "2025-11",
+      "title": "Encantador pero las escaleras cansan",
+      "text": "El edificio es precioso y la ubicación cerca de los murales es ideal para caminar. Lo único es que subir el cerro con niños y maletas fue agotador; conviene usar el ascensor cuando funciona.",
       "user": {
-        "username": "DiegoSalazar85",
-        "user_location": { "id": "294305", "name": "Viña del Mar, Chile" }
+        "username": "JorgeRiveros_CL",
+        "user_location": { "id": "294291", "name": "Santiago, Chile" }
       }
     },
     {
       "id": 988100003,
       "lang": "es",
       "location_id": 1234567,
-      "published_date": "2026-04-02T21:05:00Z",
+      "published_date": "2026-02-21T08:30:00Z",
       "rating": 5,
-      "helpful_votes": 6,
+      "helpful_votes": 11,
       "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100003",
-      "trip_type": "COUPLES",
-      "travel_date": "2026-03",
-      "title": "El restaurante es un descubrimiento",
-      "text": "Cena en el restaurante del hotel: corvina del día con quinoa y vinos chilenos seleccionados. Servicio impecable. Recomiendo reservar mesa con vista al mar.",
+      "trip_type": "SOLO",
+      "travel_date": "2026-02",
+      "title": "El desayuno con productos locales es excelente",
+      "text": "Viajé sola por trabajo y el desayuno con mermeladas y frutas de la zona superó mis expectativas. Camila siempre estuvo pendiente de que no me faltara nada.",
       "user": {
-        "username": "PatriciaRojasG",
-        "user_location": { "id": "294291", "name": "Santiago, Chile" }
+        "username": "ValentinaP_Concepcion",
+        "user_location": { "id": "294227", "name": "Concepción, Chile" }
       }
     },
     {
       "id": 988100004,
       "lang": "es",
       "location_id": 1234567,
-      "published_date": "2026-05-05T08:30:00Z",
+      "published_date": "2025-08-14T19:05:00Z",
       "rating": 3,
-      "helpful_votes": 1,
+      "helpful_votes": 5,
       "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100004",
-      "trip_type": "SOLO",
-      "travel_date": "2026-05",
-      "title": "Bonito pero con ruido nocturno",
-      "text": "El edificio histórico es precioso. Pedí cambio de habitación por ruido del cerro y respondieron en menos de una hora. Limpieza muy buena.",
+      "trip_type": "COUPLES",
+      "travel_date": "2025-08",
+      "title": "Habitación bonita pero pequeña",
+      "text": "La estética victoriana es real y muy cuidada, pero nuestra habitación era bastante reducida para dos maletas grandes. Por el precio esperábamos un poco más de espacio.",
       "user": {
-        "username": "JoaquinPCh",
-        "user_location": { "id": "294291", "name": "Santiago, Chile" }
+        "username": "Sebastian_Mendoza",
+        "user_location": { "id": "316029", "name": "Mendoza, Argentina" }
       }
     },
     {
       "id": 988100005,
       "lang": "es",
       "location_id": 1234567,
-      "published_date": "2026-01-16T15:50:00Z",
+      "published_date": "2026-05-30T11:20:00Z",
       "rating": 5,
-      "helpful_votes": 8,
+      "helpful_votes": 9,
       "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100005",
-      "trip_type": "COUPLES",
-      "travel_date": "2026-01",
-      "title": "Luna de miel inolvidable",
-      "text": "Pasamos nuestra luna de miel acá. Decoración victoriana, champagne en la habitación y vista al atardecer en la terraza. Recomendadísimo.",
+      "trip_type": "FRIENDS",
+      "travel_date": "2026-05",
+      "title": "Mariscos frescos y buen vino chileno",
+      "text": "Cenamos en el restaurante del hotel y los mariscos estaban frescos y muy bien preparados. La carta de vinos chilenos es acertada y el ambiente acogedor.",
       "user": {
-        "username": "CatalinaMendezH",
-        "user_location": { "id": "294227", "name": "Concepción, Chile" }
+        "username": "PaulaCofre_LS",
+        "user_location": { "id": "294296", "name": "La Serena, Chile" }
       }
     },
     {
       "id": 988100006,
       "lang": "es",
       "location_id": 1234567,
-      "published_date": "2025-12-20T11:25:00Z",
-      "rating": 4,
-      "helpful_votes": 3,
+      "published_date": "2025-07-03T14:55:00Z",
+      "rating": 2,
+      "helpful_votes": 8,
       "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100006",
       "trip_type": "BUSINESS",
-      "travel_date": "2025-12",
-      "title": "Buen wifi para teletrabajar",
-      "text": "Estadía de tres noches por trabajo. WiFi estable en la habitación y un escritorio cómodo. El check-in fue ágil. Solo faltó café en cápsula.",
+      "travel_date": "2025-06",
+      "title": "El ruido de la calle no me dejó dormir",
+      "text": "La habitación daba a la calle y el ruido nocturno fue constante. Pedí cambio pero no había disponibilidad. El personal fue amable al ofrecer tapones, pero esperaba descansar mejor.",
       "user": {
-        "username": "AndresVMRoa",
-        "user_location": { "id": "294291", "name": "Santiago, Chile" }
+        "username": "AndresMunoz_ANF",
+        "user_location": { "id": "294232", "name": "Antofagasta, Chile" }
       }
     },
     {
       "id": 988100007,
       "lang": "es",
       "location_id": 1234567,
-      "published_date": "2026-02-27T09:00:00Z",
+      "published_date": "2026-01-12T09:48:00Z",
       "rating": 5,
-      "helpful_votes": 5,
+      "helpful_votes": 6,
       "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100007",
-      "trip_type": "FRIENDS",
-      "travel_date": "2026-02",
-      "title": "Detalles que marcan la diferencia",
-      "text": "Llegamos cumpleaños y dejaron tarta y un dibujo del cerro firmado por el equipo. Habitación luminosa con techos altos. Volveremos.",
+      "trip_type": "COUPLES",
+      "travel_date": "2026-01",
+      "title": "Vistas al océano de ensueño",
+      "text": "Despertar con la vista al océano y al puerto desde la ventana fue lo mejor del viaje. Un lugar romántico y lleno de historia.",
       "user": {
-        "username": "IsidoraPobletex",
-        "user_location": { "id": "294291", "name": "Santiago, Chile" }
+        "username": "CarolinaVega_VP",
+        "user_location": { "id": "294297", "name": "Valparaíso, Chile" }
       }
     },
     {
       "id": 988100008,
       "lang": "es",
       "location_id": 1234567,
-      "published_date": "2025-11-08T19:20:00Z",
-      "rating": 2,
-      "helpful_votes": 0,
+      "published_date": "2025-09-27T17:33:00Z",
+      "rating": 4,
+      "helpful_votes": 2,
       "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100008",
-      "trip_type": "COUPLES",
-      "travel_date": "2025-11",
-      "title": "Ducha tibia, gestión rápida",
-      "text": "La ducha no calentaba bien el primer día. Mantención respondió pero tardaron en confirmar el arreglo. Hubo descuento en el desayuno al día siguiente.",
+      "trip_type": "SOLO",
+      "travel_date": "2025-09",
+      "title": "Buen wifi y trabajo cómodo",
+      "text": "Necesitaba conexión estable para reuniones y el wifi respondió bien en la zona común. La habitación cómoda, aunque el escritorio era algo justo.",
       "user": {
-        "username": "FelipeUrrutiaC",
-        "user_location": { "id": "294305", "name": "Viña del Mar, Chile" }
+        "username": "RodrigoSilva85",
+        "user_location": { "id": "294291", "name": "Santiago, Chile" }
       }
     },
     {
       "id": 988100009,
       "lang": "es",
       "location_id": 1234567,
-      "published_date": "2026-03-22T13:10:00Z",
+      "published_date": "2026-03-08T12:10:00Z",
       "rating": 5,
-      "helpful_votes": 7,
+      "helpful_votes": 13,
       "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100009",
       "trip_type": "FAMILY",
       "travel_date": "2026-03",
-      "title": "Ideal para visitar Valparaíso",
-      "text": "Cerca de los ascensores y de los murales del cerro. Desayuno completo, mermeladas caseras y atención bilingüe. Recomendado para familias.",
+      "title": "Limpieza impecable en todo momento",
+      "text": "Destaco la limpieza de la habitación y los baños, todo relucía cada día. Olivia coordinó muy bien el aseo según nuestros horarios con los niños.",
       "user": {
-        "username": "BarbaraSilvaCH",
-        "user_location": { "id": "294227", "name": "Concepción, Chile" }
+        "username": "FranciscaToro_TEM",
+        "user_location": { "id": "294272", "name": "Temuco, Chile" }
       }
     },
     {
       "id": 988100010,
       "lang": "es",
       "location_id": 1234567,
-      "published_date": "2025-10-30T07:45:00Z",
-      "rating": 4,
-      "helpful_votes": 2,
+      "published_date": "2025-10-19T20:25:00Z",
+      "rating": 1,
+      "helpful_votes": 14,
       "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100010",
       "trip_type": "COUPLES",
       "travel_date": "2025-10",
-      "title": "Tranquilidad y vista",
-      "text": "Una noche escapada de fin de semana. Pidieron preferencias antes de llegar y respetaron alergia al gluten en el desayuno. Servicio personalizado.",
+      "title": "Agua tibia y mantención lenta",
+      "text": "La ducha apenas calentaba y reportamos el problema dos veces sin solución durante la estadía. Una lástima porque el edificio es hermoso, pero la mantención dejó mucho que desear.",
       "user": {
-        "username": "MartinPrietoOR",
+        "username": "IgnacioReyes_RNG",
+        "user_location": { "id": "294301", "name": "Rancagua, Chile" }
+      }
+    },
+    {
+      "id": 988100011,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-06-02T10:40:00Z",
+      "rating": 5,
+      "helpful_votes": 5,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100011",
+      "trip_type": "COUPLES",
+      "travel_date": "2026-05",
+      "title": "Atención de Camila de primera",
+      "text": "Camila nos dio excelentes recomendaciones de los ascensores y los murales del cerro. El trato cercano marcó la diferencia en nuestra estadía.",
+      "user": {
+        "username": "DanielaAguilar_VP",
+        "user_location": { "id": "294305", "name": "Viña del Mar, Chile" }
+      }
+    },
+    {
+      "id": 988100012,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-12-15T15:18:00Z",
+      "rating": 4,
+      "helpful_votes": 4,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100012",
+      "trip_type": "FRIENDS",
+      "travel_date": "2025-12",
+      "title": "Ubicación inmejorable para recorrer",
+      "text": "Estar a pasos de los ascensores y del arte callejero es una maravilla para explorar Valparaíso a pie. La calefacción de la pieza tardó un poco en sentirse, pero nada grave.",
+      "user": {
+        "username": "MatiasFuentes_LIM",
+        "user_location": { "id": "294308", "name": "Lima, Perú" }
+      }
+    },
+    {
+      "id": 988100013,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-04-05T13:27:00Z",
+      "rating": 5,
+      "helpful_votes": 10,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100013",
+      "trip_type": "COUPLES",
+      "travel_date": "2026-03",
+      "title": "Patrimonio y confort en equilibrio",
+      "text": "El hotel respeta la arquitectura victoriana del edificio sin sacrificar comodidad. La cama era amplia y muy cómoda, dormimos de maravilla.",
+      "user": {
+        "username": "Constanza_BA",
+        "user_location": { "id": "294229", "name": "Buenos Aires, Argentina" }
+      }
+    },
+    {
+      "id": 988100014,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-06-22T18:50:00Z",
+      "rating": 3,
+      "helpful_votes": 6,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100014",
+      "trip_type": "SOLO",
+      "travel_date": "2025-06",
+      "title": "Bien, pero el wifi falla en la pieza",
+      "text": "El hotel tiene mucho encanto y el personal es atento. Sin embargo, el wifi se cortaba seguido en mi habitación del segundo piso y tuve que bajar al lobby para trabajar.",
+      "user": {
+        "username": "TomasHerrera_ANF",
+        "user_location": { "id": "294232", "name": "Antofagasta, Chile" }
+      }
+    },
+    {
+      "id": 988100015,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-05-11T11:05:00Z",
+      "rating": 5,
+      "helpful_votes": 8,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100015",
+      "trip_type": "FAMILY",
+      "travel_date": "2026-04",
+      "title": "El atardecer desde la terraza vale oro",
+      "text": "Subimos a la terraza a ver caer el sol sobre el puerto y fue mágico. Toda la familia quedó fascinada con la experiencia y las vistas.",
+      "user": {
+        "username": "AlejandraNunez_CCP",
+        "user_location": { "id": "294227", "name": "Concepción, Chile" }
+      }
+    },
+    {
+      "id": 988100016,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-08-30T09:12:00Z",
+      "rating": 5,
+      "helpful_votes": 1,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100016",
+      "trip_type": "BUSINESS",
+      "travel_date": "2025-08",
+      "title": "Check-in rápido y eficiente",
+      "text": "Llegué tarde por un vuelo y el check-in fue veloz y sin complicaciones. La habitación estaba lista y limpia. Buen punto para una estadía de trabajo.",
+      "user": {
+        "username": "GonzaloPizarro_SCL",
         "user_location": { "id": "294291", "name": "Santiago, Chile" }
+      }
+    },
+    {
+      "id": 988100017,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-02-03T16:40:00Z",
+      "rating": 5,
+      "helpful_votes": 12,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100017",
+      "trip_type": "COUPLES",
+      "travel_date": "2026-01",
+      "title": "Una joya escondida en Cerro Alegre",
+      "text": "Buscábamos algo con carácter y lo encontramos. El nombre rinde homenaje al pintor Somerscales y se nota el cariño por la historia en cada rincón. Volveremos sin dudarlo.",
+      "user": {
+        "username": "Macarena_VinaDelMar",
+        "user_location": { "id": "294305", "name": "Viña del Mar, Chile" }
+      }
+    },
+    {
+      "id": 988100018,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-11-25T14:08:00Z",
+      "rating": 4,
+      "helpful_votes": 9,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100018",
+      "trip_type": "FRIENDS",
+      "travel_date": "2025-11",
+      "title": "Lindo, aunque algo caro",
+      "text": "El hotel es muy lindo y el personal excelente. El único reparo es que para el precio la habitación se sentía algo justa de tamaño. Aun así, disfrutamos la estadía.",
+      "user": {
+        "username": "FelipeCastro_LS",
+        "user_location": { "id": "294296", "name": "La Serena, Chile" }
+      }
+    },
+    {
+      "id": 988100019,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-03-29T10:55:00Z",
+      "rating": 5,
+      "helpful_votes": 7,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100019",
+      "trip_type": "SOLO",
+      "travel_date": "2026-03",
+      "title": "Servicio cálido y personalizado",
+      "text": "Tomás recordaba mi nombre y mis preferencias del café cada mañana. Esos detalles hacen que uno se sienta en casa lejos de casa.",
+      "user": {
+        "username": "Javiera_Antofagasta",
+        "user_location": { "id": "294232", "name": "Antofagasta, Chile" }
+      }
+    },
+    {
+      "id": 988100020,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-07-18T19:30:00Z",
+      "rating": 4,
+      "helpful_votes": 3,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100020",
+      "trip_type": "COUPLES",
+      "travel_date": "2025-07",
+      "title": "Romántico con pequeños detalles a pulir",
+      "text": "Pasamos un fin de semana precioso. La decoración inglesa es encantadora. Solo mejoraría la presión del agua en la ducha, que era algo baja.",
+      "user": {
+        "username": "NicolasOrtega_RNG",
+        "user_location": { "id": "294301", "name": "Rancagua, Chile" }
+      }
+    },
+    {
+      "id": 988100021,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-06-10T12:22:00Z",
+      "rating": 5,
+      "helpful_votes": 6,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100021",
+      "trip_type": "FAMILY",
+      "travel_date": "2026-05",
+      "title": "Desayuno abundante y casero",
+      "text": "El desayuno con pan recién horneado, huevos y frutas locales nos dejó listos para el día. A los niños les encantaron los jugos naturales.",
+      "user": {
+        "username": "PatricioSoto_TEM",
+        "user_location": { "id": "294272", "name": "Temuco, Chile" }
+      }
+    },
+    {
+      "id": 988100022,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-10-07T15:45:00Z",
+      "rating": 3,
+      "helpful_votes": 4,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100022",
+      "trip_type": "BUSINESS",
+      "travel_date": "2025-10",
+      "title": "Correcto, aunque la pieza era fría",
+      "text": "Para un viaje corto de negocios cumplió. El detalle es que la calefacción no calentaba bien de noche y dormí algo incómodo. El check-out fue rápido.",
+      "user": {
+        "username": "EduardoLagos_SCL",
+        "user_location": { "id": "294291", "name": "Santiago, Chile" }
+      }
+    },
+    {
+      "id": 988100023,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-01-28T11:38:00Z",
+      "rating": 5,
+      "helpful_votes": 9,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100023",
+      "trip_type": "COUPLES",
+      "travel_date": "2026-01",
+      "title": "El mejor restaurante de la zona",
+      "text": "Probamos el menú de mariscos y cada plato fue espectacular. El maridaje con vinos chilenos que sugirió el personal fue perfecto. Una experiencia gastronómica memorable.",
+      "user": {
+        "username": "CamilaMorales_VP",
+        "user_location": { "id": "294297", "name": "Valparaíso, Chile" }
+      }
+    },
+    {
+      "id": 988100024,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-09-13T17:12:00Z",
+      "rating": 4,
+      "helpful_votes": 2,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100024",
+      "trip_type": "FRIENDS",
+      "travel_date": "2025-09",
+      "title": "Lugar con alma y buena onda",
+      "text": "Nos encantó el ambiente bohemio del cerro y el hotel encaja perfecto. Las habitaciones cómodas y limpias. El único pero fue algo de ruido desde el bar vecino un sábado.",
+      "user": {
+        "username": "RominaVargas_LIM",
+        "user_location": { "id": "294308", "name": "Lima, Perú" }
+      }
+    },
+    {
+      "id": 988100025,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-04-22T13:50:00Z",
+      "rating": 5,
+      "helpful_votes": 11,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100025",
+      "trip_type": "SOLO",
+      "travel_date": "2026-04",
+      "title": "Tranquilidad y buenas vistas para escribir",
+      "text": "Vine a desconectarme unos días y fue ideal. La habitación silenciosa, la cama excelente y la vista al puerto inspiradora. Olivia me ayudó con todo lo que necesité.",
+      "user": {
+        "username": "Florencia_BuenosAires",
+        "user_location": { "id": "294229", "name": "Buenos Aires, Argentina" }
+      }
+    },
+    {
+      "id": 988100026,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-12-02T10:05:00Z",
+      "rating": 4,
+      "helpful_votes": 5,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100026",
+      "trip_type": "COUPLES",
+      "travel_date": "2025-11",
+      "title": "Hermoso, pero ojo con las escaleras",
+      "text": "El edificio patrimonial es espectacular y la atención cálida. Hay que tener en cuenta que no hay ascensor interno y se suben varios peldaños hasta las piezas superiores.",
+      "user": {
+        "username": "CristobalVera_CCP",
+        "user_location": { "id": "294227", "name": "Concepción, Chile" }
+      }
+    },
+    {
+      "id": 988100027,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-05-19T16:28:00Z",
+      "rating": 5,
+      "helpful_votes": 8,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100027",
+      "trip_type": "FAMILY",
+      "travel_date": "2026-05",
+      "title": "Cama comodísima y baño impecable",
+      "text": "Dormimos increíble en una cama amplia y el baño estaba siempre limpio con buena agua caliente. Todo funcionó a la perfección durante nuestra estadía.",
+      "user": {
+        "username": "MarcelaDiaz_LS",
+        "user_location": { "id": "294296", "name": "La Serena, Chile" }
+      }
+    },
+    {
+      "id": 988100028,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-06-29T14:15:00Z",
+      "rating": 1,
+      "helpful_votes": 15,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100028",
+      "trip_type": "BUSINESS",
+      "travel_date": "2025-06",
+      "title": "Experiencia decepcionante con el wifi",
+      "text": "Reservé por el supuesto buen internet para teletrabajar y fue un desastre: caídas constantes todo el día. Reclamé y solo recibí disculpas, sin solución real. No volvería para trabajar.",
+      "user": {
+        "username": "HernanCampos_SCL",
+        "user_location": { "id": "294291", "name": "Santiago, Chile" }
+      }
+    },
+    {
+      "id": 988100029,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-02-16T11:42:00Z",
+      "rating": 5,
+      "helpful_votes": 7,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100029",
+      "trip_type": "COUPLES",
+      "travel_date": "2026-02",
+      "title": "Decoración victoriana de revista",
+      "text": "Cada detalle de la decoración inglesa está pensado con gusto: muebles de época, lámparas y cuadros marinos. Un viaje en el tiempo precioso.",
+      "user": {
+        "username": "AntoniaFlores_VP",
+        "user_location": { "id": "294305", "name": "Viña del Mar, Chile" }
+      }
+    },
+    {
+      "id": 988100030,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-11-04T19:55:00Z",
+      "rating": 3,
+      "helpful_votes": 6,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100030",
+      "trip_type": "FRIENDS",
+      "travel_date": "2025-10",
+      "title": "Buena ubicación, desayuno mejorable",
+      "text": "La localización junto a los ascensores es perfecta. El desayuno, en cambio, nos pareció algo escaso y repetitivo para los tres días que estuvimos.",
+      "user": {
+        "username": "RicardoNavarro_ANF",
+        "user_location": { "id": "294232", "name": "Antofagasta, Chile" }
+      }
+    },
+    {
+      "id": 988100031,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-03-14T10:30:00Z",
+      "rating": 5,
+      "helpful_votes": 10,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100031",
+      "trip_type": "SOLO",
+      "travel_date": "2026-02",
+      "title": "Personal que va más allá",
+      "text": "Perdí mi conexión y el equipo me ayudó a reorganizar todo el traslado al aeropuerto sin que se lo pidiera dos veces. Un servicio humano que se agradece muchísimo.",
+      "user": {
+        "username": "Bernardita_Temuco",
+        "user_location": { "id": "294272", "name": "Temuco, Chile" }
+      }
+    },
+    {
+      "id": 988100032,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-08-08T15:20:00Z",
+      "rating": 4,
+      "helpful_votes": 3,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100032",
+      "trip_type": "COUPLES",
+      "travel_date": "2025-07",
+      "title": "Vista al puerto preciosa",
+      "text": "Pedimos una pieza con vista y valió cada peso: el puerto de Valparaíso de fondo es un espectáculo. La habitación cómoda, aunque el baño un poco justo de espacio.",
+      "user": {
+        "username": "MaximilianoRojas_RNG",
+        "user_location": { "id": "294301", "name": "Rancagua, Chile" }
+      }
+    },
+    {
+      "id": 988100033,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-06-15T12:48:00Z",
+      "rating": 5,
+      "helpful_votes": 5,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100033",
+      "trip_type": "FAMILY",
+      "travel_date": "2026-06",
+      "title": "Limpieza y orden ejemplares",
+      "text": "Viajamos con dos niños pequeños y la habitación se mantuvo impecable día a día. El aseo fue prolijo y respetaron nuestros horarios de siesta.",
+      "user": {
+        "username": "GabrielaPaez_CCP",
+        "user_location": { "id": "294227", "name": "Concepción, Chile" }
+      }
+    },
+    {
+      "id": 988100034,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-10-29T17:05:00Z",
+      "rating": 2,
+      "helpful_votes": 10,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100034",
+      "trip_type": "COUPLES",
+      "travel_date": "2025-10",
+      "title": "La habitación demasiado pequeña",
+      "text": "Aunque el hotel es bonito, la habitación era tan reducida que apenas cabíamos con el equipaje. Para dos noches incómodo. El personal amable, pero el espacio fue un problema real.",
+      "user": {
+        "username": "VicenteSandoval_LS",
+        "user_location": { "id": "294296", "name": "La Serena, Chile" }
+      }
+    },
+    {
+      "id": 988100035,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-01-07T11:15:00Z",
+      "rating": 5,
+      "helpful_votes": 12,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100035",
+      "trip_type": "COUPLES",
+      "travel_date": "2025-12",
+      "title": "Cena inolvidable con vista al mar",
+      "text": "Celebramos nuestro aniversario en el restaurante y fue perfecto: mariscos frescos, atención impecable y la vista al océano al anochecer. Gracias al equipo por los detalles.",
+      "user": {
+        "username": "IsidoraCarrasco_VP",
+        "user_location": { "id": "294297", "name": "Valparaíso, Chile" }
+      }
+    },
+    {
+      "id": 988100036,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-09-05T16:35:00Z",
+      "rating": 4,
+      "helpful_votes": 4,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100036",
+      "trip_type": "SOLO",
+      "travel_date": "2025-08",
+      "title": "Acogedor y bien ubicado",
+      "text": "Me sentí muy cómodo en mi estadía solo. El hotel está cerca de todo lo interesante del cerro. El único detalle menor fue que la pieza tardó en estar lista al llegar.",
+      "user": {
+        "username": "BenjaminEspinoza_SCL",
+        "user_location": { "id": "294291", "name": "Santiago, Chile" }
+      }
+    },
+    {
+      "id": 988100037,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-04-30T13:25:00Z",
+      "rating": 5,
+      "helpful_votes": 8,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100037",
+      "trip_type": "FRIENDS",
+      "travel_date": "2026-04",
+      "title": "El cerro y el hotel, combinación perfecta",
+      "text": "Caminar entre los murales y volver a este hotel con tanta historia fue lo mejor del viaje con amigas. La terraza al atardecer nos conquistó.",
+      "user": {
+        "username": "Catalina_LaSerena",
+        "user_location": { "id": "294296", "name": "La Serena, Chile" }
+      }
+    },
+    {
+      "id": 988100038,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-12-21T10:18:00Z",
+      "rating": 4,
+      "helpful_votes": 2,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100038",
+      "trip_type": "FAMILY",
+      "travel_date": "2025-12",
+      "title": "Muy buena relación calidad-precio",
+      "text": "Para lo que cuesta, la experiencia patrimonial y la atención valen la pena. Las habitaciones podrían ser un poco más grandes, pero en general muy recomendable.",
+      "user": {
+        "username": "AlonsoBravo_TEM",
+        "user_location": { "id": "294272", "name": "Temuco, Chile" }
+      }
+    },
+    {
+      "id": 988100039,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-02-26T11:55:00Z",
+      "rating": 5,
+      "helpful_votes": 9,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100039",
+      "trip_type": "COUPLES",
+      "travel_date": "2026-02",
+      "title": "Agua caliente perfecta y baño moderno",
+      "text": "A diferencia de otras reseñas, en nuestra estadía la ducha tuvo presión y agua caliente impecables. El baño, aunque clásico, estaba muy bien mantenido.",
+      "user": {
+        "username": "JosefaMendez_ANF",
+        "user_location": { "id": "294232", "name": "Antofagasta, Chile" }
+      }
+    },
+    {
+      "id": 988100040,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-07-26T18:40:00Z",
+      "rating": 3,
+      "helpful_votes": 7,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100040",
+      "trip_type": "BUSINESS",
+      "travel_date": "2025-07",
+      "title": "Cumple, pero el ruido del cerro se siente",
+      "text": "La ubicación céntrica del cerro tiene su contra: de noche se escucha a la gente que sube y baja. La pieza limpia y el servicio correcto, pero no descansé del todo.",
+      "user": {
+        "username": "GuillermoTapia_SCL",
+        "user_location": { "id": "294291", "name": "Santiago, Chile" }
+      }
+    },
+    {
+      "id": 988100041,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-05-04T12:12:00Z",
+      "rating": 5,
+      "helpful_votes": 11,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100041",
+      "trip_type": "COUPLES",
+      "travel_date": "2026-04",
+      "title": "Tomás hizo nuestra estadía especial",
+      "text": "Desde el check-in, Tomás se preocupó por cada detalle y nos sorprendió con una cortesía de bienvenida por nuestra luna de miel. Atención de lujo.",
+      "user": {
+        "username": "Trinidad_Valparaiso",
+        "user_location": { "id": "294297", "name": "Valparaíso, Chile" }
+      }
+    },
+    {
+      "id": 988100042,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-11-17T15:08:00Z",
+      "rating": 4,
+      "helpful_votes": 3,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100042",
+      "trip_type": "FRIENDS",
+      "travel_date": "2025-11",
+      "title": "Gran ambiente, leve demora en mantención",
+      "text": "El lugar es entretenido y muy fotogénico. Tuvimos un problema menor con una lámpara y tardaron medio día en cambiarla, pero el resto fue impecable.",
+      "user": {
+        "username": "EmilianoCaceres_LIM",
+        "user_location": { "id": "294308", "name": "Lima, Perú" }
+      }
+    },
+    {
+      "id": 988100043,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-03-22T10:48:00Z",
+      "rating": 5,
+      "helpful_votes": 6,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100043",
+      "trip_type": "SOLO",
+      "travel_date": "2026-03",
+      "title": "Silencioso y perfecto para descansar",
+      "text": "Me tocó una habitación interior y fue silenciosa toda la noche. Descansé como hacía tiempo no lo lograba. El desayuno fue el broche perfecto.",
+      "user": {
+        "username": "MartinaSepulveda_CCP",
+        "user_location": { "id": "294227", "name": "Concepción, Chile" }
+      }
+    },
+    {
+      "id": 988100044,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-08-21T16:22:00Z",
+      "rating": 4,
+      "helpful_votes": 4,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100044",
+      "trip_type": "COUPLES",
+      "travel_date": "2025-08",
+      "title": "Encantador, climatización a mejorar",
+      "text": "La estética y la ubicación son maravillosas. La habitación cálida durante el día pero algo calurosa de noche sin aire acondicionado. El ventilador ayudó.",
+      "user": {
+        "username": "AgustinFigueroa_RNG",
+        "user_location": { "id": "294301", "name": "Rancagua, Chile" }
+      }
+    },
+    {
+      "id": 988100045,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-06-07T11:33:00Z",
+      "rating": 5,
+      "helpful_votes": 10,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100045",
+      "trip_type": "FAMILY",
+      "travel_date": "2026-05",
+      "title": "Vista al océano que enamora",
+      "text": "La panorámica al océano desde nuestra ventana fue el regalo perfecto para toda la familia. Despertar con ese paisaje no tiene precio.",
+      "user": {
+        "username": "RaimundoLeiva_LS",
+        "user_location": { "id": "294296", "name": "La Serena, Chile" }
+      }
+    },
+    {
+      "id": 988100046,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-10-13T17:50:00Z",
+      "rating": 3,
+      "helpful_votes": 5,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100046",
+      "trip_type": "BUSINESS",
+      "travel_date": "2025-09",
+      "title": "Bien ubicado pero check-out lento",
+      "text": "El hotel está muy bien situado para reuniones en el centro. El check-out, sin embargo, demoró porque solo había una persona en recepción esa mañana.",
+      "user": {
+        "username": "FernandoGuzman_SCL",
+        "user_location": { "id": "294291", "name": "Santiago, Chile" }
+      }
+    },
+    {
+      "id": 988100047,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-01-19T11:08:00Z",
+      "rating": 5,
+      "helpful_votes": 9,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100047",
+      "trip_type": "COUPLES",
+      "travel_date": "2026-01",
+      "title": "Camila nos hizo sentir bienvenidos",
+      "text": "La calidez de Camila en recepción marcó toda la estadía. Nos orientó con mapas del cerro y los mejores cafés. Servicio cercano y genuino.",
+      "user": {
+        "username": "Amanda_VinaDelMar",
+        "user_location": { "id": "294305", "name": "Viña del Mar, Chile" }
+      }
+    },
+    {
+      "id": 988100048,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-09-19T16:18:00Z",
+      "rating": 4,
+      "helpful_votes": 2,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100048",
+      "trip_type": "SOLO",
+      "travel_date": "2025-09",
+      "title": "Buen desayuno y café de verdad",
+      "text": "El desayuno con productos locales y café preparado al momento fue un gran comienzo de día. La pieza acogedora, aunque la cama un poco firme para mi gusto.",
+      "user": {
+        "username": "TomasaQuintana_TEM",
+        "user_location": { "id": "294272", "name": "Temuco, Chile" }
+      }
+    },
+    {
+      "id": 988100049,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-04-11T13:42:00Z",
+      "rating": 5,
+      "helpful_votes": 8,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100049",
+      "trip_type": "FRIENDS",
+      "travel_date": "2026-03",
+      "title": "Historia, arte y buena mesa",
+      "text": "El homenaje al pintor Somerscales se respira en el edificio. Sumado al arte del cerro y a la buena comida del restaurante, fue un viaje redondo con amigos.",
+      "user": {
+        "username": "SantiagoMolina_LIM",
+        "user_location": { "id": "294308", "name": "Lima, Perú" }
+      }
+    },
+    {
+      "id": 988100050,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-12-09T10:55:00Z",
+      "rating": 4,
+      "helpful_votes": 3,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100050",
+      "trip_type": "COUPLES",
+      "travel_date": "2025-11",
+      "title": "Muy recomendable con un pequeño reparo",
+      "text": "La experiencia fue muy buena, decoración cuidada y trato amable. El wifi era algo intermitente en la pieza, pero en las áreas comunes funcionaba perfecto.",
+      "user": {
+        "username": "ManuelAcuna_CCP",
+        "user_location": { "id": "294227", "name": "Concepción, Chile" }
+      }
+    },
+    {
+      "id": 988100051,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-02-09T11:28:00Z",
+      "rating": 5,
+      "helpful_votes": 12,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100051",
+      "trip_type": "COUPLES",
+      "travel_date": "2026-01",
+      "title": "Todo impecable, volveremos",
+      "text": "Limpieza perfecta, cama comodísima, desayuno rico y vistas espectaculares. No le encontramos ningún pero a esta estadía. Cien por ciento recomendado.",
+      "user": {
+        "username": "ValeriaSalas_VP",
+        "user_location": { "id": "294297", "name": "Valparaíso, Chile" }
+      }
+    },
+    {
+      "id": 988100052,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-07-11T18:15:00Z",
+      "rating": 2,
+      "helpful_votes": 11,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100052",
+      "trip_type": "FAMILY",
+      "travel_date": "2025-06",
+      "title": "Difícil con cochecito de bebé",
+      "text": "El cerro y las escaleras del hotel hacen casi imposible moverse con un coche de bebé. Nos costó mucho subir el equipaje. El personal ayudó, pero la accesibilidad es muy limitada.",
+      "user": {
+        "username": "PabloHidalgo_LS",
+        "user_location": { "id": "294296", "name": "La Serena, Chile" }
+      }
+    },
+    {
+      "id": 988100053,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-05-26T12:40:00Z",
+      "rating": 5,
+      "helpful_votes": 7,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100053",
+      "trip_type": "SOLO",
+      "travel_date": "2026-05",
+      "title": "Atención impecable de Olivia",
+      "text": "Olivia me consiguió una reserva de última hora en el restaurante y hasta me guardó equipaje tras el check-out. Un servicio que supera lo esperado.",
+      "user": {
+        "username": "Renata_Antofagasta",
+        "user_location": { "id": "294232", "name": "Antofagasta, Chile" }
+      }
+    },
+    {
+      "id": 988100054,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-11-30T15:25:00Z",
+      "rating": 4,
+      "helpful_votes": 4,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100054",
+      "trip_type": "COUPLES",
+      "travel_date": "2025-11",
+      "title": "Romántico y con vistas, leve ruido matinal",
+      "text": "Pasamos una escapada preciosa con vistas al puerto. Solo nos despertó temprano el ruido de los camiones de reparto en la calle, pero nada que arruinara la estadía.",
+      "user": {
+        "username": "DiegoSalazar85",
+        "user_location": { "id": "294291", "name": "Santiago, Chile" }
+      }
+    },
+    {
+      "id": 988100055,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-03-04T10:12:00Z",
+      "rating": 5,
+      "helpful_votes": 10,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100055",
+      "trip_type": "FRIENDS",
+      "travel_date": "2026-02",
+      "title": "El restaurante es una sorpresa deliciosa",
+      "text": "No esperábamos una cocina tan buena en el hotel. Los pescados frescos y los postres caseros nos dejaron felices. Buen servicio y precios razonables.",
+      "user": {
+        "username": "PaulinaCortes_TEM",
+        "user_location": { "id": "294272", "name": "Temuco, Chile" }
+      }
+    },
+    {
+      "id": 988100056,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-08-03T16:48:00Z",
+      "rating": 3,
+      "helpful_votes": 6,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100056",
+      "trip_type": "BUSINESS",
+      "travel_date": "2025-07",
+      "title": "Aceptable, pero baño con poca presión",
+      "text": "Para una noche de trabajo estuvo bien. La pieza limpia y silenciosa, aunque la presión del agua en la ducha era débil. El desayuno rápido cumplió.",
+      "user": {
+        "username": "OscarBustos_SCL",
+        "user_location": { "id": "294291", "name": "Santiago, Chile" }
+      }
+    },
+    {
+      "id": 988100057,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-06-18T11:50:00Z",
+      "rating": 5,
+      "helpful_votes": 9,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100057",
+      "trip_type": "COUPLES",
+      "travel_date": "2026-06",
+      "title": "Una experiencia patrimonial única",
+      "text": "Dormir en un edificio victoriano con tanta historia y despertar con vista al puerto fue inolvidable. La atención de todo el equipo, impecable de principio a fin.",
+      "user": {
+        "username": "Antonella_Valparaiso",
+        "user_location": { "id": "294297", "name": "Valparaíso, Chile" }
+      }
+    },
+    {
+      "id": 988100058,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-09-29T16:05:00Z",
+      "rating": 5,
+      "helpful_votes": 3,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100058",
+      "trip_type": "SOLO",
+      "travel_date": "2025-09",
+      "title": "Cómodo y muy bien atendido",
+      "text": "Me encantó el trato del personal y la limpieza general fue impecable. La habitación cómoda y acogedora para mi estadía. Una experiencia redonda.",
+      "user": {
+        "username": "LucasReinoso_ANF",
+        "user_location": { "id": "294232", "name": "Antofagasta, Chile" }
+      }
+    },
+    {
+      "id": 988100059,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-04-26T13:18:00Z",
+      "rating": 5,
+      "helpful_votes": 11,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100059",
+      "trip_type": "FAMILY",
+      "travel_date": "2026-04",
+      "title": "Ideal para descubrir Valparaíso",
+      "text": "La ubicación es perfecta para conocer los ascensores y los murales con niños. Volvimos cada tarde a descansar a un hotel limpio y acogedor. Repetiremos seguro.",
+      "user": {
+        "username": "MauricioVenegas_CCP",
+        "user_location": { "id": "294227", "name": "Concepción, Chile" }
+      }
+    },
+    {
+      "id": 988100060,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-12-27T10:42:00Z",
+      "rating": 4,
+      "helpful_votes": 2,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100060",
+      "trip_type": "COUPLES",
+      "travel_date": "2025-12",
+      "title": "Muy lindo, calefacción algo justa",
+      "text": "La decoración inglesa nos encantó y la cama era cómoda. En las noches frías la calefacción tardaba en calentar la pieza, pero pedimos una manta extra y lo solucionaron.",
+      "user": {
+        "username": "Esteban_LaSerena",
+        "user_location": { "id": "294296", "name": "La Serena, Chile" }
+      }
+    },
+    {
+      "id": 988100061,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-02-13T11:35:00Z",
+      "rating": 5,
+      "helpful_votes": 8,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100061",
+      "trip_type": "COUPLES",
+      "travel_date": "2026-01",
+      "title": "Baño renovado y agua siempre caliente",
+      "text": "El baño combina lo clásico con detalles modernos y el agua caliente nunca falló. Una grata sorpresa en un edificio tan antiguo. Todo muy limpio.",
+      "user": {
+        "username": "JavierAravena_VP",
+        "user_location": { "id": "294305", "name": "Viña del Mar, Chile" }
+      }
+    },
+    {
+      "id": 988100062,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-07-31T18:28:00Z",
+      "rating": 3,
+      "helpful_votes": 5,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100062",
+      "trip_type": "FRIENDS",
+      "travel_date": "2025-07",
+      "title": "Bonito pero amenities escasos",
+      "text": "El hotel tiene mucho encanto, pero echamos en falta algunos amenities básicos en el baño y una cafetera en la pieza. La atención del personal compensó en parte.",
+      "user": {
+        "username": "NataliaRiquelme_LIM",
+        "user_location": { "id": "294308", "name": "Lima, Perú" }
+      }
+    },
+    {
+      "id": 988100063,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-05-08T12:55:00Z",
+      "rating": 5,
+      "helpful_votes": 10,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100063",
+      "trip_type": "SOLO",
+      "travel_date": "2026-04",
+      "title": "El mejor desayuno de mi viaje por Chile",
+      "text": "Tras recorrer varias ciudades, el desayuno con productos locales aquí fue el mejor. Pan recién hecho, mermeladas artesanales y un café excelente. Olivia siempre atenta.",
+      "user": {
+        "username": "Florentina_Mendoza",
+        "user_location": { "id": "316029", "name": "Mendoza, Argentina" }
+      }
+    },
+    {
+      "id": 988100064,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-10-23T16:42:00Z",
+      "rating": 4,
+      "helpful_votes": 4,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100064",
+      "trip_type": "BUSINESS",
+      "travel_date": "2025-10",
+      "title": "Práctico para trabajar con buena vista",
+      "text": "Combiné trabajo y descanso. El wifi del lobby fue estable y la vista al puerto me ayudó a desconectar entre reuniones. La pieza algo pequeña, pero funcional.",
+      "user": {
+        "username": "RobertoMella_SCL",
+        "user_location": { "id": "294291", "name": "Santiago, Chile" }
+      }
+    },
+    {
+      "id": 988100065,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-01-31T11:22:00Z",
+      "rating": 5,
+      "helpful_votes": 13,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100065",
+      "trip_type": "COUPLES",
+      "travel_date": "2026-01",
+      "title": "Romance puro frente al mar",
+      "text": "Cada rincón del hotel invita al romance: la decoración de época, la terraza con atardeceres y la cena de mariscos. Una escapada de pareja diez sobre diez.",
+      "user": {
+        "username": "MagdalenaPino_VP",
+        "user_location": { "id": "294297", "name": "Valparaíso, Chile" }
+      }
+    },
+    {
+      "id": 988100066,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-09-11T16:15:00Z",
+      "rating": 4,
+      "helpful_votes": 3,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100066",
+      "trip_type": "FAMILY",
+      "travel_date": "2025-08",
+      "title": "Familiar y acogedor, escaleras a considerar",
+      "text": "Los niños disfrutaron mucho y el hotel es muy acogedor. Eso sí, con abuelos en el grupo las escaleras del cerro fueron un desafío. El personal nos orientó con los ascensores.",
+      "user": {
+        "username": "ClaudioMaldonado_TEM",
+        "user_location": { "id": "294272", "name": "Temuco, Chile" }
+      }
+    },
+    {
+      "id": 988100067,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-04-15T13:05:00Z",
+      "rating": 5,
+      "helpful_votes": 9,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100067",
+      "trip_type": "FRIENDS",
+      "travel_date": "2026-03",
+      "title": "Terraza con la mejor puesta de sol",
+      "text": "Subimos a la terraza cada tarde con una copa de vino chileno a ver el atardecer sobre el puerto. Inolvidable. El equipo siempre dispuesto a recomendar panoramas.",
+      "user": {
+        "username": "Antonia_Rancagua",
+        "user_location": { "id": "294301", "name": "Rancagua, Chile" }
+      }
+    },
+    {
+      "id": 988100068,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-12-13T10:35:00Z",
+      "rating": 3,
+      "helpful_votes": 6,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100068",
+      "trip_type": "COUPLES",
+      "travel_date": "2025-12",
+      "title": "Lindo pero el precio se siente alto",
+      "text": "La experiencia patrimonial es bonita, pero por el valor por noche esperábamos una habitación más amplia y mejor insonorizada. El personal, muy amable en todo.",
+      "user": {
+        "username": "RodrigoCardenas_LS",
+        "user_location": { "id": "294296", "name": "La Serena, Chile" }
+      }
+    },
+    {
+      "id": 988100069,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-02-19T11:48:00Z",
+      "rating": 5,
+      "helpful_votes": 8,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100069",
+      "trip_type": "SOLO",
+      "travel_date": "2026-02",
+      "title": "Limpieza y silencio perfectos",
+      "text": "Mi habitación estuvo siempre impecable y el silencio nocturno fue total. Ideal para quien busca descansar de verdad en pleno cerro. Recomendadísimo.",
+      "user": {
+        "username": "Catalina_Concepcion",
+        "user_location": { "id": "294227", "name": "Concepción, Chile" }
+      }
+    },
+    {
+      "id": 988100070,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-08-17T16:55:00Z",
+      "rating": 4,
+      "helpful_votes": 2,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100070",
+      "trip_type": "COUPLES",
+      "travel_date": "2025-08",
+      "title": "Gran ubicación y buen servicio",
+      "text": "Estar a pasos de los murales y ascensores es ideal. El servicio fue atento y la habitación cómoda, solo el baño se sentía algo estrecho. Buena estadía en general.",
+      "user": {
+        "username": "EmilioFuenzalida_SCL",
+        "user_location": { "id": "294291", "name": "Santiago, Chile" }
+      }
+    },
+    {
+      "id": 988100071,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-05-22T12:28:00Z",
+      "rating": 5,
+      "helpful_votes": 10,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100071",
+      "trip_type": "FAMILY",
+      "travel_date": "2026-05",
+      "title": "Cama amplia y descanso total",
+      "text": "Las camas eran enormes y comodísimas, dormimos todos de maravilla. Sumado a la limpieza y al desayuno, la estadía familiar fue redonda.",
+      "user": {
+        "username": "VictoriaOyarzun_TEM",
+        "user_location": { "id": "294272", "name": "Temuco, Chile" }
+      }
+    },
+    {
+      "id": 988100072,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-10-31T16:38:00Z",
+      "rating": 1,
+      "helpful_votes": 13,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100072",
+      "trip_type": "COUPLES",
+      "travel_date": "2025-10",
+      "title": "Mala noche por ruido y calefacción rota",
+      "text": "La calefacción no funcionaba y la habitación estaba helada, además del ruido constante de la calle. Avisamos pero no pudieron reubicarnos. Una pena por el potencial del lugar.",
+      "user": {
+        "username": "AndreaPalma_LS",
+        "user_location": { "id": "294296", "name": "La Serena, Chile" }
+      }
+    },
+    {
+      "id": 988100073,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-03-18T10:25:00Z",
+      "rating": 5,
+      "helpful_votes": 9,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100073",
+      "trip_type": "COUPLES",
+      "travel_date": "2026-02",
+      "title": "Check-in cálido y rápido con Tomás",
+      "text": "Llegamos cansados del viaje y Tomás resolvió el check-in en minutos, con una sonrisa y recomendaciones útiles. Empezar así la estadía no tiene precio.",
+      "user": {
+        "username": "Maximiliano_Valparaiso",
+        "user_location": { "id": "294297", "name": "Valparaíso, Chile" }
+      }
+    },
+    {
+      "id": 988100074,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-09-23T16:08:00Z",
+      "rating": 5,
+      "helpful_votes": 3,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100074",
+      "trip_type": "SOLO",
+      "travel_date": "2025-09",
+      "title": "Encantador para viajar solo",
+      "text": "Como viajero solo me sentí seguro y muy bien atendido. El desayuno variado y la ubicación céntrica son un gran plus. Repetiría sin dudarlo.",
+      "user": {
+        "username": "JoaquinSaavedra_ANF",
+        "user_location": { "id": "294232", "name": "Antofagasta, Chile" }
+      }
+    },
+    {
+      "id": 988100075,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-04-08T13:55:00Z",
+      "rating": 5,
+      "helpful_votes": 11,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100075",
+      "trip_type": "FRIENDS",
+      "travel_date": "2026-03",
+      "title": "Comida, vista e historia de primer nivel",
+      "text": "El restaurante con mariscos frescos, la vista al puerto y el edificio patrimonial hicieron de este viaje con amigos algo especial. Servicio impecable de Camila y su equipo.",
+      "user": {
+        "username": "Constanza_Mendoza",
+        "user_location": { "id": "316029", "name": "Mendoza, Argentina" }
+      }
+    },
+    {
+      "id": 988100076,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-11-12T10:48:00Z",
+      "rating": 4,
+      "helpful_votes": 2,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100076",
+      "trip_type": "COUPLES",
+      "travel_date": "2025-11",
+      "title": "Acogedor con leve ruido nocturno",
+      "text": "La estadía fue muy agradable y la decoración preciosa. Una noche se escuchó algo de música desde un local cercano, pero el resto fue tranquilo y cómodo.",
+      "user": {
+        "username": "SimonAlvarado_CCP",
+        "user_location": { "id": "294227", "name": "Concepción, Chile" }
+      }
+    },
+    {
+      "id": 988100077,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-06-04T11:38:00Z",
+      "rating": 5,
+      "helpful_votes": 8,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100077",
+      "trip_type": "FAMILY",
+      "travel_date": "2026-05",
+      "title": "Servicio familiar excepcional",
+      "text": "El equipo se desvivió por hacer cómoda la estadía con nuestros hijos: cuna lista, horarios flexibles de desayuno y mucha paciencia. Olivia fue un encanto. Volveremos.",
+      "user": {
+        "username": "FranciscoBarra_LS",
+        "user_location": { "id": "294296", "name": "La Serena, Chile" }
+      }
+    },
+    {
+      "id": 988100078,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-08-25T16:22:00Z",
+      "rating": 2,
+      "helpful_votes": 9,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100078",
+      "trip_type": "SOLO",
+      "travel_date": "2025-08",
+      "title": "Ducha tibia arruinó las mañanas",
+      "text": "El encanto del hotel es innegable, pero la ducha nunca pasó de tibia en mis tres días. Lo reporté y prometieron revisarlo, sin embargo no mejoró durante mi estadía.",
+      "user": {
+        "username": "RaulVidal_SCL",
+        "user_location": { "id": "294291", "name": "Santiago, Chile" }
+      }
+    },
+    {
+      "id": 988100079,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2026-03-26T10:18:00Z",
+      "rating": 5,
+      "helpful_votes": 10,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100079",
+      "trip_type": "COUPLES",
+      "travel_date": "2026-03",
+      "title": "Detalles victorianos que enamoran",
+      "text": "Los cuadros marinos, las molduras y los muebles de época crean una atmósfera única. Sumado a la vista del puerto y al trato cálido, fue una escapada perfecta.",
+      "user": {
+        "username": "Fernanda_VinaDelMar",
+        "user_location": { "id": "294305", "name": "Viña del Mar, Chile" }
+      }
+    },
+    {
+      "id": 988100080,
+      "lang": "es",
+      "location_id": 1234567,
+      "published_date": "2025-06-15T16:05:00Z",
+      "rating": 5,
+      "helpful_votes": 3,
+      "url": "https://www.tripadvisor.com/ShowUserReviews-d1234567-r988100080",
+      "trip_type": "BUSINESS",
+      "travel_date": "2025-06",
+      "title": "Buena base para trabajo y turismo",
+      "text": "Combiné reuniones con paseos por el cerro y el hotel fue una base ideal. Limpio, bien ubicado y con un desayuno excelente. La conexión a internet funcionó perfecto. Muy recomendable.",
+      "user": {
+        "username": "AlvaroPena_ANF",
+        "user_location": { "id": "294232", "name": "Antofagasta, Chile" }
       }
     }
   ],
-  "paging": {
-    "results": "10",
-    "total_results": "10",
-    "skipped": "0"
-  }
+  "paging": { "results": "80", "total_results": "80", "skipped": "0" }
 }
