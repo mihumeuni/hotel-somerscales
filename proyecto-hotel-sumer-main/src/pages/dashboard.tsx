@@ -21,7 +21,10 @@ import {
   type TopGuestDTO,
 } from "../components/dashboard";
 
-const REVIEW_WINDOW_DAYS = 30;
+// Reviews accrue over months/years; the dashboard shows the full review
+// history (the product's centralized historical record), so older reviews
+// don't silently drop off the sentiment KPIs the way a 30-day window did.
+const REVIEW_HISTORY_FROM = "2000-01-01";
 const CALENDAR_WINDOW_DAYS = 7;
 
 function toIsoDate(d: Date): string {
@@ -77,7 +80,7 @@ const Dashboard = () => {
     let cancelled = false;
 
     async function load() {
-      const window = lastNDays(REVIEW_WINDOW_DAYS);
+      const window = { from: REVIEW_HISTORY_FROM, to: toIsoDate(new Date()) };
       const visitsWindow = lastNDays(365);
       const calWindow = nextNDays(CALENDAR_WINDOW_DAYS);
 
@@ -104,7 +107,7 @@ const Dashboard = () => {
           .get<CategoryCountDTO[]>(`/api/dashboard/categories?from=${window.from}&to=${window.to}`)
           .then((d) => !cancelled && (setCategories(d), markDone("categories"))),
         api
-          .get<NormalizedReviewDTO[]>(`/api/dashboard/normalized-reviews?from=${window.from}&to=${window.to}&limit=5`)
+          .get<NormalizedReviewDTO[]>(`/api/dashboard/normalized-reviews?from=${window.from}&to=${window.to}&limit=12`)
           .then((d) => !cancelled && (setNormalized(d), markDone("normalized"))),
         api
           .get<ReservaCalendarDTO[]>(
@@ -166,7 +169,7 @@ const Dashboard = () => {
       {/* KPI hero strip */}
       <section className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <AvailabilityTile data={availability} loading={loading.availability} />
-        <KpiTile eyebrow="Reseñas últ. 30 d" aside={loading.sentiment ? null : `${reviewCount} en total`}>
+        <KpiTile eyebrow="Reseñas" aside={loading.sentiment ? null : `${reviewCount} en total`}>
           {loading.sentiment ? (
             <div className="h-9 w-16 bg-slate-100 rounded animate-pulse mt-1" />
           ) : (
