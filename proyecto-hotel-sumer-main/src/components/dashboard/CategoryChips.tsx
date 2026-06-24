@@ -29,7 +29,7 @@ export const CategoryChips = ({ rows, loading }: Props) => {
     <div className="bg-[var(--color-surface)] border border-slate-200 rounded-xl p-5 shadow-sm">
       <div className="flex items-center justify-between mb-4">
         <h3 className="font-serif text-[var(--color-marine)] text-lg">Categorías</h3>
-        <span className="text-[11px] text-slate-400">Gemini clasifica al sincronizar</span>
+        <span className="text-[11px] text-slate-400">La IA clasifica al sincronizar</span>
       </div>
       {loading ? (
         <div className="flex flex-wrap gap-2">

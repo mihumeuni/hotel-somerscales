@@ -94,7 +94,7 @@ export const CategoriesTab = () => {
         kind: res.mode === "live" ? "ok" : "error",
         text:
           res.mode === "disabled"
-            ? "Gemini está deshabilitado (sin API key). Cambios guardados sin reclasificar."
+            ? "La IA está deshabilitada (sin API key). Cambios guardados sin reclasificar."
             : `Reclasificación completada: ${res.ok}/${res.processed} reseñas (${res.elapsedSec}s)`,
       });
     } catch (e) {
@@ -126,7 +126,7 @@ export const CategoriesTab = () => {
 
       <Card
         title="Categorías"
-        description="Etiquetas que Gemini usa para clasificar reseñas. Al guardar puedes reclasificar todas las reseñas existentes contra la nueva lista."
+        description="Etiquetas que la IA usa para clasificar reseñas. Al guardar puedes reclasificar todas las reseñas existentes contra la nueva lista."
       >
         <div className="flex flex-col gap-2 sm:flex-row sm:items-end">
           <Input
@@ -189,7 +189,7 @@ export const CategoriesTab = () => {
 
         <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center">
           <p className="text-xs text-slate-500">
-            La reclasificación pasa cada reseña por Gemini y consume cuota de la API.
+            La reclasificación pasa cada reseña por la IA y consume cuota de la API.
           </p>
           <Button
             variant="primary"
@@ -220,7 +220,7 @@ export const CategoriesTab = () => {
         }
       >
         <p className="text-sm text-slate-700">
-          Esto borrará las clasificaciones actuales y pedirá a Gemini que vuelva a etiquetar
+          Esto borrará las clasificaciones actuales y pedirá a la IA que vuelva a etiquetar
           cada reseña contra la lista de categorías que tienes ahora. El proceso puede tardar
           varios minutos y consume cuota de la API.
         </p>

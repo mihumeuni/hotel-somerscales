@@ -36,7 +36,7 @@ export const NormalizedComments = ({ rows, loading }: Props) => {
     <div className="bg-[var(--color-surface)] border border-slate-200 rounded-xl p-5 shadow-sm md:col-span-2">
       <div className="flex items-center justify-between mb-4">
         <h3 className="font-serif text-[var(--color-marine)] text-lg">Comentarios normalizados</h3>
-        <span className="text-[10px] uppercase tracking-widest text-slate-400">Resumido por Gemini</span>
+        <span className="text-[10px] uppercase tracking-widest text-slate-400">Resumido por IA</span>
       </div>
       {loading ? (
         <ul className="divide-y divide-slate-100 text-sm">
@@ -48,7 +48,7 @@ export const NormalizedComments = ({ rows, loading }: Props) => {
           ))}
         </ul>
       ) : rows.length === 0 ? (
-        <EmptyState>Sin clusters todavía. Gemini resume al sincronizar reseñas.</EmptyState>
+        <EmptyState>Sin clusters todavía. La IA resume al sincronizar reseñas.</EmptyState>
       ) : (
         <ul className="divide-y divide-slate-100 text-sm">
           {rows.map((r, i) => (
